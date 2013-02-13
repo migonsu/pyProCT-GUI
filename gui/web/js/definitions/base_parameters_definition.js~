@@ -1,12 +1,13 @@
 function define_base_parameters(){
-console.log(load_text_resource_with_ajax("/shared_definitions/base_parameters.json"));
-console.log($.parseJSON(load_text_resource_with_ajax("/shared_definitions/base_parameters.json")))
+console.log(load_text_resource_with_ajax("/shared_definitions/base_parameters.json"))
     return $.parseJSON(load_text_resource_with_ajax("/shared_definitions/base_parameters.json"));
 }
 
 function define_base_parameter_types(){
-    return {
-                "control":{
+    return $.parseJSON(load_text_resource_with_ajax("/shared_definitions/base_parameter_types.json")); 
+    
+    {
+                /*"control":{
                     "number_of_processors":"int",
                     "algorithm_scheduler_sleep_time":"int",
                     "scoring_scheduler_sleep_time":"int"
@@ -28,6 +29,6 @@ function define_base_parameter_types(){
                               "minimum_cluster_size":"int",
                               "query_types":"tags",
                               "evaluation_criteria":"tags:criteria"
-                }
+                }*/
     };
 }

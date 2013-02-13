@@ -2,75 +2,81 @@
     Function that parses webpage's controls' looking for needed parameters.
 */
 function gather_params(clustering_algorithm_fields){
-        
-        var params = define_base_parameters();
-        var param_types = define_base_parameter_types();
-        
-        // Fill general params
-        for (var params_section in params){
-            for (var params_subsection in params[params_section]){
-                var param_name = params_subsection;
-                var type = undefined;
-                
-                if($("#"+param_name).length != 0){
-                    try{
-                        type = param_types[params_section][params_subsection];
-                    }
-                    catch(error){
-                        type = undefined;
-                    }
-                    params[params_section][params_subsection] =  get_value_of("#"+param_name, type);
+    // Pick base dictionaries for all
+    var params = define_base_parameters();
+    var param_types = define_base_parameter_types();
+    
+    // Recover all the parameters
+    $(".parameter:enabled").each(function(){
+        var key_list = $(this).attr('id').split("::")
+        var type = get_parameters_entry(param_types,key_list, 0, "text")
+        var value = get_value_of(this, type);
+        set_parameters_entry(params, key_list, 0, value);
+    });
+    
+    // Algorithms are treated separately
+    var algorithms_section = params["algorithms"]
+    for (var algorithm in algorithms_section){
+        var clustering_params = params["algorithms"][algorithm];
+        var field = clustering_algorithm_fields[algorithm];
+        if(!field.attr("hidden")){
+            clustering_params["use"] = true;
+            clustering_params["auto"] = get_value_of(field.find("#guess_params_"+algorithm));
+            if(!clustering_params["auto"]){
+                try{
+                    clustering_params["parameters"] = get_algorithm_parameter_parsers()[algorithm](field);
                 }
-                else{
-                    console.log(param_name+" does not exist")
+                catch(error_message){
+                    throw {message:error_message,field:field};
                 }
             }
         }
-
-        var warnings = [] //check_regular_params(params);
-        
-        // Fill algorithm params
-        var algorithms_section = params["algorithms"]
-        for (var algorithm in algorithms_section){
-                   console.log(algorithm)     
-            var clustering_params = params["algorithms"][algorithm];
-            var field = clustering_algorithm_fields[algorithm];
-            if(!field.attr("hidden")){
-                clustering_params["use"] = true;
-                clustering_params["auto"] = get_value_of(field.find("#guess_params_"+algorithm));
-                if(!clustering_params["auto"]){
-                    try{
-                        clustering_params["parameters"] = get_algorithm_parameter_parsers()[algorithm](field);
-                    }
-                    catch(error_message){
-                        throw {message:error_message,field:field};
-                    }
-                }
-            }
-            else{
-                clustering_params["use"] = false;
-            }
+        else{
+            clustering_params["use"] = false;
         }
-        
-        console.log(params)
-        
-        
-        
-        // Defaults
-        // 
-        params["matrix"]["only_ca"] = false;
-        ///
-        return {"parameters":params, "warnings":warnings};
+    }
+    
+    // Look for warnings
+    var warnings = check_regular_params(params);
+    
+    return {"parameters":params, "warnings":warnings};
 }
+
+function get_parameters_entry(this_dictionary, key_list, key_index, default_value){
+    if (key_index == key_list.length-1){
+        if(this_dictionary[key_list[key_index]] == undefined){
+            return default_value;
+        }
+        return this_dictionary[key_list[key_index]];
+    }
+    else{
+        if(this_dictionary[key_list[key_index]] == undefined){
+            return default_value;
+        }
+        return get_parameters_entry(this_dictionary[key_list[key_index]], key_list, key_index+1, default_value);
+    }
+}
+
+function set_parameters_entry(this_dictionary, key_list, key_index, value){
+    if (key_index == key_list.length-1){
+        this_dictionary[key_list[key_index]] = value;
+    }
+    else{
+        if(this_dictionary[key_list[key_index]] == undefined){
+            this_dictionary[key_list[key_index]] = {};
+        }
+        set_parameters_entry(this_dictionary[key_list[key_index]],key_list, key_index+1, value);
+    }
+}
+
+
 /**
  *
  *
  **/
 function check_regular_params(params, params_description){
     var warnings = [];
-    
-    // /home/victor/Escritorio/mare-cuda
-    
+
     // Check that: the root folder is not empty and exists.
     try{
         var file_check = check_path(params["workspace"]["base"], "exists", "isdir", "You must specify a project root folder.", $("#global_options_field"));
@@ -90,24 +96,47 @@ function check_regular_params(params, params_description){
     }
     
     // Check that: if we have to load a matrix, the path is not empty and file exists.
-    if(params['matrix']['creation'] == "load"){
-        check_path(params['matrix']['matrix_path'], "exists", "isfile", "You must specify a location from where to load the matrix.", $("#matrix_calculation"));
+    if(params['matrix']['creation']["type"] == "load"){
+        check_path(params['matrix']['path'], "exists", "isfile", "You must specify a location from where to load the matrix.", $("#matrix_calculation_field"));
+    }
+    
+    // Check that: if we have to have to calculate the matrix by rmsd or distances, rmsd_selection is not empty.   
+    if(params['matrix']['creation']['type'] == "rmsd" || 
+        params['matrix']['creation']['type'] == "distance"){
+        if (params['matrix']['creation']['rmsd_selection'] == ""){
+            throw {
+                    message:"Rmsd selection must not be empty.",
+                    field:$("#matrix\\:\\:creation\\:\\:rmsd_selection")
+            };
+        }
+    }
+    
+    // Check that: if we have to have to calculate distances, fit_selection is not empty.   
+    if(params['matrix']['creation']['type'] == "distance"){
+        if (params['matrix']['creation']["fit_selection"] == ""){
+            throw {
+                    message:"Fit selection must not be empty.",
+                    field:$("#matrix\\:\\:creation\\:\\:fit_selection")
+            };
+        }
     }
     
     // Check that: if we have to save a matrix, the path is not empty and file doesn't exist.
     if(params['matrix']['save_matrix']){
-        check_path(params['matrix']['store_matrix_path'], "not exists", "isfile", "You must specify a location to save the matrix.", $("#matrix_calculation"));
+        check_path(params['matrix']['store_matrix_path'], "not exists", "isfile", "You must specify a location to save the matrix.", $("#matrix_calculation_field"));
     }
     
     // Check that: trajectories are not empty and exist
-    var pdb1 = params['matrix']['pdb1'];
-    var pdb2 = params['matrix']['pdb2'];
-    
-    check_path(pdb1, "exists", "isfile", "You must specify a trajectory file to load.", $("#datos_trayectorias"));
-    console.log(params['matrix']['action'])
-    if(params['matrix']['action'] == "comparison"){
-        check_path(pdb2, "exists", "isfile", "When comparing trajectories you must specify a second trajectory.", $("#datos_trayectorias"));
+    if(params['global']['pdbs'].length == 0){
+        throw {message:"You need to specify at least one trajectory.", 
+                                field:$("#global\\:\\:pdbs")};
     }
+    else{
+        for(var i =0; i<params['global']['pdbs'].length; i++ ){
+            check_path(params['global']['pdbs'][i], "exists", "isfile", "You must specify a trajectory file to load.", $("#datos_trayectorias"));
+        }
+    }
+
     
     // Check that: numerical values are not NaN and > 0
     var numerical = {"control": ["number_of_processors","algorithm_scheduler_sleep_time",
@@ -129,14 +158,26 @@ function check_regular_params(params, params_description){
     }
 
     // Check that we have at least one evaluation criteria
-    console.log(params['evaluation']['evaluation_criteria']);
     if($.isEmptyObject(params['evaluation']['evaluation_criteria'])){
         throw {message:"You need to define at least one criteria to select the best clustering.", 
                                 field:$("#best_clustering_field")};
     }
     
+    // Check that we use at least one clustering algorithm
+    var at_least_one_used = false;
+    for( var algorithm_type in params['algorithms']){
+        at_least_one_used = at_least_one_used || params['algorithms'][algorithm_type]["use"];
+        console.log(algorithm_type+" "+params['algorithms'][algorithm_type]["use"])
+    }
+    if(at_least_one_used == false){
+        throw {message:"You need to use at least one clustering algorithm.", 
+                                field:$("#algorithms_main_field")};
+    }
+    
+    
     return warnings;
 }
+
 /**
  *
  *

@@ -290,10 +290,6 @@ function parse_list( in_this_control, using_this_conversor){
 /**
  *
  *
- *
- *
- *
- *
  **/
 function parse_criteria_tags(list_of_tags){
     var all_criteria = {};
@@ -306,25 +302,24 @@ function parse_criteria_tags(list_of_tags){
 /**
  *
  *
- *
- *
- *
- *
  **/
 function parse_one_criteria_tag(list_of_tags){
     var parts = list_of_tags.split("and");
-    var criteria = [];
+    var criteria_list = [];
     for (var i = 0; i < parts.length; i++){
-        criteria.push(parse_subcriteria(parts[i]));
+        criteria_list.push(parse_subcriteria(parts[i]));
+    }
+    var criteria ={};
+    for (var i = 0; i < criteria_list.length; i++){
+        criteria[criteria_list[i]["query"]] = {
+                                                "action":criteria_list[i]["action"],
+                                                "weight":criteria_list[i]["weight"]
+        };
     }
     return criteria;
 }
 
 /**
- *
- *
- *
- *
  *
  *
  **/
@@ -346,8 +341,14 @@ function parse_subcriteria(subcriteria_string){
 }
 
 /*
-    Helper function to get the value of an undetermined control.
-*/
+ *   Helper function to get the value of an undetermined control.
+ *
+ *   @param {string} of_this_control The control we want to get the value.
+ *
+ *   @param {function} type A hint of the control type.
+ *
+ *   @returns {list} The value of the control.    
+ **/
 function get_value_of(of_this_control, type){
     
     if (type == undefined){
@@ -385,6 +386,9 @@ function get_value_of(of_this_control, type){
             return $(of_this_control).val();
 
         case "tags":
+            return $(of_this_control).tagit("assignedTags");
+        
+        case "tags::string":
             return $(of_this_control).tagit("assignedTags");
         
         case "tags:criteria":

@@ -1,29 +1,33 @@
 {
-    "control":{
-        "number_of_processors":null,
-        "algorithm_scheduler_sleep_time":null,
-        "scoring_scheduler_sleep_time":null
+    "global": {
+        "action": "",
+        "pdbs": []
     },
+    
+    "control":{
+        "number_of_processors": 0,
+        "algorithm_scheduler_sleep_time": 1000,
+        "scoring_scheduler_sleep_time": 1000
+    },
+    
+    "matrix":{
+                "creation":{
+                            "type": "",
+                            "path": "",
+                            "rmsd_selection": "",
+                            "fit_selection": ""
+                 },
+                 "save_matrix": false,
+                 "store_matrix_path": ""
+    },
+    
     "workspace":{
-                 "base": null,
+                 "base": "",
                  "matrix":"/matrix",
                  "results": "/results",
                  "tmp": "/tmp",
                  "clusterings": "/clusterings",
-                 "refinement_base" : "refinement"
-    },
-    
-    "matrix":{
-                "creation": null,
-                "matrix_path": null,
-                "save_matrix": null,
-                "store_matrix_path" : null,
-                "action": null,
-                "pdb1": null,
-                "pdb2": null,
-                "fit_selection" : null,
-                "rmsd_selection": null,
-                "only_ca": null
+                 "refinement_base" : "/refinement"
     },
     
     "algorithms":{

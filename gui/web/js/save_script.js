@@ -28,7 +28,7 @@ function set_up_save_script(clustering_algorithm_fields){
             create_common_dialog("warning", 
             "The following warnings were generated:"+
             final_warning_text+
-            "<br>The script will be generated, but its execution can give problems.", undefined, ajax_save_script, parameters);
+            "<br> There were some warnings detected. The script execution can lead to unexpected behaviour.", undefined, ajax_save_script, parameters);
         }
         else{
             ajax_save_script()(parameters);

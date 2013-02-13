@@ -42,7 +42,6 @@ function get_contents_for(title, clustering_algorithm, algorithm_parameters, tem
         "properties":algorithm_parameters[clustering_algorithm]
     }
            
-    //var source   = $("#basic_algo_field_template").html();
     var template = Handlebars.compile(template);
     return template(data);
 }

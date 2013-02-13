@@ -77,22 +77,16 @@
             // Selection widgets
             $("#algorithms_listbox").selectmenu();
             $("#query_listbox").selectmenu();
+            $("#global\\:\\:action").selectmenu();
+            $("#matrix\\:\\:creation\\:\\:type").selectmenu()
             
             // Buttons
             $(".button_widget").button();
-            $("#creation").buttonset();
-            $("#action").buttonset();
             $("#run_button").button({icons:{primary:'ui-icon-circle-triangle-e'}});
             $("#save_button").button({icons:{primary:'ui-icon-disk'}});
             
-            // File browsing
-            //$("#store_matrix_path").customFileInput();	
-            //$("#matrix_path").customFileInput();
-            //$("#pdb1").customFileInput();
-            //$("#pdb2").customFileInput();
-            
             // Tag widgets
-            $("#query_types, #evaluation_criteria").tagit({
+            $(".tag_widget").tagit({
                     availableTags: query_types,
                     readOnly: true,
                     onTagClicked: function(event, ui) {
@@ -126,20 +120,46 @@
             
             // Adding evaluation criteria button
             $("#add_evaluation_criteria_button").click(criteria_creation_show_dialog(criteria_types, 
-                                                                    "evaluation_criteria", 
+                                                                    "evaluation\\:\\:evaluation_criteria", 
                                                                     dialog_contents_template));
             
             // Adding queries button
             $("#add_query_button").click(function(){
-                $("#query_types").tagit("createTag",$("#query_listbox").val());
+                $("#evaluation\\:\\:query_types").tagit("createTag",$("#query_listbox").val());
+            });
+            
+            // Make store_matrix_path field writable if save matrix is checked
+            $("#matrix\\:\\:save_matrix").change(function(){
+                if ($(this).is(':checked')) {
+                    $("#save_matrix_symbol").removeClass('ui-icon-close')
+                    $("#save_matrix_symbol").addClass('ui-icon-check')
+                    $("#matrix\\:\\:store_matrix_path").attr('disabled', false);
+                }
+                else{
+                    $("#save_matrix_symbol").addClass('ui-icon-close')
+                    $("#save_matrix_symbol").removeClass('ui-icon-check')
+                    $("#matrix\\:\\:store_matrix_path").attr('disabled', true);
+                }
+            }); 
+            
+            // Make matrix::creation::type span the necessary field.
+            $("#matrix\\:\\:creation\\:\\:type").change(function(){
+                var value = $("#matrix\\:\\:creation\\:\\:type").val();
+                var field_id = "#"+value+"_calc_field";
+                $(field_id).show("blind");
+                $(field_id).children().attr('disabled', false);
+                $.each(["load","rmsd","distance"],function(indexInArray, valueOfElement){
+                    if(valueOfElement != value){
+                        var id = "#"+valueOfElement+"_calc_field";
+                        $(id).hide("blind");
+                        $(id).children().attr('disabled', true);
+                    }
+                });
             });
             
             // Setup dynamic properties
-            toggable_checkbox('#save_matrix', "#save_matrix_field",false);
             toggable_checkbox('#advanced_options', "#advanced_options_field",true);
             toggable_checkbox('#refinement_options', "#refinement_options_field",true);
-            toggable_radiobutton('#traj_radio_1', '#traj_radio_2', '', '#second_trajectory_field');
-            toggable_radiobutton('#matrix_calculation_button', '#perform_distance_matrix_analysis', '#rmsd_selection', '#load_matrix_field');
         
             /////////////////////////////
             // AJAX 
@@ -155,71 +175,134 @@
   </head>
   <body> 
   <div class = 'main_frame' id="main"> 
+    
     <div class = 'main_title_container'>
         <img src="images/pyproclust.png" > </img>
     </div>
   
   <div class = 'main_window'> 
+  
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <!-- ----GLOBAL OPTIONS-------- -->
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
     <fieldset id="global_options_field" name="global_params"><legend>Global</legend>
         <table border="0">
             <tbody>
                 <tr>
                     <td>
-                        <div>Project root folder:</div>
+                        <label for="workspace::base"> Project folder:</label>
                     </td>
                     <td>
-                        <input class = 'text_field_widget' id="base" type= "text" value = "/home/victor/Escritorio/test">
+                        <input class = "parameter text_field_widget" id="workspace::base" type= "text" value = "/home/victor/Escritorio/test">
+                    </td>
+                    <td>
+                        <div class = "button_widget" id = "browse_project_folder_button" > [] </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="global::action"> Action:</label>
+                    </td>
+                    <td colspan = "2">
+                        <select class = "parameter" id = "global::action">
+                            <option value ="clustering"> Clustering </option>
+                            <option value="comparison"> Comparison </option>
+                        </select>     
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="global::pdbs"> Trajectories:</label>
+                    </td>
+                    <td>
+                        <input id="trajectory_input" class='text_field_widget' type="text">
+                    </td>
+                    <td>
+                         <div class = "button_widget" id = "add_trajectory_button" > + </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan = "3">
+                        <input class = "parameter tag_widget" id="global::pdbs" type="text" value = "/home/victor/Escritorio/test/ubi_5_clusters.pdb, /home/victor/Escritorio/test/ubi_9_clusters.pdb">
+                    </td>
+                </tr>
+           </tbody>
+        </table>
+    </fieldset>
+    
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <!-- ----DISTANCE MATRIX------- -->
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <fieldset id="matrix_calculation_field"><legend>Distance Matrix</legend>
+        <table border="0">
+            <tbody>
+                <tr>
+                    <td colspan = "3">
+                        <select class = "parameter" id = "matrix::creation::type">
+                            <option value="rmsd"> Calculate RMSD</option>
+                            <option value="distance"> Calculate Euclidean Distances</option>
+                            <option value="load"> Load </label>   
+                        </select>
+                     </td>
+                </tr>
+                
+                <tr>
+                    <td colspan = "3">
+                        <div id="rmsd_calc_field"> 
+                            <label for="matrix::cretion::rmsd_selection"> RMSD selection: </label>
+                            <input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" 
+                                type="text">
+                        </div>
+                     </td>    
+                </tr>
+                
+                <tr>
+                    <td colspan = "3">
+                        <div id="distance_calc_field" style="display: none;">
+                            <label for="matrix::creation::fit_selection"> Fitting selection: </label>
+                            <input class = "parameter text_field_widget" id="matrix::creation::fit_selection" 
+                            type="text" disabled>
+                            <label for="matrix::creation::rmsd_selection"> RMSD selection: </label>
+                            <input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" 
+                            type="text" disabled>
+                        </div>
+                    </td>
+                <tr>
+                    <td colspan = "3">
+                        <div id="load_calc_field" style="display: none;">
+                            <label for="matrix::creation::path"> Matrix file: </label>
+                            <input class = "parameter text_field_widget" id="matrix::creation::path" 
+                            type="text" disabled>
+                        </div>
+                    </td>
+                </tr>    
+                
+                <tr>
+                    <td>
+                        <label for="matrix::store_matrix_path"> Save matrix : </label>
+                    </td>
+                    <td>    
+                        <input id="matrix::store_matrix_path" type="text" class = "parameter text_field_widget">
+                    </td>
+                    <td>
+                        <input id="matrix::save_matrix" type="checkbox" class="parameter button_widget">
+                        <label for="matrix::save_matrix"> <span id = "save_matrix_symbol" class="ui-icon ui-icon-close"></span></label>
                     </td>
                 </tr>
             </tbody>
         </table>
     </fieldset>
     
-    <fieldset id="datos_trayectorias"><legend>Trajectories</legend>
-        <div id = "action">
-            <input id="traj_radio_1" value="clustering" name="traj" checked="checked" type="radio">
-            <label for="traj_radio_1">Clustering</label>
-            
-            <input id="traj_radio_2" value="comparison" name="traj" type="radio">
-            <label for="traj_radio_2">Comparison</label>    
-        </div>     
-        
-        <div> First trajectory to load (pdb file):</div>
-        <input id="pdb1" class= 'text_field_widget' type="text" value = "/home/victor/Escritorio/test/ubi_5_clusters.pdb">
-        
-        <div id = 'second_trajectory_field' hidden='true'>
-            <div> Second trajectory to load (pdb file):</div>
-            <input id="pdb2" type="text" class = 'text_field_widget'  value = "/home/victor/Escritorio/test/ubi_9_clusters.pdb"> 
-        <div>
-    </fieldset>
-    
-    <fieldset id="matrix_calculation"><legend>Distance Matrix Calculation</legend>
-        
-        <div id = "creation">
-            <input id="matrix_calculation_button" value="calculate" name="matrix_source" checked type="radio">
-            <label for="matrix_calculation_button">Calculate matrix</label>
-            
-            <input id="perform_distance_matrix_analysis" value="load" name="matrix_source" type="radio">
-            <label for="perform_distance_matrix_analysis"> Load Matrix </label>    
-        </div>
-        
-        <div id="load_matrix_field" hidden="true"> Select a matrix file to load: 
-            <input id="matrix_path" type="text" class = 'text_field_widget'>
-        </div>
-        
-        <div id="rmsd_selection" > Selection string:
-            <input class = 'text_field_widget' name="rmsd_selection" type="text">
-        </div>
-        
-        <label for="save_matrix"> Save matrix </label>
-        <input id="save_matrix" type="checkbox" class="button_widget">
-        
-        <div id="save_matrix_field" hidden="true"> Choose a location to save the matrix: 
-            <input id="store_matrix_path" type="text" class = 'text_field_widget'>
-        </div>
-    </fieldset>
-    
-    <fieldset name="algorithms"><legend>Algorithms</legend>
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <!-- ----ALGORITHMS------------ -->
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <fieldset id = "algorithms_main_field" name="algorithms"><legend>Algorithms</legend>
         <table border="0">
         <tbody>
             <tr>
@@ -246,15 +329,20 @@
             </div>
     </fieldset>
     
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
+    <!-- ----BEST CLUSTERING------- -->
+    <!-- -------------------------- -->
+    <!-- -------------------------- -->
     <fieldset id="best_clustering_field"><legend>Best Clustering Characterization</legend>
         <table border="0">
             <tbody>
                 <tr>
                     <td>
-                        <div>Maximum noise (%)</div>
+                        <label for = "">Maximum noise (%)</label>
                     </td>
                     <td>  
-                        <input class = "spinner_widget" id="maximum_noise" value = "15">
+                        <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15">
                     </td>
                 </tr>
                 <tr>
@@ -262,7 +350,7 @@
                         <div> Minimum number of clusters:   </div>
                     </td>
                     <td>
-                        <input class = "spinner_widget" id="minimum_clusters" value = "10">
+                        <input class = "parameter spinner_widget" id="evaluation::minimum_clusters" value = "10">
                     </td>
                 </tr>
                 <tr>
@@ -270,14 +358,14 @@
                         <div> Maximum number of clusters:   </div>
                     </td>
                     <td>
-                        <input class = "spinner_widget" id="maximum_clusters" value = "30">
+                        <input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30">
                     </td>
                 </tr><tr>
                     <td>
                         <div> Minimum cluster size (elements):   </div>
                     </td>
                     <td>
-                        <input class = "spinner_widget" id="minimum_cluster_size" value = "50">
+                        <input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50">
                     </td>
                 </tr>
                 
@@ -294,7 +382,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input class = "tag_widget" id="query_types"  type="text">
+                        <input class = "parameter tag_widget" id="evaluation::query_types"  type="text">
                     </td>
                 </tr>
                 <tr>
@@ -307,11 +395,18 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input class = "tag_widget" id="evaluation_criteria"  type="text">
+                        <input class = "parameter tag_widget" id="evaluation::evaluation_criteria"  type="text">
                     </td>
                 </tr>
             </tbody>
         </table>
+    </fieldset>
+    
+    <fieldset id="results_field" name="results_field"> <legend>Results</legend>
+        <select id = "results::store">
+            <option value = "medoids"> Medoids </option>
+            <option value = "proportional_representatives"> Proportional Representatives </option>
+        </select>
     </fieldset>
     
     <fieldset id="advanced_options_field" hidden="true" name="advanced_params"><legend>Advanced Options</legend>
@@ -319,26 +414,26 @@
             <tbody>
                 <tr>
                     <td>
-                        <div> Number of processors to use:   </div>
+                        <label for = "control::number_of_processors"> Number of processors to use:  </label>
                     </td>
                     <td>
-                        <input class = "spinner_widget" id="number_of_processors" value = 4 >
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div> Clustering scheduler query interval:   </div>
-                    </td>
-                    <td>
-                        <input class = "spinner_widget" id="algorithm_scheduler_sleep_time" value = 15 >
+                        <input class = "parameter spinner_widget" id="control::number_of_processors" value = 4 >
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div> Scoring scheduler query interval:   </div>
+                        <label for = "control::algorithm_scheduler_sleep_time"> Clustering scheduler query interval:</label>
                     </td>
                     <td>
-                        <input class = "spinner_widget" id="scoring_scheduler_sleep_time" value = 15 >
+                        <input class = "parameter spinner_widget" id="control::algorithm_scheduler_sleep_time" value = 15 >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for = "control::scoring_scheduler_sleep_time"> Scoring scheduler query interval:   </label>
+                    </td>
+                    <td>
+                        <input class = "parameter spinner_widget" id="control::scoring_scheduler_sleep_time" value = 15 >
                     </td>
                 </tr>
             </tbody>
@@ -385,7 +480,6 @@
             </tbody>
         </table>
     </fieldset>
-    
 </div>
     <div class="main_buttons">
         <input class="button_widget" type="checkbox" id="advanced_options"> <label for="advanced_options">Advanced Options</label>
