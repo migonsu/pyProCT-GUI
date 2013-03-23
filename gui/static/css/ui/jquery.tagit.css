@@ -1,8 +1,8 @@
 ul.tagit {
     padding: 1px 5px;
     overflow: auto;
-    margin-left: inherit; /* usually we don't want the regular ul margins. */
-    margin-right: inherit;
+    margin-left: 0px; /*changed from inherit*/ /* usually we don't want the regular ul margins. */
+    margin-right: 0px; /*changed from inherit*/
 }
 ul.tagit li {
     display: block;

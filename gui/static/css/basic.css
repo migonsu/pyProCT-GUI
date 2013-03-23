@@ -1,12 +1,21 @@
+body 
+{
+	background-color: #eee;
+	font-family: "Arial", "Helvetica", "Verdana", "sans-serif";
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
 .main_frame
 {
-    height:900px;
+    height:600px;
     width:500px;
 }
 
 .main_title_container
 {
-    margin-left:100px;
+    margin-left:140px;
 }
 .main_buttons
 {
@@ -18,13 +27,25 @@
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     border-radius: 7px;
-    border:2px solid;
-    height:700px;
+    border:1px solid;
+    height:400px;
     width:500px;
-    overflow-y:scroll;
-    overflow-x: hidden;   
+    overflow-y:hidden;
+    overflow-x: hidden;  
+    background-color: #fff;
 }
 
+label
+{
+	font-size: 120%;
+	font-family: "sans-serif";
+}
+
+label.error 
+{
+	color:red;
+	position: relative;
+}
 
 .clustering_params_field
 {
@@ -52,11 +73,11 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+
 .closing_button:hover
 {
     background-color:grey;
 }
-
 
 .query_container
 {

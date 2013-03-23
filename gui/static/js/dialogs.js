@@ -1,3 +1,90 @@
+function browsing_dialog(target){
+    $("<div title='Browse' id = 'browse_dialog'>\
+        <div class = 'fileBrowserHeader'>\
+            <label for='selected_file_or_folder'> Selected "+target+":</label></br>\
+            <div id='selected_file_or_folder' class='fileBrowserSelection'>   </div>\
+        </div>\
+        <div id = 'browsing_area' class='fileBrowserWrapper'>\
+        </div>\
+       </div>")
+    .dialog(
+            {
+                modal:true, 
+                autoResize:true,
+                width:'auto',
+                close: function( event, ui ){
+                    $(this).dialog("destroy");
+            },
+            buttons: [
+                        { 
+                            text: "Ok",
+                            click: function() { 
+                                $(this).dialog("destroy");
+                            
+                            }
+                        },
+                        {
+                            text: "Cancel",
+                            click: function() { 
+                                $(this).dialog("destroy");
+                            }
+                        }
+            ]
+    });
+    
+    $('.ui-dialog button:nth-child(1)').button('disable');
+    
+    
+    $("#browsing_area").fileTree({ 
+                                    root: '.',
+                                    script: "/browse_folder" 
+                        }, 
+                        function(url,file_type) {
+                            $("#selected_file_or_folder").text(url+"::"+file_type);
+                            if(target == file_type){
+                                $('.ui-dialog button:nth-child(1)').button('enable');
+                            }
+                            else{
+                                $('.ui-dialog button:nth-child(1)').button('disable');
+                            }
+                        }   
+    );
+}
+
+function yes_or_no_dialog (dialog_title, message){
+    var deferred_response = $.Deferred();
+    
+    $("<div title='"+dialog_title+"'>"+message+"</div>", { id:'yes_or_no_dialog'})
+    .dialog(
+            {
+                modal:true, 
+                autoResize:true,
+                width:'auto',
+                close: function( event, ui ){
+                    $(this).dialog("destroy");
+            },
+            buttons: [
+                        { 
+                            text: "Yes",
+                            click: function() { 
+                                deferred_response.resolve();
+                                $(this).dialog("destroy");
+                            
+                            }
+                        },
+                        {
+                            text: "No",
+                            click: function() { 
+                                deferred_response.reject();
+                                $(this).dialog("destroy");
+                            }    
+                        }
+            ]
+    });
+    return deferred_response.promise();
+}
+
+
 function create_common_dialog(type, contents, field_to_highlight, on_close_extra, parameters){
     var symbol = "";
     var title = "";
