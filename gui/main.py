@@ -11,7 +11,6 @@ import json
 import hashlib
 import time
 import os
-import socket
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 import urllib
@@ -105,5 +104,5 @@ if __name__ == '__main__':
     SocketServer.TCPServer.allow_reuse_address = True
     httpd = SocketServer.TCPServer(("localhost", PORT), Handler)
     webbrowser.open("http://127.0.0.1:8000", new=0, autoraise=True)
-    print "serving at port", PORT
+    print "Serving at port", PORT
     httpd.serve_forever()
