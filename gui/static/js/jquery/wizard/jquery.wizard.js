@@ -13,8 +13,7 @@ Dual licensed under the MIT and GPLv2 licenses.
 
 (function( $, undefined ) {
 
-var excludesFilter,
-	count = 0,
+var count = 0,
 	selector = {},
 	className = {},
 
@@ -48,7 +47,7 @@ var excludesFilter,
 	beforeBackward = "beforeBackward",
 	beforeForward = "beforeForward",
 	beforeSelect = "beforeSelect",
-	beforeSubmit = "beforeSubmit";
+	onForwardMove ="onForwardMove";
 
 // Generate selectors and class names for common wizard elements
 $.each( "branch form header step wrapper".split( " " ), function() {
@@ -102,7 +101,8 @@ $.widget( "kf." + wizard, {
 		afterSelect: null,
 		beforeBackward: null,
 		beforeForward: null,
-		beforeSelect: null
+		beforeSelect: null,
+		onForwardMove: null
 	},
 
 	_create: function() {
@@ -177,7 +177,7 @@ $.widget( "kf." + wizard, {
 		if ( !o.transitions[ def ] ) {
 			o.transitions[ def ] = function( step ) {
 				return self.stepIndex( step.nextAll( selector.step ) );
-			}
+			};
 		}
 
 		// Select initial step
@@ -267,6 +267,15 @@ $.widget( "kf." + wizard, {
 		var self = this,
 			current = self._currentState;
 
+		// Move starts
+		console.log(step);
+		if(step>0){
+			if(!this._trigger( onForwardMove, undefined, self._currentState ) ){
+				return true;
+			}
+		}
+		//**********
+		
 		if ( typeof branch === bool ) {
 			callback = history;
 			history = relative;
@@ -293,11 +302,11 @@ $.widget( "kf." + wizard, {
 		} else if ( ( step = self.stepIndex( step, branch ) ) !== -1 ) {
 			if ( step > current.stepIndex ) {
 				self._fastForward( step, move );
-
 			} else {
 				move.call( self, step );
 			}
 		}
+		
 	},
 
 	_state: function( stepIndex, stepsTaken ) {

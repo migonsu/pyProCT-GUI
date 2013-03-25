@@ -36,21 +36,12 @@ function main_function(){
     $(".spinner_widget").spinner();
     
     // Selection widgets
-    $("#algorithms_listbox").selectmenu();
     $("#query_listbox").selectmenu();
+    $("#algorithms_listbox").selectmenu();
  
     // Buttons
     $(".button_widget").button();
  
-    // Tag widgets
-    $(".tag_widget").tagit({
-            availableTags: query_types,
-            readOnly: true,
-            onTagClicked: function(event, ui) {
-                $(this).tagit("removeTagByLabel", ui.tagLabel);
-            }
-    });  
-    
     // Set up text entry widgets            
     $('.text_field_widget')
       .button()
@@ -65,11 +56,6 @@ function main_function(){
     /////////////////////////////
     // BEHAVIOUR
     /////////////////////////////
-    
-    // Adding trajectories
-    /*$("#add_trajectory_button").click(function(){
-        $("#global\\:\\:pdbs").tagit("createTag",$("#trajectory_input").val());
-    });*/
     
     // 'Add and algorithm' button
     $("#add_clustering_algorithm").click(function(){

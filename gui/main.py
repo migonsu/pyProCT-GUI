@@ -16,9 +16,11 @@ from pyproclust.tools.scriptTools import create_directory
 import urllib
 
 def browsing_connector(root_folder):
+    print root_folder
+    root_folder = root_folder.replace("%2F","/")
     r=['<ul class="jqueryFileTree" style="display: none;">']
+    r.append('<li class="directory collapsed"><a href="#" rel="%s/..">..</a></li>'%root_folder)
     try:
-        r=['<ul class="jqueryFileTree" style="display: none;">']
         d=urllib.unquote(root_folder)
         for f in os.listdir(d):
             ff=os.path.join(d,f)
@@ -97,10 +99,10 @@ if __name__ == '__main__':
             handle = self.get_handlers()[self.path]
             print "PATH", self.path
             handle(data)
-
-    Handler = ServerHandler
-    
+    os.system("pwd")
+    os.chdir("./static") 
     PORT = 8000
+    Handler = ServerHandler
     SocketServer.TCPServer.allow_reuse_address = True
     httpd = SocketServer.TCPServer(("localhost", PORT), Handler)
     webbrowser.open("http://127.0.0.1:8000", new=0, autoraise=True)

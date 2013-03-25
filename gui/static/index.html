@@ -7,23 +7,25 @@
     
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
-<!--     <link rel="stylesheet" type="text/css" href="css/ui/jquery.ui.selectmenu.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/ui/jquery.tagit.css" media="screen"> -->
+    <link rel="stylesheet" type="text/css" href="css/ui/jquery.ui.selectmenu.css" media="screen">
+    <!-- <link rel="stylesheet" type="text/css" href="css/ui/jquery.tagit.css" media="screen"> -->
     <link rel="stylesheet" type="text/css" href="css/basic.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="css/wizard.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="css/dynamicList.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="css/fileBrowser.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="js/jquery/filetree/filetree.css"  media="screen">
+    <link rel="stylesheet" type="text/css" href="css/error_balloon.css"  media="screen">
     
     <!-- JQUERY -->
     <script type="text/javascript" src="js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery/ui/selectmenu/jquery.ui.selectmenu.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery/ui/dynamiclist/jquery.ui.dynamiclist.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery/center/jquery.center.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery/wizard/jquery.wizard.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery/form/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery/form/jquery.form.js"></script> 
     <script type="text/javascript" src="js/jquery/validate/jquery.validate.js"></script>
-    <script type="text/javascript" src="js/jjquery/filetree/filetree.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery/filetree/filetree.js" charset="utf-8"></script>
     
     <!-- HANDLEBARS -->
     <script type="text/javascript" src="js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
@@ -46,109 +48,150 @@
     <script type="text/javascript" src="js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/dynamicList.js" charset="utf-8"></script>
     
     <script>
         $(document).ready( function() {
            
             main_function();
             
-            var dl = new DynamicList("#trajectory_list",["Add","Remove"]);
+            $("#trajectory_list").dynamiclist({buttons:["Add","Remove"]});
+
+            var dl = $("#trajectory_list").dynamiclist("getListHandler");
             
             dl.buttons["Add"].click(function(){
-                dl.addElement("LOL");
-            })
+            	var callback = function(value){
+            		dl.addElement(value);
+                };
+            	browsing_dialog("file::pdb", callback);
+            	/*dl.addElement("LOL");
+                console.log($("#trajectory_list").dynamiclist("getValue"));*/
+            });
             
             dl.buttons["Remove"].click(function(){
                 dl.deleteSelectedElements();
-            })
+            });
+            
             
             $("#browse_project_folder_button").click(function(){
-                browsing_dialog("folder");
+                var callback = function(value){
+                	$("#workspace_base").val(value);
+                };
+            	browsing_dialog("folder", callback);
             });
+            
+            $.validator.addMethod(
+           		'listnotempty', 
+           		function(value, element){
+   	            	return true;//$(element).text()!="";
+   	        	},
+   	        	'This list cannot be empty.'
+            ); 
             
             $("#wizard-wrapper").wizard({
 		        stepsWrapper: "#steps-wrapper",
+		        
 		        forward: ".forward",
+		        
 		        backward: ".backward",
 		
-		    // Validation of forward transitions
-		    beforeForward: function(event, state) {	
-		        var step = $(state.step[0]);
-		        var step_id = state.step[0].id;
-		        
-		        if(step.data == undefined){
-		            step.data = {invalidate_next_check: false};
-		            console.log("att creation")
-		        }
-		        
-		        if(step.data.invalidate_next_check){
-		            console.log("jumping")
-		            step.data.invalidate_next_check = false;
-		            return true;
-		        }
-		        
-		        console.log(step_id)
-		        switch(step_id){
-		            
-		            // Simulated transition (wizard.js does not allow to do it)
-		            // That comes from workspace-1
-		            case 'trajectory-1':
-		                var previous_step = $("#wizard-wrapper").wizard("step","workspace-1");
-		                console.log(previous_step.attr("id"))
-		                var file_path = previous_step.find("#workspace_base").val();
-		                var file_check  = file_exists(file_path);
-				        if(file_check["exists"]){
-				            if($("#erase_workspace").is(":checked")){
-				                alert("TODO: erasing");
-				            }
-				            return true;
-				        }
-				        else{
-				            var create_new_folder_question = yes_or_no_dialog ("Warning","Folder does not exist, do you want to create it?");
-        
-                            create_new_folder_question.done(function(){
-                                console.log("yeah");
-                                step.data.invalidate_next_check = true;
-                                create_folder(file_path);
-                                $("#wizard-wrapper").wizard("forward",[event,1]);
-                            });
-				        }
-                    break;
-                    
-                    default:
-                        var inputs = step.find(':input');
-                        //return !inputs.length || !!inputs.valid();
-                        return true;
-			
-			        // La comprobación de si el fichero existe va aquí.
-		        }
-		        
-		        return false;
-		    },
-		
-		    // Where to go in transitions
-		    transitions: {
-			    'matrix-creation-options': function( $step, action ) {
-				    // The branch to go changes to reflect your choice.
-				    var branch = $step.find("[name=matrix-creation-options]:checked").val();
-				    return branch;
+			    // Validation of forward transitions
+			    onForwardMove: function(event, state) {	
+			        var step = $(state.step[0]);
+			        var step_id = state.step[0].id;
+			        
+			        if(step.data == undefined){
+			            step.data = {invalidate_next_check: false};
+			            console.log("att creation")
+			        }
+			        
+			        if(step.data.invalidate_next_check){
+			            console.log("jumping")
+			            step.data.invalidate_next_check = false;
+			            return true;
+			        }
+			        
+			        console.log(step_id)
+			        switch(step_id){
+			            
+			            case 'workspace-1':
+			                var previous_step = $("#wizard-wrapper").wizard("step","workspace-1");
+			                console.log(previous_step.attr("id"))
+			                var file_path = previous_step.find("#workspace_base").val();
+			                var file_check  = file_exists(file_path);
+					        if(file_check["exists"]){
+					            if($("#erase_workspace").is(":checked")){
+					                alert("TODO: erasing");
+					            }
+					            return true;
+					        }
+					        else{
+					            var create_new_folder_question = yes_or_no_dialog ("Warning",
+					            		"Folder does not exist, do you want to create it?");
+	        
+	                            create_new_folder_question.done(function(){
+	                                console.log("yeah");
+	                                step.data.invalidate_next_check = true;
+	                                create_folder(file_path);
+	                                $("#wizard-wrapper").wizard("forward",[event,1]);
+	                            });
+					        }
+	                    break;
+	                    
+	                    
+	                    // What to do in the other cases
+	                    default:
+	                    	console.log("default validation")
+	                        var inputs = step.find(':input');
+	                    	
+	                        if (inputs.size() == 0){
+	                        	console.log("Input fields NOT found @ this step")
+	                        	return true;
+	                        }
+	                        else{
+	                        	console.log("Input fields found:")
+	                        	if(inputs.length > 1){
+	    	                    	for(var i = 0; i < inputs.size(); i++){
+	    	                    		console.log("* "+$(inputs[i]).attr("id"));
+	    	                    	}
+	                        	}
+	                            return inputs.valid();
+	                        }
+				
+			        }
+			        
+			        return false;
+			    },
+			    
+			    // Where to go in transitions
+			    transitions: {
+				    'matrix-creation-options': function( $step, action ) {
+					    // The branch to go changes to reflect your choice.
+					    var branch = $step.find("[name=matrix-creation-options]:checked").val();
+					    return branch;
+				    }
 			    }
-		    }
 	        })
 	        .wizard('form')
 	        .validate(
 	        {
-		        errorPlacement: function(error, element) { 
-			        if ( element.is(':radio') || element.is(':checkbox') ) {
-				        error.insertBefore( element.next() );
-			        } 
-			        else { 
-				        error.insertAfter( element );
-			        }
-		        }
-                });
-        	 });
+	        	//rules:{
+	        		//'trajectory_list':'listnotempty'
+	        	//},
+	        	/*errorLabelContainer: "#errorMessageBox",
+	        	
+		        errorPlacement: function(error, element){
+		        	element.effect("highlight", {}, 3000);
+		        	offset = element.offset();
+		        	offset_container = $(".main_window").offset();
+		        	$("#errorMessageBox").css('left', offset_container.left+($(".main_window").css("width")/2));
+		            $("#errorMessageBox").css('top', "300px");
+		        }*/
+            });
+            
+            //console.log($("#trajectory_list").rules());
+        	
+	        
+    	}); 
         
     </script>
   </head>
@@ -156,7 +199,7 @@
 <div class = 'main_frame' id="main"> 
     
   <div class = 'main_title_container'>
-      <img src="images/pyproclust.png" > </img>
+      <img src="images/pyproclust.png" >
   </div>
   
   <div class = 'main_window'> 
@@ -189,6 +232,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- --------- -->
 		<!-- WORKSPACE -->
 		<!-- --------- -->
@@ -198,26 +242,15 @@
 			</div>
 			
 			<div class = "step_body">	
-				<label for="workspace_base"> Project folder:</label> </br>
-                	<input class = "text_field_widget required" id="workspace_base" type= "text" value = "/home/victor/Escritorio/test2">
+				<label for="workspace_base"> Project folder:</label> 
+                	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Desktop/test2">
                 	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
             	</br>
-            	</br>
-            	<input id="erase_workspace" type = "checkbox" >
+            	<input id="erase_workspace" name = "erase_workspace" type = "checkbox" >
             	<label for="erase_workspace"> If folder exists, erase contents.</label>
 			</div>
 		</div>
-		<!-- --------- -->
-		<!-- TEMPORARY STATE -->
-		<!-- --------- -->
-		<div class="step" id = "tmp-state" data-state="trajectory-1">
-			<div class="step_header">
-				<h2>--Temporary State--</h2>
-			</div>
-			
-			<div class = "step_body">	
-			</div>
-		</div>
+		
 		<!-- ------------ -->
 		<!-- TRAJECTORIES -->
 		<!-- ------------ -->
@@ -229,7 +262,7 @@
             <div class = "step_body">
                 <label for="global::pdbs"> Trajectories: </label>
                     
-                <ul id = "trajectory_list" />
+                <ul id = "trajectory_list" name ='trajectory_list' class="listnotempty"> </ul>
                      
 			</div>
 		</div>
@@ -274,7 +307,7 @@
 					<h2>Define the part of the molecule used to calculate the RMSD:</h2>
 				</div>
 				<div class="step_help">
-					<h3> If this field is left blank, the selection used for superposition will be used.</h3>
+					<span> If this field is left blank, the selection used for superposition will be used.</span>
 				</div>
 				<div class = "step_body">
 					<label for="matrix::cretion::calc_selection"> Selection: </label>
@@ -357,13 +390,13 @@
 			</div>
 			
 			<div class = "step_body">
-		            <label for = "evaluation::maximum_noise">Maximum noise (%)</label>
-	                    	<input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15"> </br>
+		            <div class="left_column"><label for = "evaluation::maximum_noise" >Maximum noise (%)</label></div>
+	                <div class="right_column"> <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15"> </div> </br>
 	                    	
-	                    <label for = "evaluation::minimum_clusters" > Minimum number of clusters:   </label>
-	                    	<input class = "parameter spinner_widget" id="evaluation::minimum_clusters" value = "10"></br>
+	                    <label for = "evaluation::minimum_clusters" class="left_column"> Minimum number of clusters:   </label>
+	                    	<input class = "parameter spinner_widget right_column" id="evaluation::minimum_clusters" value = "10"></br>
 	                    
-	                    <label for = "evaluation::maximum_clusters"> Maximum number of clusters:   </label>
+	                    <label for = "evaluation::maximum_clusters" class="left_column"> Maximum number of clusters:   </label>
 	                    	<input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30"></br>
 	                    
 	                    <label for = "evaluation::minimum_cluster_size"> Minimum cluster size (elements):   </label>

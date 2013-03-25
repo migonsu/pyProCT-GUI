@@ -1,7 +1,19 @@
-function browsing_dialog(target){
-    $("<div title='Browse' id = 'browse_dialog'>\
+function browsing_dialog(target, ok_callback){
+    var what_we_search = target;
+	var expected_extension = "";
+    if(target.substring(0,4) == "file"){
+    	var parts = target.split("::");
+    	if(parts.length>1){
+    		
+    		target = parts[0];
+    		expected_extension = parts[1];
+    		what_we_search = target +" (" +expected_extension+")";
+    	}
+    }
+    
+	$("<div title='Browse' id = 'browse_dialog'>\
         <div class = 'fileBrowserHeader'>\
-            <label for='selected_file_or_folder'> Selected "+target+":</label></br>\
+            <label for='selected_file_or_folder'> Select a "+what_we_search+":</label></br>\
             <div id='selected_file_or_folder' class='fileBrowserSelection'>   </div>\
         </div>\
         <div id = 'browsing_area' class='fileBrowserWrapper'>\
@@ -19,6 +31,7 @@ function browsing_dialog(target){
                         { 
                             text: "Ok",
                             click: function() { 
+                            	ok_callback($("#selected_file_or_folder").text());
                                 $(this).dialog("destroy");
                             
                             }
@@ -40,9 +53,14 @@ function browsing_dialog(target){
                                     script: "/browse_folder" 
                         }, 
                         function(url,file_type) {
-                            $("#selected_file_or_folder").text(url+"::"+file_type);
+                            $("#selected_file_or_folder").text(url);
+                            // Check extension
+                            var extension = url.split('.').pop();
+                            console.log(extension+" "+expected_extension+" "+target +" "+ file_type);
                             if(target == file_type){
-                                $('.ui-dialog button:nth-child(1)').button('enable');
+                            	if(expected_extension=="" || expected_extension == extension){
+                            		$('.ui-dialog button:nth-child(1)').button('enable');
+                            	}
                             }
                             else{
                                 $('.ui-dialog button:nth-child(1)').button('disable');
