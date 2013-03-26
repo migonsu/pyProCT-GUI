@@ -1,0 +1,33 @@
+<div class="step" id="algorithm-{{id}}">
+	<div class="step_header">
+		<h2>Parameters for {{title}}:</h2>
+	</div>
+	
+	<div class = "step_body">
+		<table border='0'><tbody> <tr> <td>
+		<input checked='checked' id='guess_params_{{id}}' name ='guess_params_{{id}}'  type='checkbox'>
+        </td><td>
+        <label>Let the software guess the best parameters</label>
+        </td></tr></tbody></table> 
+		
+		<table border='0'><tbody>
+        {{#properties}}
+        <tr><td>
+            <label for = '{{control_id}}'>{{label}}</label>
+        </td>
+        <td>
+            {{! To handle select statements }}
+            {{#unless options}}
+                <input id = '{{control_id}}' name ='{{control_id}}' type='{{control_type}}'>
+            {{else}}
+                <select id='{{control_id}}' name ='{{control_id}}'>
+                    {{#each options}}
+                    <option> {{this}} </option>
+                    {{/each}}
+                </select>
+            {{/unless}}
+        </td></tr>
+        {{/properties}}
+	    </tbody></table>
+	</div>
+</div>

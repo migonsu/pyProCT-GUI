@@ -102,21 +102,3 @@ label.error
     -moz-border-radius: 6px;
     border-radius: 6px;
 }
-
-.left_column{
-	position:relative;
-	text-align:right;
-	width:146;
-}
-
-.middle_column{
-	position:relative;
-	width:146px;
-	left:146px;
-}
-
-.right_column{
-	position:relative;
-	width:146px;
-	left:293px;
-}
