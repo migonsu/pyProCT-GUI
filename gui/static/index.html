@@ -281,7 +281,7 @@
             
             <div class = "step_body">
                 <label for="trajectory_list"> Trajectories: </label>
-                <ul id = "trajectory_list" name ='trajectory_list' class="listnotempty"> </ul>
+                <ul id = "trajectory_list" name = 'trajectory_list' class="listnotempty"> </ul>
 			</div>
 		</div>
 		
@@ -299,11 +299,11 @@
 				</br>
 				
 				<input type="radio" id = "matrix::creation::distance" name="matrix-creation-options" value ="distance"/>
-				<label for = "matrix::creation::distance">Calculate euclidean distances </label> 
+				<label for = "matrix::creation::distance">Calculate euclidean distances </label>
 				</br>
 				
 				<input type="radio" id = "matrix::creation::load" name="matrix-creation-options" value ="load"/>
-				<label for = "matrix::creation::load">Load from disk</label> 
+				<label for = "matrix::creation::load">Load from disk</label>
 				</br>
 			</div>
 		</div>
@@ -325,12 +325,12 @@
 					<h2>Define the part of the molecule used to calculate the RMSD:</h2>
 				</div>
 				<div class="step_help">
-					<span> If this field is left blank, the same selection used for superposition will be used.</span>
+					<span>If this field is left blank, the same selection used for superposition will be used.</span>
 				</div>
 				<div class = "step_body">
 					<label for="matrix::cretion::calc_selection"> Selection: </label>
-                            		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" 
-                            		name="matrix::creation::rmsd_selection" type="text">
+              		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" 
+              		name="matrix::creation::rmsd_selection" type="text">
 				</div>
 			</div>
 		</div>
@@ -347,7 +347,7 @@
 				
 				<div class = "step_body">
 					<label for="matrix::creation::fit_selection"> Selection: </label>
-                            		<input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
+               		<input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
 				</div>
 			</div>
 			
@@ -358,7 +358,7 @@
 				
 				<div class = "step_body">
 					<label for="matrix::creation::calc_selection"> Selection: </label>
-                            		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" type="text">
+               		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" type="text">
 				</div>
 			</div>
 		</div>
@@ -371,7 +371,7 @@
 				 
 				 <div class = "step_body">
 					 <label for="matrix::creation::path"> File: </label>
-		                         <input class = "parameter text_field_widget" id="matrix::creation::path" type="text">
+		             <input class = "parameter text_field_widget" id="matrix::creation::path" type="text">
 				</div>
 			</div>
 		</div>
@@ -387,7 +387,8 @@
 				<table><tr><td>
                	<select class="selection_widget" style ="font-size:18px;" id="algorithms_listbox"></select>
                	</td><td>
-               	<div class="button_widget" id ="add_clustering_algorithm">Add</div>
+               	<div class="button_widget" id ="add_clustering_algorithm">Add</div></td><td>
+               	<div class="button_widget" id ="add_all_clustering_algorithm">Add all</div>
 	        	</td></tr></table>
 	        	<br>
 	        	<label for="algorithms_list"> Algorithms to use: </label>

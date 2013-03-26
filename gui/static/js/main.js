@@ -20,10 +20,18 @@ function main_function(){
     		get_algorithm_parameters_definition(), 
     		algorithm_wizard_steps);
     
-    // Add options to the cluster algorithm listbox
+    // Add options to the cluster algorithms selection widget
     for (clustering_algorithm in clustering_algorithm_titles){
         var title = clustering_algorithm_titles[clustering_algorithm];
         $("#algorithms_listbox").append("<option id='"+clustering_algorithm+"_option'>"+title+"</option>");
+    }
+    
+    // Add options to the cluster algorithms list
+    for (clustering_algorithm in clustering_algorithm_titles){
+    	if(clustering_algorithm != "random"){
+	        var title = clustering_algorithm_titles[clustering_algorithm];
+	        $("#algorithms_list").append("<li>"+title+"</li>");
+    	}
     }
 
     // Add options to the query listbox

@@ -83,15 +83,15 @@ if __name__ == '__main__':
         
         def save_params_handler(self, data):
             pass
-#            data = convert_to_utf8(json.loads(data))
-#            create_directory("scripts")
-#            my_hash = hashlib.sha1()
-#            my_hash.update(str(time.time()))
-#            path = "scripts/"+my_hash.hexdigest()[:10]+".ppc"
-#            script_handler = open(path,"w")
-#            script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
-#            script_handler.close()
-#            self.wfile.write('{"file_url":"'+path+'"}')
+            data = convert_to_utf8(json.loads(data))
+            create_directory("scripts")
+            my_hash = hashlib.sha1()
+            my_hash.update(str(time.time()))
+            path = "scripts/"+my_hash.hexdigest()[:10]+".ppc"
+            script_handler = open(path,"w")
+            script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
+            script_handler.close()
+            self.wfile.write('{"file_url":"'+path+'"}')
         
         def do_POST(self):
             fp= self.rfile
@@ -99,6 +99,7 @@ if __name__ == '__main__':
             handle = self.get_handlers()[self.path]
             print "PATH", self.path
             handle(data)
+            
     os.system("pwd")
     os.chdir("./static") 
     PORT = 8000
