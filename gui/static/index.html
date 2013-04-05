@@ -57,20 +57,24 @@
             $("#trajectory_list").dynamiclist({buttons:["Add","Remove"]});
 
             var dl = $("#trajectory_list").dynamiclist("getListHandler");
-            
+            dl.addElement('/home/victor/Escritorio/test2/ubi_5_clusters.pdb');
+            dl.addElement('/home/victor/Escritorio/test2/ubi_9_clusters.pdb');
             dl.buttons["Add"].click(function(){
             	var callback = function(value){
             		dl.addElement(value);
                 };
             	browsing_dialog("file::pdb", callback);
-            	/*dl.addElement("LOL");
-                console.log($("#trajectory_list").dynamiclist("getValue"));*/
             });
             
             dl.buttons["Remove"].click(function(){
                 dl.deleteSelectedElements();
             });
             
+            $("#algorithms_list").dynamiclist({buttons:["Remove"]});
+            var dl2 = $("#algorithms_list").dynamiclist("getListHandler");
+            dl2.buttons["Remove"].click(function(){
+                dl2.deleteSelectedElements();
+            });
             
             $("#browse_project_folder_button").click(function(){
                 var callback = function(value){
@@ -87,6 +91,8 @@
    	        	'This list cannot be empty.'
             ); 
             
+            var selected_algorithms ;
+            
             $("#wizard-wrapper").wizard({
 		        stepsWrapper: "#steps-wrapper",
 		        
@@ -94,31 +100,20 @@
 		        
 		        backward: ".backward",
 		
-			    // Validation of forward transitions
 			    onForwardMove: function(event, state) {	
-			        var step = $(state.step[0]);
+			        
+			    	var step = $(state.step[0]);
 			        var step_id = state.step[0].id;
-			        
-			        if(step.data == undefined){
-			            step.data = {invalidate_next_check: false};
-			            console.log("att creation")
-			        }
-			        
-			        if(step.data.invalidate_next_check){
-			            console.log("jumping")
-			            step.data.invalidate_next_check = false;
-			            return true;
-			        }
 			        
 			        console.log(step_id)
 			        switch(step_id){
 			            
 			            case 'workspace-1':
 			                var previous_step = $("#wizard-wrapper").wizard("step","workspace-1");
-			                console.log(previous_step.attr("id"))
 			                var file_path = previous_step.find("#workspace_base").val();
 			                var file_check  = file_exists(file_path);
-					        if(file_check["exists"]){
+					        
+			                if(file_check["exists"]){
 					            if($("#erase_workspace").is(":checked")){
 					                alert("TODO: erasing");
 					            }
@@ -129,14 +124,17 @@
 					            		"Folder does not exist, do you want to create it?");
 	        
 	                            create_new_folder_question.done(function(){
-	                                console.log("yeah");
-	                                step.data.invalidate_next_check = true;
 	                                create_folder(file_path);
 	                                $("#wizard-wrapper").wizard("forward",[event,1]);
 	                            });
 					        }
 	                    break;
 	                    
+			            case 'algorithms-1':
+			            	var list = step.find(":custom-dynamiclist");
+			            	selected_algorithms = list.dynamiclist("getValue").split(",");
+			            	return true;
+			            break;
 	                    
 	                    // What to do in the other cases
 	                    default:
@@ -152,6 +150,9 @@
 	                        	if(inputs.length > 1){
 	    	                    	for(var i = 0; i < inputs.size(); i++){
 	    	                    		console.log("* "+$(inputs[i]).attr("id"));
+	    	                    		if ($(inputs[i]).attr("name") == undefined){
+	    	                    			$(inputs[i]).attr("name", $(inputs[i]).attr("id"))
+	    	                    		}
 	    	                    	}
 	                        	}
 	                            return inputs.valid();
@@ -162,6 +163,42 @@
 			        return false;
 			    },
 			    
+			    afterForward:function(event, state) {
+			    	var step = $(state.step[0]);
+			        var step_id = state.step[0].id;
+			        
+			        // detect an algorithm transition
+			    	if(step_id.indexOf("algorithm-")!=-1){
+			    		var algorithm_id = step_id.substring(10);
+			    		console.log(algorithm_id)
+			    		if($("#algorithms_list").dynamiclist("getListHandler").isAlreadyInTheList(clustering_algorithm_titles[algorithm_id])){
+			    			console.log(algorithm_id+" it's being selected")
+			    		}
+			    		else{
+			    			$("#wizard-wrapper").wizard("forward",[event,1]);
+			    		}
+			    			
+			    		//$("#wizard-wrapper").wizard("forward",[event,1]);
+			    	}
+			    },
+			    
+			    afterBackward:function(event, state) {
+			    	var step = $(state.step[0]);
+			        var step_id = state.step[0].id;
+			        
+			        // detect an algorithm transition
+			    	if(step_id.indexOf("algorithm-")!=-1){
+			    		var algorithm_id = step_id.substring(10);
+			    		console.log(algorithm_id)
+			    		if($("#algorithms_list").dynamiclist("getListHandler").isAlreadyInTheList(clustering_algorithm_titles[algorithm_id])){
+			    			console.log(algorithm_id+" it's being selected")
+			    		}
+			    		else{
+			    			$("#wizard-wrapper").wizard("backward",[event,1]);
+			    		}
+			    			
+			    	}
+			    },
 			    // Where to go in transitions
 			    transitions: {
 				    'matrix-creation-options': function( $step, action ) {
@@ -172,25 +209,7 @@
 			    }
 	        })
 	        .wizard('form')
-	        .validate(
-	        {
-	        	//rules:{
-	        		//'trajectory_list':'listnotempty'
-	        	//},
-	        	/*errorLabelContainer: "#errorMessageBox",
-	        	
-		        errorPlacement: function(error, element){
-		        	element.effect("highlight", {}, 3000);
-		        	offset = element.offset();
-		        	offset_container = $(".main_window").offset();
-		        	$("#errorMessageBox").css('left', offset_container.left+($(".main_window").css("width")/2));
-		            $("#errorMessageBox").css('top', "300px");
-		        }*/
-            });
-            
-            //console.log($("#trajectory_list").rules());
-        	
-	        
+	        .validate();
     	}); 
         
     </script>
@@ -243,11 +262,12 @@
 			
 			<div class = "step_body">	
 				<label for="workspace_base"> Project folder:</label> 
-                	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Desktop/test2">
-                	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
+               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Escritorio/test2">
+               	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
             	</br>
+            	
             	<input id="erase_workspace" name = "erase_workspace" type = "checkbox" >
-            	<label for="erase_workspace"> If folder exists, erase contents.</label>
+            	<label for="erase_workspace"> If folder exists, erase subfolders.</label>
 			</div>
 		</div>
 		
@@ -260,10 +280,8 @@
             </div>
             
             <div class = "step_body">
-                <label for="global::pdbs"> Trajectories: </label>
-                    
+                <label for="trajectory_list"> Trajectories: </label>
                 <ul id = "trajectory_list" name ='trajectory_list' class="listnotempty"> </ul>
-                     
 			</div>
 		</div>
 		
@@ -298,16 +316,16 @@
 				
 				<div class = "step_body">
 					<label for="matrix::creation::fit_selection"> Selection: </label>
-                            		<input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
+                    <input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
 				</div>
 			</div>
 			
-			<div class="step" data-state="matrix-end">
+			<div class="step" data-state="algorithms-1">
 				<div class="step_header">
 					<h2>Define the part of the molecule used to calculate the RMSD:</h2>
 				</div>
 				<div class="step_help">
-					<span> If this field is left blank, the selection used for superposition will be used.</span>
+					<span> If this field is left blank, the same selection used for superposition will be used.</span>
 				</div>
 				<div class = "step_body">
 					<label for="matrix::cretion::calc_selection"> Selection: </label>
@@ -324,7 +342,7 @@
 				</div>
 				
 				<div class="step_help">
-					<h3>An iterative superposition algorithm will be used to superpose frames.</h3>	
+					An iterative superposition algorithm will be used to superpose frames.	
 				</div>
 				
 				<div class = "step_body">
@@ -333,7 +351,7 @@
 				</div>
 			</div>
 			
-			<div class="step" data-state="matrix-end">
+			<div class="step" data-state="algorithms-1">
 				<div class="step_header">
 					<h2>Define the part of the molecule used to calculate the euclidean distance:</h2>
 				</div>
@@ -346,7 +364,7 @@
 		</div>
 		
 		<div class="branch" id = 'load'>
-			<div class="step" data-state="matrix-end">
+			<div class="step" data-state="algorithms-1">
 				 <div class="step_header">
 					<h2>Choose the file to load:</h2>
 				</div>
@@ -361,57 +379,83 @@
 		<!-- ---------- -->
 		<!-- ALGORITHMS -->
 		<!-- ---------- -->
-		<div class="step" id='matrix-end'>
+		<div class="step" id='algorithms-1'>
 			<div class="step_header">
 				<h2> Choose the algorithms that you want to use:</h2>
 			</div>
 			<div class = "step_body">
-				<div>Add</div>
-	                    	<select class="selection_widget" id="algorithms_listbox"></select>
-	                    	
-	                    	<div class="button_widget" id ="add_clustering_algorithm">+</div>
-			        <div id="algorithms_field" >
-				        <div id = "gromos_field"></div>
-				        <div id = "kmedoids_field"></div>
-				        <div id = "hierarchical_field"></div>
-				        <div id = "spectral_field"></div>
-				        <div id = "dbscan_field"></div>
-				        <div id = "random_field"></div>
-	        	        </div>
-	        	</div>
+				<table><tr><td>
+               	<select class="selection_widget" style ="font-size:18px;" id="algorithms_listbox"></select>
+               	</td><td>
+               	<div class="button_widget" id ="add_clustering_algorithm">Add</div>
+	        	</td></tr></table>
+	        	<br>
+	        	<label for="algorithms_list"> Algorithms to use: </label>
+                <ul id = "algorithms_list" name ='algorithms_list' class="listnotempty"> </ul>
+             </div>
 		</div>
+		
 		
 		<!-- ---------- -->
 		<!-- CRITERIA-->
 		<!-- ---------- -->
 		<div class="step" >
 			<div class="step_header">
-				<h2>---:</h2>
+				<h2>Define clustering's desired properties:</h2>
 			</div>
 			
 			<div class = "step_body">
-		            <div class="left_column"><label for = "evaluation::maximum_noise" >Maximum noise (%)</label></div>
-	                <div class="right_column"> <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15"> </div> </br>
-	                    	
-	                    <label for = "evaluation::minimum_clusters" class="left_column"> Minimum number of clusters:   </label>
-	                    	<input class = "parameter spinner_widget right_column" id="evaluation::minimum_clusters" value = "10"></br>
-	                    
-	                    <label for = "evaluation::maximum_clusters" class="left_column"> Maximum number of clusters:   </label>
-	                    	<input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30"></br>
-	                    
-	                    <label for = "evaluation::minimum_cluster_size"> Minimum cluster size (elements):   </label>
-	                    	<input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50"></br>
-	                    
-	                    <label for = "query_listbox">Add query</label>
-	                    	<select class="selection_widget" id="query_listbox"/>
-	                    	<div class="button_widget" id = "add_query_button">+</div>
-	                    
-                    	<input class = "parameter tag_widget" id="evaluation::query_types"  type="text">
-                    </div>
+					
+					<table><tr><td>
+		            <label for = "evaluation::maximum_noise" >Maximum noise (%)</label>
+		            </td><td>
+	                <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15">
+	                </td>
+					
+					<tr><td>
+                    <label for = "evaluation::minimum_clusters"> Minimum number of clusters:   </label>
+                    </td><td>
+                    <input class = "parameter spinner_widget" id="evaluation::minimum_clusters" value = "10"></br>
+	                </td></tr>    
                     
+                    <tr><td>
+                    <label for = "evaluation::maximum_clusters" class="left_column"> Maximum number of clusters:   </label>
+                   	</td><td>
+                   	<input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30"></br>
+                    </td></tr>    
+                    
+                    <tr><td>
+                    <label for = "evaluation::minimum_cluster_size"> Minimum cluster size (elements):   </label>
+                    </td><td>
+                    <input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50"></br>
+                    </td></tr></table>
+                    
+                    <!-- <label for = "query_listbox">Add query</label>
+                    	<select class="selection_widget" id="query_listbox"/>
+                    	<div class="button_widget" id = "add_query_button">+</div>
+                    
+                   	<input class = "parameter tag_widget" id="evaluation::query_types"  type="text">table> -->
+                   	
+                </div>
            	</div>
            	
            	<div class="step" >
+	           	<div class="step_header">
+					<h2>Define clustering's desired properties:</h2>
+				</div>
+				
+           	    <div class = "step_body">
+	           	<label for="add_evaluation_criteria_button">Add new e valuation criteria </label> 
+	                <div class="button_widget" id = "add_evaluation_criteria_button">+</div>
+                    	<input class = "parameter tag_widget" id="evaluation::evaluation_criteria"  type="text">
+                    </div>
+           	</div>
+           	
+           	<div class="step" >
+	           	<div class="step_header">
+					<h2>Define clustering's desired properties:</h2>
+				</div>
+				
            	    <div class = "step_body">
 	           	<label for="add_evaluation_criteria_button">Add new e valuation criteria </label> 
 	                <div class="button_widget" id = "add_evaluation_criteria_button">+</div>

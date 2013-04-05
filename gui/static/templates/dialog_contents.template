@@ -3,17 +3,17 @@
     <tbody id = 'criteria_table'>
         {{#criteria}}
             <tr>
+              <td >
+                {{name}}
+              </td>
+              <td >
+                <input class='dialog_spinner' id='{{name}}_spinner' type = 'input' value ='{{initial_value}}'/>
+              </td>
               <td>
                 <select class = 'dialog_listbox' id= '{{name}}_listbox'>
                      <option> Minimize </option>
                      <option> Maximize </option>
                 </select>
-              </td>
-              <td>
-                {{name}}
-              </td>
-              <td>
-                <input class='dialog_spinner' id='{{name}}_spinner' type = 'input' value ='{{initial_value}}'/>
               </td>
             </tr>
         {{/criteria}}

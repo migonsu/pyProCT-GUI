@@ -46,6 +46,21 @@ DynamicList.prototype.addElement = function(content){
     this.refreshInput();
 };
 
+DynamicList.prototype.isAlreadyInTheList = function(value){
+	var values = this.value().split(",");
+	for (var i =0; i < values.length; i++){
+		if(values[i] == value){
+			return true;
+		}
+	}
+	return false;
+}
+DynamicList.prototype.addUniqueElement = function(element){
+    if(! this.isAlreadyInTheList(element)){
+    	this.addElement(element)
+    }
+};
+
 DynamicList.prototype.addListeners = function(){
     $(this.list_part_selector+" li").unbind('click');
     $(this.list_part_selector+" li").click( function (event){
