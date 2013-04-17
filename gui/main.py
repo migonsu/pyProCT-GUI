@@ -55,6 +55,7 @@ def get_pdb_selection(data):
         if line[0:5] == "MODEL":
             break
         else:
+            line[21] = 'A' 
             first_frame_lines += line
     
     first_frame_lines += "ENDMDL\n"
