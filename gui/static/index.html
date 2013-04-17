@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/dynamicList.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="css/fileBrowser.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="js/jquery/filetree/filetree.css"  media="screen">
-    <link rel="stylesheet" type="text/css" href="css/error_balloon.css"  media="screen">
+    <link rel="stylesheet" type="text/css" href="css/chemdoodle/ChemDoodleWeb.css"  media="screen">
     
     <!-- JQUERY -->
     <script type="text/javascript" src="js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
@@ -29,6 +29,10 @@
     
     <!-- HANDLEBARS -->
     <script type="text/javascript" src="js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
+    
+    <!-- CHEMDOODLE -->
+    <script type="text/javascript" src="js/chemdoodle/ChemDoodleWeb-libs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/chemdoodle/ChemDoodleWeb.js" charset="utf-8"></script>
     
     <!-- CUSTOM SCRIPTS -->
     <script type="text/javascript" src="js/tools.js" charset="utf-8"></script>
@@ -48,6 +52,7 @@
     <script type="text/javascript" src="js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/selection_preview_handling.js" charset="utf-8"></script>
     
     <script>
         $(document).ready( function() {
@@ -55,6 +60,12 @@
             main_function();
             
             $("#trajectory_list").dynamiclist({buttons:["Add","Remove"]});
+
+            create_previewer('matrix\\:\\:creation\\:\\:fit_selection',
+            		"trajectory_list", 
+            		"workspace_base",
+            		'fittingViewer');
+            
 
             var dl = $("#trajectory_list").dynamiclist("getListHandler");
             dl.addElement('/home/victor/Escritorio/test2/ubi_5_clusters.pdb');
@@ -264,10 +275,6 @@
 				<label for="workspace_base"> Project folder:</label> 
                	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Escritorio/test2">
                	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
-            	</br>
-            	
-            	<input id="erase_workspace" name = "erase_workspace" type = "checkbox" >
-            	<label for="erase_workspace"> If folder exists, erase subfolders.</label>
 			</div>
 		</div>
 		
@@ -317,6 +324,8 @@
 				<div class = "step_body">
 					<label for="matrix::creation::fit_selection"> Selection: </label>
                     <input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
+				
+					<canvas id="fittingViewer">This browser does not support HTML5/Canvas.</canvas>
 				</div>
 			</div>
 			

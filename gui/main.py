@@ -11,9 +11,12 @@ import json
 import hashlib
 import time
 import os
+import os.path
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 import urllib
+import prody
+import urllib2
 
 def browsing_connector(root_folder):
     print root_folder
@@ -35,6 +38,38 @@ def browsing_connector(root_folder):
     r.append('</ul>')
     return ''.join(r)
 
+def get_pdb_selection(data):
+    pdb_file = data['pdb']
+    selection_string = data['selection']
+    base_workspace = data['base']
+    
+    # First extract the first frame
+    pdb_file_handler = open(pdb_file,"r")
+    
+    for line in pdb_file_handler:
+        if line[0:5] == "MODEL":
+            break
+        
+    first_frame_lines = line
+    for line in pdb_file_handler:
+        if line[0:5] == "MODEL":
+            break
+        else:
+            first_frame_lines += line
+    
+    first_frame_lines += "ENDMDL\n"
+    pdb_file_handler.close()
+    open(os.path.join(base_workspace,"tmp_pdb_first_frame"),"w").write(first_frame_lines)
+    
+    prody.writePDB(os.path.join(base_workspace,"tmp_pdb_first_frame_selected.pdb"),\
+                   prody.parsePDB(os.path.join(base_workspace,"tmp_pdb_first_frame")).select(selection_string))
+    
+    pdb_file_handler = open(os.path.join(base_workspace,"tmp_pdb_first_frame_selected.pdb"),"r")
+    frame_lines = ""
+    for line in pdb_file_handler:
+        frame_lines += line
+    return urllib2.quote(frame_lines)
+    
 if __name__ == '__main__':
     
     class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
@@ -48,8 +83,17 @@ if __name__ == '__main__':
                     "/save_params": self.save_params_handler,
                     "/file_exists": self.file_exists_handler,
                     "/create_directory": self.create_directory,
-                    "/browse_folder":self.browse_folder
+                    "/browse_folder":self.browse_folder,
+                    "/do_selection":self.do_selection
             }
+        
+        def do_selection(self,data):
+            data = convert_to_utf8(json.loads(data))
+            print data
+            try:
+                self.wfile.write(get_pdb_selection(data))
+            except:
+                self.wfile.write("ERROR")
         
         def browse_folder(self, data):
             chunks = data.split("=")
@@ -59,7 +103,6 @@ if __name__ == '__main__':
         
         def file_exists_handler(self, data):
             data = convert_to_utf8(json.loads(data))
-            
             print data
             self.wfile.write(json.dumps({"exists":os.path.exists(data['location']),
                                          "isfile":os.path.isfile(data['location']),
