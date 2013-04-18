@@ -55,21 +55,31 @@ def get_pdb_selection(data):
         if line[0:5] == "MODEL":
             break
         else:
-            line[21] = 'A' 
             first_frame_lines += line
     
     first_frame_lines += "ENDMDL\n"
     pdb_file_handler.close()
     open(os.path.join(base_workspace,"tmp_pdb_first_frame"),"w").write(first_frame_lines)
     
-    prody.writePDB(os.path.join(base_workspace,"tmp_pdb_first_frame_selected.pdb"),\
-                   prody.parsePDB(os.path.join(base_workspace,"tmp_pdb_first_frame")).select(selection_string))
+    selection = None
     
-    pdb_file_handler = open(os.path.join(base_workspace,"tmp_pdb_first_frame_selected.pdb"),"r")
-    frame_lines = ""
-    for line in pdb_file_handler:
-        frame_lines += line
-    return urllib2.quote(frame_lines)
+    try:
+        selection = prody.parsePDB(os.path.join(base_workspace,"tmp_pdb_first_frame")).select(selection_string)
+    except prody.SelectionError:
+        return "ERROR"
+        
+    selection_coordsets = selection.getCoordsets()[0]
+    number_of_atoms = len(selection_coordsets)
+    atom_elements = selection.getElements()
+
+    lines = ["%d\n"%(number_of_atoms),"%s first frame\n"%(pdb_file)]
+    for i in range(number_of_atoms):
+        initial_string = "  %s"%atom_elements[i]
+        coord_triplet = selection_coordsets[i]
+        for coord in coord_triplet:
+            initial_string+=("%10.5f"%coord).rjust(15)
+        lines.append(initial_string+"\n")
+    return urllib2.quote("".join(lines))
     
 if __name__ == '__main__':
     
@@ -91,10 +101,10 @@ if __name__ == '__main__':
         def do_selection(self,data):
             data = convert_to_utf8(json.loads(data))
             print data
-            try:
-                self.wfile.write(get_pdb_selection(data))
-            except:
-                self.wfile.write("ERROR")
+            #try:
+            self.wfile.write(get_pdb_selection(data))
+            #except:
+            #    self.wfile.write("ERROR")
         
         def browse_folder(self, data):
             chunks = data.split("=")
