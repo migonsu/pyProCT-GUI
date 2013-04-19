@@ -102,6 +102,23 @@ function yes_or_no_dialog (dialog_title, message){
     return deferred_response.promise();
 }
 
+function warning_dialog (message){
+    $("<div title='Warning'>"+message+"</div>", { id:'warning_dialog'})
+    .dialog({
+                modal:true, 
+                autoResize:true,
+                width:'auto',
+                close: function( event, ui ){
+                    $(this).dialog("destroy");
+                },
+                buttons: [{ 
+                            text: "Ok",
+                            click: function() { 
+                            	$(this).dialog("destroy")
+                            }
+                }]
+    });
+}
 
 function create_common_dialog(type, contents, field_to_highlight, on_close_extra, parameters){
     var symbol = "";

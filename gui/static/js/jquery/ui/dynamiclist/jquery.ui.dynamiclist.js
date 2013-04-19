@@ -1,5 +1,5 @@
 
-DynamicList = function(listPartSelector, buttons){
+DynamicList = function(listPartSelector, height, buttons){
     this.list_part_selector = listPartSelector;
     this.list_part_id = $(this.list_part_selector).attr("id");
     
@@ -8,6 +8,7 @@ DynamicList = function(listPartSelector, buttons){
     console.log("CLASS "+list_class)
     $(this.list_part_selector).removeClass();
     $(this.list_part_selector).addClass("dynList");
+    $(this.list_part_selector).height(height);
     
     // wrap with a div
     $(this.list_part_selector).wrap('<div />');
@@ -86,6 +87,7 @@ $(function() {
       // default options
       options: {
         buttons:[],
+        height: 60
       },
 
       list_handler: null,
@@ -93,7 +95,7 @@ $(function() {
       // Triggered when building the widget
       _create: function() {
     	console.log("creating "+this.element.attr("id"));
-        this.list_handler = new DynamicList("#"+this.element.attr("id"),this.options.buttons);
+        this.list_handler = new DynamicList("#"+this.element.attr("id"),this.options.height,this.options.buttons);
       },
  
       // Triggered when destroying the widget
@@ -103,6 +105,11 @@ $(function() {
       
       getListHandler: function(){
     	  return this.list_handler; 
+      },
+      
+      isEmpty: function(){
+    	  console.log(this.getValue())
+    	  return this.getValue() == ""; 
       },
       
       getValue: function(){

@@ -25,10 +25,10 @@ body
 .selection_preview
 {
 	position:relative;
-	width: 200px;
-	height: 200px;
-	top:20px;
-	left:110px;
+	width: 210px;
+	height: 210px;
+	top:-90px;
+	left:10px;
 	-webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     border-radius: 7px;
@@ -53,6 +53,18 @@ label
 	font-size: 120%;
 	font-family: "sans-serif";
 }
+
+label.small
+{
+	font-size: 70%;
+	font-family: "sans-serif";
+}
+
+label.disabled
+{
+	color: #eeeeee;
+}
+
 
 label.error 
 {

@@ -1,36 +1,38 @@
 /*
     Prepares and shows the evaluation criteria dialog.
 */
-function criteria_creation_show_dialog(criteria_types, tag_widget_id, template){
-    return function(){
-        $("<div >", {title: "New Criteria",id:'criteria_creation_dialog'})
-        // Add contents to the dialog
-        .append(get_eval_dialog_contents(criteria_types, template))
-        // Set up dialog
-        .dialog({modal:true, 
-                autoResize:true,
-                width:'auto',
-                create: function( event, ui ) {
-                   $(".dialog_spinner").spinner({places:2,step:0.05});
-                   $(".dialog_spinner").css({width:"35px"});
-                },
-                close: function( event, ui ){
-                     $(this).dialog("destroy"); 
-                },
-                buttons: [{ text: "Discard",
-                            click: function() { 
-                                $(this).dialog("destroy"); 
-                                } 
-                          },
-                          { text: "Ok",
-                            click: function() { 
-                                var criteria = criteria_to_string('criteria_creation_dialog', criteria_types);
-                                $("#"+tag_widget_id).tagit("createTag",criteria);
-                                $(this).dialog("destroy");
-                                } 
-                          }]
-                })
-    };
+function criteria_creation_show_dialog(criteria_types, list_handler, template){
+    $("<div >", {title: "New Criteria",id:'criteria_creation_dialog'})
+    // Add contents to the dialog
+    .append(get_eval_dialog_contents(criteria_types, template))
+    // Set up dialog
+    .dialog({modal:true, 
+            autoResize:true,
+            width:'auto',
+            create: function( event, ui ) {
+               $(".dialog_spinner").spinner({places:2,step:0.05});
+               $(".dialog_spinner").css({width:"35px"});
+            },
+            close: function( event, ui ){
+                 $(this).dialog("destroy"); 
+            },
+            buttons: [{ 
+            			text: "Discard",
+                        click: function() { 
+                            $(this).dialog("destroy"); 
+                        }
+                      },
+                      { 
+                        text: "Ok",
+                        click: function() { 
+                            var criteria = criteria_to_string('criteria_creation_dialog', criteria_types);
+                            if(criteria != ""){
+                            	list_handler.addElement(criteria);
+                            }
+                            $(this).dialog("destroy");
+                        } 
+                      }]
+            });
 }
 /*
     Creates the contents of the dialog (using handlebars))
@@ -61,7 +63,7 @@ function criteria_to_string(dialog_to_extract_data, criteria_list){
         if (weight != 0){
             // Maximize or minimize?
             var min_max = $("#"+criteria_name+"_listbox").val();
-            string_criteria += min_max + " " + criteria_name + " (weigth: "+ weight + ") and"   
+            string_criteria += min_max + " " + criteria_name + " (weigth: "+ weight + ") and "   
         }
     }
     // remove last and return

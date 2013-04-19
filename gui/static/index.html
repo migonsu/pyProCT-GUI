@@ -60,20 +60,21 @@
     
     <script>
         $(document).ready( function() {
-           
+        	//------------------
+            // Template Loading
+            //------------------
+            var	dialog_contents_template = load_text_resource_with_ajax("/templates/dialog_contents.template");
+            var algorithm_wizard_steps = load_text_resource_with_ajax("/templates/algorithm.wizard.template");
+            
             main_function();
             
-            $("#trajectory_list").dynamiclist({buttons:["Add","Remove"]});
 
-            create_previewer('matrix\\:\\:creation\\:\\:fit_selection',
-            		"trajectory_list", 
-            		"workspace_base",
-            		'fittingViewer');
             
 
+            $("#trajectory_list").dynamiclist({height:150,buttons:["Add","Remove"]});
             var dl = $("#trajectory_list").dynamiclist("getListHandler");
-            dl.addElement('/home/victor/Desktop/test/1M94.pdb');
-            //dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
+            //dl.addElement('/home/victor/Desktop/test/1M94.pdb');
+            dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
             dl.buttons["Add"].click(function(){
             	var callback = function(value){
             		dl.addElement(value);
@@ -85,12 +86,71 @@
                 dl.deleteSelectedElements();
             });
             
-            $("#algorithms_list").dynamiclist({buttons:["Remove"]});
+            $("#algorithms_list").dynamiclist({height:160,buttons:["Algorithms","Add","Remove"]});
             var dl2 = $("#algorithms_list").dynamiclist("getListHandler");
+            dl2.buttons["Algorithms"].replaceWith("<select class='dynListButton' id = 'algorithms_listbox'></select>")
+         	// Add options to the cluster algorithms selection widget
+           	$("#algorithms_listbox").append("<option id='all_option'>All</option>");
+            for (clustering_algorithm in clustering_algorithm_titles){
+                var title = clustering_algorithm_titles[clustering_algorithm];
+                $("#algorithms_listbox").append("<option id='"+clustering_algorithm+"_option'>"+title+"</option>");
+            }
+            dl2.buttons["Add"].click(function(){
+            	var algorithm = $("#algorithms_listbox option:selected").val();
+            	if (algorithm != "All"){
+            		dl2.addUniqueElement(algorithm);
+            	}
+            	else{
+            		for (clustering_algorithm in clustering_algorithm_titles){
+            			dl2.addUniqueElement(clustering_algorithm_titles[clustering_algorithm]);
+            		}
+            	}
+            });
             dl2.buttons["Remove"].click(function(){
                 dl2.deleteSelectedElements();
             });
             
+            $("#query_list").dynamiclist({height:160,buttons:["Queries","Add","Remove"]});
+            var dl4 = $("#query_list").dynamiclist("getListHandler");
+            dl4.buttons["Queries"].replaceWith("<select class='dynListButton' id = 'queries_listbox'></select>")
+            // Add options to the query listbox
+            for (var i = 0; i < query_types.length; i++){
+                $("#queries_listbox").append("<option>"+query_types[i]+"</option>");
+            }
+            dl4.buttons["Add"].click(function(){
+                dl4.addUniqueElement($("#queries_listbox option:selected").val());
+            });
+            dl4.buttons["Remove"].click(function(){
+                dl4.deleteSelectedElements();
+            });
+            
+            $("#criteria_list").dynamiclist({height:155,buttons:["Add Criteria","Remove"]});
+            var dl3 = $("#criteria_list").dynamiclist("getListHandler");
+            dl3.buttons["Add Criteria"].click(function(){
+                criteria_creation_show_dialog(
+			                			criteria_types, 
+			                			dl3, 
+			                        	dialog_contents_template);
+            });
+            dl3.buttons["Remove"].click(function(){
+                dl3.deleteSelectedElements();
+            });
+            
+            
+            create_previewer(
+            		'matrix\\:\\:creation\\:\\:fit_selection',
+            		"preview_rmsd_fit_button",
+            		"trajectory_list", 
+            		"workspace_base",
+            		'fittingViewer');
+            
+			/*create_previewer(
+            		'matrix\\:\\:creation\\:\\:calc_selection',
+            		"preview_rmsd_calc_button",
+            		"trajectory_list", 
+            		"workspace_base",
+            		'calcViewer');*/
+			
             $("#browse_project_folder_button").click(function(){
                 var callback = function(value){
                 	$("#workspace_base").val(value);
@@ -122,34 +182,46 @@
 			        
 			        console.log(step_id)
 			        switch(step_id){
-			            
 			            case 'workspace-1':
-			                var previous_step = $("#wizard-wrapper").wizard("step","workspace-1");
-			                var file_path = previous_step.find("#workspace_base").val();
-			                var file_check  = file_exists(file_path);
-					        
-			                if(file_check["exists"]){
-					            if($("#erase_workspace").is(":checked")){
-					                alert("TODO: erasing");
-					            }
-					            return true;
+			                var file_path = $("#wizard-wrapper")
+			                						.wizard("step","workspace-1")
+			                						.find("#workspace_base")
+			                						.val();
+					        if(file_path!=""){
+				                var file_check  = file_exists(file_path);
+				                
+				                if(file_check["exists"]){
+						            return true;
+						        }
+						        else{
+						            var create_new_folder_question = yes_or_no_dialog ("Warning",
+						            		"Folder does not exist, do you want to create it?");
+		        
+		                            create_new_folder_question.done(function(){
+		                                create_folder(file_path);
+		                                $("#wizard-wrapper").wizard("forward",[event,1]);
+		                            });
+						        }
 					        }
 					        else{
-					            var create_new_folder_question = yes_or_no_dialog ("Warning",
-					            		"Folder does not exist, do you want to create it?");
-	        
-	                            create_new_folder_question.done(function(){
-	                                create_folder(file_path);
-	                                $("#wizard-wrapper").wizard("forward",[event,1]);
-	                            });
+					        	warning_dialog ("The field cannot be empty.");
 					        }
-	                    break;
+	                    	break;
+	                    
+			            case 'trajectory-1':
+			            	if (!$("#trajectory_list").dynamiclist("isEmpty")){
+				            	return true;
+			            	}
+			            	else{
+			            		warning_dialog ("You have to add at least one trajectory.");
+			            	}
+			            	break;
 	                    
 			            case 'algorithms-1':
 			            	var list = step.find(":custom-dynamiclist");
 			            	selected_algorithms = list.dynamiclist("getValue").split(",");
 			            	return true;
-			            break;
+			           		break;
 	                    
 	                    // What to do in the other cases
 	                    default:
@@ -192,8 +264,6 @@
 			    		else{
 			    			$("#wizard-wrapper").wizard("forward",[event,1]);
 			    		}
-			    			
-			    		//$("#wizard-wrapper").wizard("forward",[event,1]);
 			    	}
 			    },
 			    
@@ -277,7 +347,7 @@
 			
 			<div class = "step_body">	
 				<label for="workspace_base"> Project folder:</label> 
-               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Desktop/test">
+               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Escritorio/test">
                	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
 			</div>
 		</div>
@@ -326,10 +396,30 @@
 				</div>
 				
 				<div class = "step_body">
-					<label for="matrix::creation::fit_selection"> Selection: </label>
-                    <input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
-				
-					<canvas id="fittingViewer">This browser does not support HTML5/Canvas.</canvas>
+					<table>
+						<tr><td style="width: 50%;">
+							<table>
+								<tr ><td style="height:65px;">
+									<label for="matrix::creation::fit_selection" > Superposition selection: </label>
+			                    	<input class = "parameter text_field_widget" id="matrix::creation::fit_selection"  type="text">
+									<div class = "button_widget" id = "preview_rmsd_fit_button" > 
+										<span class='ui-icon ui-icon-search'> </span></div> 
+									<input id = "usesamefitandcalc" type='checkbox' checked/>
+									<label for="usesamefitandcalc" class = "small" > Use same selection for superposition and RMSD calculation</label>
+								</td></tr><tr ><td style="height:65px;">
+								</td></tr><tr ><td style="height:65px;">
+									<br>
+									<label for="matrix::creation::fit_selection" class="disabled"> Calculation selection: </label>
+			                    	<input class = "parameter text_field_widget" id="matrix::creation::calc_selection"  type="text" disabled>
+									<div class = "button_widget " id = "preview_rmsd_calc_button" disabled>
+										<span class='ui-icon ui-icon-search'> </span></div>
+								</td></tr>
+							</table>
+						</td><td style="width: 50%;">
+							<canvas id="fittingViewer">This browser does not support HTML5/Canvas.</canvas>
+						</td></tr>
+					</table>
+					
 				</div>
 			</div>
 			
@@ -337,13 +427,20 @@
 				<div class="step_header">
 					<h2>Define the part of the molecule used to calculate the RMSD:</h2>
 				</div>
-				<div class="step_help">
-					<span>If this field is left blank, the same selection used for superposition will be used.</span>
-				</div>
+				
 				<div class = "step_body">
-					<label for="matrix::cretion::calc_selection"> Selection: </label>
-              		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" 
-              		name="matrix::creation::rmsd_selection" type="text">
+					<table>
+						<tr><td style="width: 20%;">
+						<!--<label for="matrix::creation::calc_selection" > Selection: </label>-->
+                    	</td><td style="width: 30%;">
+                    	<input class = "parameter text_field_widget" id="matrix::creation::calc_selection" type="text">
+						</td><td style="width: 25%;">
+						<div class = "button_widget" id = "preview_rmsd_calc_button" > Preview </div>
+						</td><td style="width: 25%;">
+						</td></tr>
+					</table>
+					
+					<canvas id="calcViewer">This browser does not support HTML5/Canvas.</canvas>
 				</div>
 			</div>
 		</div>
@@ -397,12 +494,6 @@
 				<h2> Choose the algorithms that you want to use:</h2>
 			</div>
 			<div class = "step_body">
-<table><tr><td>
-               	<select class="selection_widget" style ="font-size:18px;" id="algorithms_listbox"></select>
-               	</td><td>
-               	<div class="button_widget" id ="add_clustering_algorithm">Add</div>
-	        	</td></tr></table>
-	        	<br>
 	        	<label for="algorithms_list"> Algorithms to use: </label>
                 <ul id = "algorithms_list" name ='algorithms_list' class="listnotempty"> </ul>
              </div>
@@ -443,38 +534,31 @@
                     <input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50"></br>
                     </td></tr></table>
                     
-                    <!-- <label for = "query_listbox">Add query</label>
-                    	<select class="selection_widget" id="query_listbox"/>
-                    	<div class="button_widget" id = "add_query_button">+</div>
-                    
-                   	<input class = "parameter tag_widget" id="evaluation::query_types"  type="text">table> -->
-                   	
                 </div>
            	</div>
            	
            	<div class="step" >
 	           	<div class="step_header">
-					<h2>Define clustering's desired properties:</h2>
+					<h2>Which information do you want to get from the clustering?</h2>
 				</div>
 				
            	    <div class = "step_body">
-	           	<label for="add_evaluation_criteria_button">Add new e valuation criteria </label> 
-	                <div class="button_widget" id = "add_evaluation_criteria_button">+</div>
-                    	<input class = "parameter tag_widget" id="evaluation::evaluation_criteria"  type="text">
-                    </div>
+           	    	<label for="query_list"> Queries: </label>
+               		<ul id = "query_list" name = 'query_list' class="listnotempty"> </ul>
+	            </div>
            	</div>
            	
            	<div class="step" >
 	           	<div class="step_header">
-					<h2>Define clustering's desired properties:</h2>
+					<h2>Which criteria do you want to use?</h2>
 				</div>
 				
            	    <div class = "step_body">
-	           	<label for="add_evaluation_criteria_button">Add new e valuation criteria </label> 
-	                <div class="button_widget" id = "add_evaluation_criteria_button">+</div>
-                    	<input class = "parameter tag_widget" id="evaluation::evaluation_criteria"  type="text">
-                    </div>
+	            	<label for="criteria_list"> Evaluation criteria: </label>
+               		<ul id = "criteria_list" name = 'criteria_list' class="listnotempty"> </ul>
+	            </div>
            	</div>
+           	
 		
 		<!-- ---------- -->
 		<!-- NAVIGATION -->
