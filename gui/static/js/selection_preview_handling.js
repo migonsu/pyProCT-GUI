@@ -1,9 +1,10 @@
+//previewers [{input_id:"",button_id:""}]
 function create_previewer(
-						input_id,
-						preview_button_id,
+						previewer_canvas_id,
 						trajectories_dynamic_list_id, 
 						base_workspace_field_id, 
-						previewer_canvas_id){
+						previewers
+						){
 	
 	var opts = {
 			  lines: 9, // The number of lines to draw
@@ -37,36 +38,62 @@ function create_previewer(
     
     $("#"+previewer_canvas_id+"_spinner").offset($("#"+previewer_canvas_id).offset())
 
-    var input_field = $("#"+input_id);
-    input_field.val("all");
-    
-    input_field.keypress(function(event) {
-    	  if ( event.which == 13 ) {
-    		     event.preventDefault();
-    		     do_preview(
-    		    		 	input_field,
+    // Attach callbacks to active elements
+    var button_bindings = {};
+    for (var i = 0; i < previewers.length; i++){
+    	button_bindings[previewers[i].button_id] = "#"+previewers[i].input_id;
+    }
+    console.log(button_bindings)
+    for(var i = 0; i < previewers.length; i++){
+    	console.log("#"+previewers[i].input_id)
+    	var input_field_c_id = "#"+previewers[i].input_id;
+	    
+    	$(input_field_c_id).val("all");
+	    
+	    $(input_field_c_id).keypress(function(event) {
+			if (event.which == 13 ) {
+				event.preventDefault();
+				console.log("key triggered")
+				do_preview(
+						  	"#"+$(this).attr("id"),
 							trajectories_dynamic_list_id, 
 							base_workspace_field_id, 
 							previewer_canvas_id,
 							viewer);
-    	  }
-    });
-    $("#"+preview_button_id).click(function(){
-    	do_preview(
-    		 	input_field,
-				trajectories_dynamic_list_id, 
-				base_workspace_field_id, 
-				previewer_canvas_id,
-				viewer);
-    });
+			}
+	    });
+	    
+	    /*$(input_field_c_id).focusout(function(event) {
+			  event.preventDefault();
+			  console.log("focus triggered")
+			  do_preview(
+					  	"#"+$(this).attr("id"),
+						trajectories_dynamic_list_id, 
+						base_workspace_field_id, 
+						previewer_canvas_id,
+						viewer);
+	    });*/
+	    
+	    $("#"+previewers[i].button_id).click(function(){
+	    	console.log($(this).attr("id"));
+	    	do_preview(
+	    			$(button_bindings[$(this).attr("id")]),
+					trajectories_dynamic_list_id,
+					base_workspace_field_id,
+					previewer_canvas_id,
+					viewer);
+	    });
+    }
 }
+
 function do_preview(	
-						input_field,
+						input_field_id,
 						trajectories_dynamic_list_id, 
 						base_workspace_field_id, 
 						previewer_canvas_id,
 						viewer){
 	
+	var input_field = $(input_field_id);
 	$("#"+previewer_canvas_id+"_spinner").spin();
 	$("#"+previewer_canvas_id+"_spinner").css("z-index",10); 
 	
@@ -86,15 +113,31 @@ function do_preview(
 	     dataType: "text",
 	     complete: function(jqXHR, textStatus){
 		      var molFile = decodeURIComponent(jqXHR.responseText);
-		      if (molFile == "ERROR"){
-		    	  alert("bad selector")
+		      if (molFile == "ERROR:ImproductiveSelection"){
+		    	  warning_dialog ("Improoductive selection (returned 0 atoms).");
 		    	  input_field.val("");
+		    	  viewer.clear();
 		      }
-		      else{
-		          var molecule = ChemDoodle.readXYZ(molFile, 1);
-		          console.log(molecule)
-			      viewer.loadMolecule(molecule);
+		      else {
+		    	  if (molFile == "ERROR:MalformedSelection"){
+			    	  warning_dialog ("Malformed selection.");
+			    	  input_field.val("");
+			    	  viewer.clear();
+		      	  }
+			      else{
+			    	  if (molFile == "EMPTY"){
+			    		  warning_dialog ("Fields cannot be empty.");
+				    	  input_field.val("");
+				    	  viewer.clear();
+			    	  }
+			    	  else{
+				          var molecule = ChemDoodle.readXYZ(molFile, 1);
+				          console.log(molecule)
+					      viewer.loadMolecule(molecule);
+				      }
+			      }
 		      }
+		      
 		      $("#"+previewer_canvas_id+"_spinner").spin(false);
 		      $("#"+previewer_canvas_id+"_spinner").css("z-index",-10);
 	     },
@@ -103,6 +146,7 @@ function do_preview(
 	         $("#"+previewer_canvas_id+"_spinner").spin(false);
 	         $("#"+previewer_canvas_id+"_spinner").css("z-index",-10);
 	         input_field.val("");
+	         viewer.clear();
 	     }
 	   });
 }

@@ -65,9 +65,19 @@ label.disabled
 	color: #eeeeee;
 }
 
-
 label.error 
 {
 	color:red;
 	position: relative;
 }
+
+.final_button
+{
+	
+	left:110px;
+	height:30px;
+	width:220px;	
+	margin-top:30px
+	
+}
+

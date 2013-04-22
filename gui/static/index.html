@@ -68,9 +68,9 @@
             
             main_function();
             
-
-            
-
+		 	//******************************
+		 	// List of trajectories
+		 	//******************************
             $("#trajectory_list").dynamiclist({height:150,buttons:["Add","Remove"]});
             var dl = $("#trajectory_list").dynamiclist("getListHandler");
             //dl.addElement('/home/victor/Desktop/test/1M94.pdb');
@@ -81,11 +81,13 @@
                 };
             	browsing_dialog("file::pdb", callback);
             });
-            
             dl.buttons["Remove"].click(function(){
                 dl.deleteSelectedElements();
             });
             
+          	//******************************
+		 	// List of algorithms
+		 	//******************************
             $("#algorithms_list").dynamiclist({height:160,buttons:["Algorithms","Add","Remove"]});
             var dl2 = $("#algorithms_list").dynamiclist("getListHandler");
             dl2.buttons["Algorithms"].replaceWith("<select class='dynListButton' id = 'algorithms_listbox'></select>")
@@ -102,7 +104,9 @@
             	}
             	else{
             		for (clustering_algorithm in clustering_algorithm_titles){
-            			dl2.addUniqueElement(clustering_algorithm_titles[clustering_algorithm]);
+            			if (clustering_algorithm!="random"){
+            				dl2.addUniqueElement(clustering_algorithm_titles[clustering_algorithm]);
+            			}
             		}
             	}
             });
@@ -110,6 +114,9 @@
                 dl2.deleteSelectedElements();
             });
             
+          	//******************************
+		 	// List of queries
+		 	//******************************
             $("#query_list").dynamiclist({height:160,buttons:["Queries","Add","Remove"]});
             var dl4 = $("#query_list").dynamiclist("getListHandler");
             dl4.buttons["Queries"].replaceWith("<select class='dynListButton' id = 'queries_listbox'></select>")
@@ -124,6 +131,9 @@
                 dl4.deleteSelectedElements();
             });
             
+	        //******************************
+		 	// List of criteria
+		 	//******************************
             $("#criteria_list").dynamiclist({height:155,buttons:["Add Criteria","Remove"]});
             var dl3 = $("#criteria_list").dynamiclist("getListHandler");
             dl3.buttons["Add Criteria"].click(function(){
@@ -136,35 +146,88 @@
                 dl3.deleteSelectedElements();
             });
             
+            //******************************
+		 	// Previewer widget creation
+		 	//******************************        
+            create_previewer(
+            		'rmsdViewer',
+            		"trajectory_list", 
+            		"workspace_base",
+            		[	
+            		 	{
+            		 		input_id:'rmsd_fit_selection',
+            				button_id:"preview_rmsd_fit_button"
+            		 	},
+            		 	{
+            		 		input_id:'rmsd_calc_selection',
+            				button_id:"preview_rmsd_calc_button"
+            		 	}
+            		]
+            );
+            // Disable calc
+            $("#calc_selection_label").addClass("disabled");
+            $("#rmsd_calc_selection").prop('disabled', true);
+            $("#rmsd_calc_selection").button("disable");
+            $("#preview_rmsd_calc_button").button("disable");
+            //Allow enabling calculation selection
+            $("#usesamefitandcalc").click(function(){
+            	 if($(this).prop('checked')){
+            		 $("#calc_selection_label").addClass("disabled");
+                     $("#rmsd_calc_selection").prop('disabled', true);
+                     $("#rmsd_calc_selection").button("disable");
+                     $("#preview_rmsd_calc_button").button("disable");
+            	 }
+            	 else{
+            		 $("#calc_selection_label").removeClass("disabled");
+                     $("#rmsd_calc_selection").prop('disabled', false);
+                     $("#rmsd_calc_selection").button("enable");
+                     $("#preview_rmsd_calc_button").button("enable");
+            	 }
+            });
             
             create_previewer(
-            		'matrix\\:\\:creation\\:\\:fit_selection',
-            		"preview_rmsd_fit_button",
+            		'distanceViewer',
             		"trajectory_list", 
             		"workspace_base",
-            		'fittingViewer');
+            		[	
+            		 	{
+            		 		input_id:'dist_fit_selection',
+            				button_id:"preview_dist_fit_button"
+            		 	},
+            		 	{
+            		 		input_id:'dist_calc_selection',
+            				button_id:"preview_dist_calc_button"
+            		 	}
+            		]
+            );
             
-			/*create_previewer(
-            		'matrix\\:\\:creation\\:\\:calc_selection',
-            		"preview_rmsd_calc_button",
-            		"trajectory_list", 
-            		"workspace_base",
-            		'calcViewer');*/
-			
+          	//******************************
+		 	// File browsing
+		 	//******************************      
             $("#browse_project_folder_button").click(function(){
                 var callback = function(value){
                 	$("#workspace_base").val(value);
                 };
             	browsing_dialog("folder", callback);
             });
+          	
+            $("#browse_matrix_button").click(function(){
+                    var callback = function(value){
+                    	$("#matrix_creation_path").val(value);
+                    };
+                	browsing_dialog("file::npy", callback);
+                });
             
-            $.validator.addMethod(
+         	//******************************
+		 	// New validation methods
+		 	//******************************      
+            /*$.validator.addMethod(
            		'listnotempty', 
            		function(value, element){
-   	            	return true;//$(element).text()!="";
+   	            	$(element).text()!="";
    	        	},
    	        	'This list cannot be empty.'
-            ); 
+            ); */
             
             var selected_algorithms ;
             
@@ -183,10 +246,8 @@
 			        console.log(step_id)
 			        switch(step_id){
 			            case 'workspace-1':
-			                var file_path = $("#wizard-wrapper")
-			                						.wizard("step","workspace-1")
-			                						.find("#workspace_base")
-			                						.val();
+			                var file_path = step.find("#workspace_base")
+			                					 .val();
 					        if(file_path!=""){
 				                var file_check  = file_exists(file_path);
 				                
@@ -216,13 +277,57 @@
 			            		warning_dialog ("You have to add at least one trajectory.");
 			            	}
 			            	break;
-	                    
+			            
+			            case "rmsd-1":
+		            		if($("#rmsd_fit_selection").val() == "" || 
+		            				(!step.find("#usesamefitandcalc").is(':checked') && 
+		            						$("#rmsd_calc_selection").val() == "")){
+					        	warning_dialog ("Fields cannot be empty.");
+								return false;			            		
+			            	}
+							return true;				            	
+			            	break;
+			            
+			            case "distance-1":
+		            		if($("#dist_fit_selection").val() == "" || 
+		            						$("#dist_calc_selection").val() == ""){
+					        	warning_dialog ("Fields cannot be empty.");
+								return false;			            		
+			            	}
+							return true;				            	
+			            	break;
+			            	
+			            case 'load_matrix-1':
+			            	if ($("#matrix_creation_path").val()!=""){
+				            	return true;
+			            	}
+			            	else{
+			            		warning_dialog ("You have to specify the file you want to load.");
+			            	}
+			            	break;
+			            	
 			            case 'algorithms-1':
-			            	var list = step.find(":custom-dynamiclist");
-			            	selected_algorithms = list.dynamiclist("getValue").split(",");
-			            	return true;
+			            	if (!$("#algorithms_list").dynamiclist("isEmpty")){
+			            		var list = step.find(":custom-dynamiclist");
+				            	selected_algorithms = list.dynamiclist("getValue").split(",");
+				            	return true;
+			            	}
+			            	else{
+			            		warning_dialog ("You have to add at least one clustering algorithm.");
+			            	}
+			            	
 			           		break;
-	                    
+			            
+			            case 'criteria-2':
+			            	if ($("#criteria_list").dynamiclist("isEmpty")){
+			            		warning_dialog ("You need to define at least one selection criterium.");
+			            		return false;
+			            	}
+			            	else{
+			            		return true;
+			            	}
+			            	
+			           		break;
 	                    // What to do in the other cases
 	                    default:
 	                    	console.log("default validation")
@@ -295,6 +400,9 @@
 	        })
 	        .wizard('form')
 	        .validate();
+
+            $("#run_button").button("option", "icons",{primary:"ui-icon-gear"});
+        	$("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
     	}); 
         
     </script>
@@ -323,11 +431,11 @@
 				<div id="action_group_wrapper">
 					<label for="action_clusters">
 						<input type="radio" id = "action_clusters" name="action_group" value ="clustering" checked/> 
-					Get clusters from a trajectory </label> </br>
+					Get clusters from a set of trajectories</label> </br>
 						
 					<label for="action_compress">
 						<input type="radio" id = "action_compress" name="action_group" value="compression"/> 
-					Compress a trajectory</label></br>
+					Compress a set of trajectories</label></br>
 					
 					<label for="action_compare">
 						<input type="radio" id = "action_compare" name="action_group" value="comparison" disabled/>
@@ -346,9 +454,16 @@
 			</div>
 			
 			<div class = "step_body">	
-				<label for="workspace_base"> Project folder:</label> 
-               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" value = "/home/victor/Escritorio/test">
+				<table>
+				<tr><td style="width: 25%;">
+				<label for="workspace_base" style="float:right;"> Project folder:</label>
+				</td><td style="width: 50%;">
+               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" 
+               		style="width:88%;" value = "/home/victor/Escritorio/test" readonly>
+               	</td><td style="width: 20%;">
                	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
+               	</td></tr>
+               	</table>
 			</div>
 		</div>
 		
@@ -362,7 +477,7 @@
             
             <div class = "step_body">
                 <label for="trajectory_list"> Trajectories: </label>
-                <ul id = "trajectory_list" name = 'trajectory_list' class="listnotempty"> </ul>
+                <ul id = "trajectory_list" name = 'trajectory_list'> </ul>
 			</div>
 		</div>
 		
@@ -374,7 +489,7 @@
 				<h2>Choose how do you want to obtain the matrix:</h2>
 			</div>
 			
-			<div class = "step_body">
+			<div class = "step_body" >
 				<input type="radio" checked id = "matrix::creation::rmsd" name="matrix-creation-options" value ="rmsd"/>
 				<label for = "matrix::creation::rmsd"> Calculate RMSD </label>
 				</br>
@@ -390,7 +505,7 @@
 		</div>
 		
 		<div class="branch" id='rmsd'>
-			<div class="step" >
+			<div class="step" data-state="algorithms-1" id = "rmsd-1">
 				<div class="step_header">
 					<h2>Define the part of the molecule used for superposition:</h2>
 				</div>
@@ -400,88 +515,80 @@
 						<tr><td style="width: 50%;">
 							<table>
 								<tr ><td style="height:65px;">
-									<label for="matrix::creation::fit_selection" > Superposition selection: </label>
-			                    	<input class = "parameter text_field_widget" id="matrix::creation::fit_selection"  type="text">
+									<label for="rmsd_fit_selection" > Superposition selection: </label>
+			                    	<input class = "parameter text_field_widget" id="rmsd_fit_selection"  type="text">
 									<div class = "button_widget" id = "preview_rmsd_fit_button" > 
-										<span class='ui-icon ui-icon-search'> </span></div> 
+										<span class='ui-icon ui-icon-search'> </span>
+									</div> 
 									<input id = "usesamefitandcalc" type='checkbox' checked/>
 									<label for="usesamefitandcalc" class = "small" > Use same selection for superposition and RMSD calculation</label>
 								</td></tr><tr ><td style="height:65px;">
 								</td></tr><tr ><td style="height:65px;">
 									<br>
-									<label for="matrix::creation::fit_selection" class="disabled"> Calculation selection: </label>
-			                    	<input class = "parameter text_field_widget" id="matrix::creation::calc_selection"  type="text" disabled>
-									<div class = "button_widget " id = "preview_rmsd_calc_button" disabled>
+									<label id = "calc_selection_label" for="rmsd_calc_selection" > Calculation selection: </label>
+			                    	<input class = "parameter text_field_widget" id="rmsd_calc_selection"  type="text">
+									<div class = "button_widget " id = "preview_rmsd_calc_button">
 										<span class='ui-icon ui-icon-search'> </span></div>
 								</td></tr>
 							</table>
 						</td><td style="width: 50%;">
-							<canvas id="fittingViewer">This browser does not support HTML5/Canvas.</canvas>
+							<canvas id="rmsdViewer">This browser does not support HTML5/Canvas.</canvas>
 						</td></tr>
 					</table>
-					
-				</div>
-			</div>
-			
-			<div class="step" data-state="algorithms-1">
-				<div class="step_header">
-					<h2>Define the part of the molecule used to calculate the RMSD:</h2>
-				</div>
-				
-				<div class = "step_body">
-					<table>
-						<tr><td style="width: 20%;">
-						<!--<label for="matrix::creation::calc_selection" > Selection: </label>-->
-                    	</td><td style="width: 30%;">
-                    	<input class = "parameter text_field_widget" id="matrix::creation::calc_selection" type="text">
-						</td><td style="width: 25%;">
-						<div class = "button_widget" id = "preview_rmsd_calc_button" > Preview </div>
-						</td><td style="width: 25%;">
-						</td></tr>
-					</table>
-					
-					<canvas id="calcViewer">This browser does not support HTML5/Canvas.</canvas>
 				</div>
 			</div>
 		</div>
 	
-		<div class="branch" id='distance'>
-			<div class="step" >
+		<div class="branch" id='distance' >
+			<div class="step" data-state="algorithms-1" id = "distance-1">
 				<div class="step_header">
 					<h2>Define the part of the molecule used for superposition:</h2>
 				</div>
 				
-				<div class="step_help">
-					An iterative superposition algorithm will be used to superpose frames.	
-				</div>
-				
 				<div class = "step_body">
-					<label for="matrix::creation::fit_selection"> Selection: </label>
-               		<input class = "parameter text_field_widget" id="matrix::creation::fit_selection" type="text">
-				</div>
-			</div>
-			
-			<div class="step" data-state="algorithms-1">
-				<div class="step_header">
-					<h2>Define the part of the molecule used to calculate the euclidean distance:</h2>
-				</div>
-				
-				<div class = "step_body">
-					<label for="matrix::creation::calc_selection"> Selection: </label>
-               		<input class = "parameter text_field_widget" id="matrix::creation::rmsd_selection" type="text">
+               		<table>
+						<tr><td style="width: 50%;">
+							<table>
+								<tr><td style="height:65px;">
+									<label for="dist_fit_selection" > Superposition selection: </label>
+			                    	<input class = "parameter text_field_widget" id="dist_fit_selection"  type="text">
+									<div class = "button_widget" id = "preview_dist_fit_button" > 
+										<span class='ui-icon ui-icon-search'> </span>
+									</div> 
+								</td></tr><tr ><td style="height:65px;">
+								</td></tr><tr ><td style="height:65px;">
+									<br>
+									<label id = "dist_calc_selection_label" for="dist_calc_selection" > Calculation selection: </label>
+			                    	<input class = "parameter text_field_widget" id="dist_calc_selection"  type="text">
+									<div class = "button_widget " id = "preview_dist_calc_button">
+										<span class='ui-icon ui-icon-search'> </span>
+									</div>
+								</td></tr>
+							</table>
+						</td><td style="width: 50%;">
+							<canvas id="distanceViewer">This browser does not support HTML5/Canvas.</canvas>
+						</td></tr>
+					</table>
 				</div>
 			</div>
 		</div>
 		
-		<div class="branch" id = 'load'>
-			<div class="step" data-state="algorithms-1">
+		<div class="branch" id="load">
+			<div class="step" id = 'load_matrix-1' data-state="algorithms-1">
 				 <div class="step_header">
 					<h2>Choose the file to load:</h2>
 				</div>
 				 
 				 <div class = "step_body">
-					 <label for="matrix::creation::path"> File: </label>
-		             <input class = "parameter text_field_widget" id="matrix::creation::path" type="text">
+			 	 	<table>
+					 <tr><td style="width: 20%;">
+					 <label for="matrix_creation_path" style="float:right;"> File: </label>
+		             </td><td style="width: 60%;">
+		             <input class = "parameter text_field_widget" id="matrix_creation_path" type="text" style="width:90%;" readonly>
+		             </td><td style="width: 20%;">
+		             <div class = "button_widget" id = "browse_matrix_button" > Browse </div>
+					 </td></tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -495,15 +602,15 @@
 			</div>
 			<div class = "step_body">
 	        	<label for="algorithms_list"> Algorithms to use: </label>
-                <ul id = "algorithms_list" name ='algorithms_list' class="listnotempty"> </ul>
+                <ul id = "algorithms_list" name ='algorithms_list' > </ul>
              </div>
 		</div>
 		
 		
 		<!-- ---------- -->
-		<!-- CRITERIA-->
+		<!-- CRITERIA   -->
 		<!-- ---------- -->
-		<div class="step" >
+		<div class="step" id ="criteria-1">
 			<div class="step_header">
 				<h2>Define clustering's desired properties:</h2>
 			</div>
@@ -511,55 +618,73 @@
 			<div class = "step_body">
 					
 					<table><tr><td>
-		            <label for = "evaluation::maximum_noise" >Maximum noise (%)</label>
+		            <label for = "evaluation::maximum_noise" style="float:right;">Maximum noise (%):</label>
 		            </td><td>
 	                <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15">
 	                </td>
 					
 					<tr><td>
-                    <label for = "evaluation::minimum_clusters"> Minimum number of clusters:   </label>
+                    <label for = "evaluation::minimum_clusters" style="float:right;"> Minimum number of clusters:   </label>
                     </td><td>
                     <input class = "parameter spinner_widget" id="evaluation::minimum_clusters" value = "10"></br>
 	                </td></tr>    
                     
                     <tr><td>
-                    <label for = "evaluation::maximum_clusters" class="left_column"> Maximum number of clusters:   </label>
+                    <label for = "evaluation::maximum_clusters" style="float:right;"> Maximum number of clusters:   </label>
                    	</td><td>
                    	<input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30"></br>
                     </td></tr>    
                     
                     <tr><td>
-                    <label for = "evaluation::minimum_cluster_size"> Minimum cluster size (elements):   </label>
+                    <label for = "evaluation::minimum_cluster_size" style="float:right;"> Minimum cluster size (elements):   </label>
                     </td><td>
                     <input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50"></br>
                     </td></tr></table>
                     
-                </div>
-           	</div>
-           	
-           	<div class="step" >
-	           	<div class="step_header">
-					<h2>Which information do you want to get from the clustering?</h2>
+            </div>
+       	</div>
+       	
+       	<div class="step" id ="query-1">
+        	<div class="step_header">
+				<h2>Which information do you want to get from the clustering?</h2>
+			</div>
+
+       	    <div class = "step_body">
+       	    	<label for="query_list"> Queries: </label>
+           		<ul id = "query_list" name = 'query_list' > </ul>
+         	</div>
+       	</div>
+       	
+       	<div class="step" id="criteria-2">
+        	<div class="step_header">
+				<h2>Which criteria do you want to use?</h2>
+			</div>
+
+       	    <div class = "step_body">
+         		<label for="criteria_list"> Evaluation criteria: </label>
+           		<ul id = "criteria_list" name = 'criteria_list' > </ul>
+         	</div>
+       	</div>
+        
+        <!-- ---------- -->
+		<!-- FINAL STEP -->
+		<!-- ---------- -->
+		<div class="step" id="ending">
+        	<div class="step_header">
+				<h2>Go!</h2>
+			</div>
+
+       	    <div class = "step_body">
+         		<div class = "button_widget final_button" id = "script_button">
+         			Download Script 
 				</div>
-				
-           	    <div class = "step_body">
-           	    	<label for="query_list"> Queries: </label>
-               		<ul id = "query_list" name = 'query_list' class="listnotempty"> </ul>
-	            </div>
-           	</div>
-           	
-           	<div class="step" >
-	           	<div class="step_header">
-					<h2>Which criteria do you want to use?</h2>
+				<br>
+				<div class = "button_widget final_button" id = "run_button">
+					Run Locally
 				</div>
-				
-           	    <div class = "step_body">
-	            	<label for="criteria_list"> Evaluation criteria: </label>
-               		<ul id = "criteria_list" name = 'criteria_list' class="listnotempty"> </ul>
-	            </div>
-           	</div>
-           	
-		
+         	</div>
+       	</div>
+       	
 		<!-- ---------- -->
 		<!-- NAVIGATION -->
 		<!-- ---------- -->

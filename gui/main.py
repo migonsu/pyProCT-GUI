@@ -43,6 +43,9 @@ def get_pdb_selection(data):
     selection_string = data['selection']
     base_workspace = data['base']
     
+    if selection_string == "":
+        return "EMPTY"
+    
     # First extract the first frame
     pdb_file_handler = open(pdb_file,"r")
     
@@ -62,12 +65,16 @@ def get_pdb_selection(data):
     open(os.path.join(base_workspace,"tmp_pdb_first_frame"),"w").write(first_frame_lines)
     
     selection = None
-    
     try:
         selection = prody.parsePDB(os.path.join(base_workspace,"tmp_pdb_first_frame")).select(selection_string)
     except prody.SelectionError:
-        return "ERROR"
-        
+        return "ERROR:MalformedSelection"
+    except AttributeError:
+        return "ERROR:MalformedSelection"
+    
+    if selection == None or len(selection.getCoordsets()) == 0:
+        return "ERROR:ImproductiveSelection"
+    
     selection_coordsets = selection.getCoordsets()[0]
     number_of_atoms = len(selection_coordsets)
     atom_elements = selection.getElements()
@@ -101,11 +108,8 @@ if __name__ == '__main__':
         def do_selection(self,data):
             data = convert_to_utf8(json.loads(data))
             print data
-            #try:
             self.wfile.write(get_pdb_selection(data))
-            #except:
-            #    self.wfile.write("ERROR")
-        
+
         def browse_folder(self, data):
             chunks = data.split("=")
             print "Browsing", chunks[1]
