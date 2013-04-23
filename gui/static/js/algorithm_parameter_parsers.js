@@ -361,11 +361,12 @@ function get_value_of(of_this_control, type){
         
         case "list:int":
             return parse_list( of_this_control, parseInt);
-        
-        case "file":
-            console.log($(of_this_control).prop('files'));
-            var filename = $(of_this_control).val().replace(/C:\\fakepath\\/i, '').replace(/\\/i, '/');
-            return filename;
+            
+        case "list":
+        	return $(of_this_control).dynamiclist("getItems");
+        	
+        case "list:criteria":
+        	return parse_criteria_tags($(of_this_control).dynamiclist("getItems"));
         
         case "text":
             return $(of_this_control).val();
@@ -381,18 +382,6 @@ function get_value_of(of_this_control, type){
         
         case "float":
             return parseFloat($(of_this_control).val());
-        
-        case "number":
-            return $(of_this_control).val();
-
-        case "tags":
-            return $(of_this_control).tagit("assignedTags");
-        
-        case "tags::string":
-            return $(of_this_control).tagit("assignedTags");
-        
-        case "tags:criteria":
-            return parse_criteria_tags($(of_this_control).tagit("assignedTags"));
         
         default:
             return $(of_this_control).val();

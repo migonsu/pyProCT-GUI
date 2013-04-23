@@ -16,7 +16,7 @@ DynamicList = function(listPartSelector, height, buttons){
     
     // add hidden input
     this.input_field_id = this.list_part_id+"_text_container";
-    this.input_field = $("<input type='text' id='"+this.input_field_id+"' name='"+this.list_part_id+"' style='width:2px;' hidden>");
+    this.input_field = $("<input type='text' id='"+this.input_field_id+"' style='width:2px;' hidden>");
     $(this.list_part_selector).append(this.input_field);
     this.input_field.addClass(list_class);
     
@@ -55,7 +55,18 @@ DynamicList.prototype.isAlreadyInTheList = function(value){
 		}
 	}
 	return false;
-}
+};
+
+DynamicList.prototype.getItems = function(){
+	var items = this.value().split(",");
+	if(items == ""){
+		return [];
+	}
+	else{
+		return items;
+	}
+};
+
 DynamicList.prototype.addUniqueElement = function(element){
     if(! this.isAlreadyInTheList(element)){
     	this.addElement(element)
@@ -94,7 +105,6 @@ $(function() {
       
       // Triggered when building the widget
       _create: function() {
-    	console.log("creating "+this.element.attr("id"));
         this.list_handler = new DynamicList("#"+this.element.attr("id"),this.options.height,this.options.buttons);
       },
  
@@ -114,6 +124,10 @@ $(function() {
       
       getValue: function(){
     	  return this.list_handler.value();
+      },
+      
+      getItems: function(){
+    	  return this.list_handler.getItems();
       }
     });
 });

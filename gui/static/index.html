@@ -49,6 +49,7 @@
     <script type="text/javascript" src="js/definitions/algorithm_definitions.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/definitions/query_and_criteria_definitions.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/definitions/base_parameters_definition.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/definitions/parameter_name_dic.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/parameter_sintatic_checking.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/algorithm_parameter_parsers.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/dialogs.js" charset="utf-8"></script>
@@ -391,9 +392,9 @@
 			    },
 			    // Where to go in transitions
 			    transitions: {
-				    'matrix-creation-options': function( $step, action ) {
+				    'matrix_creation_options': function( $step, action ) {
 					    // The branch to go changes to reflect your choice.
-					    var branch = $step.find("[name=matrix-creation-options]:checked").val();
+					    var branch = $step.find("[name=matrix_creation_options]:checked").val();
 					    return branch;
 				    }
 			    }
@@ -402,7 +403,32 @@
 	        .validate();
 
             $("#run_button").button("option", "icons",{primary:"ui-icon-gear"});
-        	$("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
+            $("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
+            
+            $("#script_button").click(function(){
+            	var parameters = {};
+            	$(".parameter").each(function(){
+            		var id = $(this).attr("id");
+            		if(typeof parameter_descriptions[id] == "undefined"){
+            			id = $(this).attr("name");
+            			if(typeof parameter_descriptions[id] == "undefined"){
+            				return;
+            			}
+            		}
+	            	
+            		var description = parameter_descriptions[id];
+            		console.log(id,description,$(this).html());
+                    set_parameters_entry(
+                    		parameters, 
+                    		description.maps_to.split(":"), 
+                    		0, 
+                    		get_value_of($(this), description.type));
+            	});
+            	console.log(parameters);
+            });
+            
+            var test = ["Minimize CythonSilhouette (weigth: 0.05) and Minimize PCAanalysis (weigth: 0.05)","Minimize lolize (weigth: 0.05)"]
+            console.log("XXXXX",parse_criteria_tags(test))
     	}); 
         
     </script>
@@ -430,7 +456,8 @@
 			<div class = "step_body">		
 				<div id="action_group_wrapper">
 					<label for="action_clusters">
-						<input type="radio" id = "action_clusters" name="action_group" value ="clustering" checked/> 
+						<input type="radio" id = "action_clustering" name="action_group" value ="clustering" 
+						class = "parameter" checked/> 
 					Get clusters from a set of trajectories</label> </br>
 						
 					<label for="action_compress">
@@ -458,10 +485,12 @@
 				<tr><td style="width: 25%;">
 				<label for="workspace_base" style="float:right;"> Project folder:</label>
 				</td><td style="width: 50%;">
-               	<input class = "text_field_widget required" name="workspace_base" id="workspace_base" type= "text" 
+               	<input class = "parameter required" name="workspace_base" id="workspace_base" type= "text" 
                		style="width:88%;" value = "/home/victor/Escritorio/test" readonly>
                	</td><td style="width: 20%;">
-               	<div class = "button_widget" id = "browse_project_folder_button" > Browse </div>
+               	<div class = "button_widget" id = "browse_project_folder_button" > 
+               		<span class='ui-icon ui-icon-folder-collapsed'></span>
+               	</div>
                	</td></tr>
                	</table>
 			</div>
@@ -477,29 +506,29 @@
             
             <div class = "step_body">
                 <label for="trajectory_list"> Trajectories: </label>
-                <ul id = "trajectory_list" name = 'trajectory_list'> </ul>
+                <ul id = "trajectory_list" name = 'trajectory_list' class="parameter"> </ul>
 			</div>
 		</div>
 		
 		<!-- ---------------- -->
 		<!-- MATRIX OBTENTION -->
 		<!-- ---------------- -->
-		<div class="step" data-state="matrix-creation-options">
+		<div class="step" data-state="matrix_creation_options">
 			<div class="step_header">
 				<h2>Choose how do you want to obtain the matrix:</h2>
 			</div>
 			
 			<div class = "step_body" >
-				<input type="radio" checked id = "matrix::creation::rmsd" name="matrix-creation-options" value ="rmsd"/>
-				<label for = "matrix::creation::rmsd"> Calculate RMSD </label>
+				<input type="radio" checked id = "matrix_creation_rmsd" name="matrix_creation_options" value ="rmsd"/>
+				<label for = "matrix_creation_rmsd"> Calculate RMSD </label>
 				</br>
 				
-				<input type="radio" id = "matrix::creation::distance" name="matrix-creation-options" value ="distance"/>
-				<label for = "matrix::creation::distance">Calculate euclidean distances </label>
+				<input type="radio" id = "matrix_creation_distance" name="matrix_creation_options" value ="distance"/>
+				<label for = "matrix_creation_distance">Calculate euclidean distances </label>
 				</br>
 				
-				<input type="radio" id = "matrix::creation::load" name="matrix-creation-options" value ="load"/>
-				<label for = "matrix::creation::load">Load from disk</label>
+				<input type="radio" id = "matrix_creation_load" name="matrix_creation_options" value ="load"/>
+				<label for = "matrix_creation_load">Load from disk</label>
 				</br>
 			</div>
 		</div>
@@ -582,11 +611,13 @@
 				 <div class = "step_body">
 			 	 	<table>
 					 <tr><td style="width: 20%;">
-					 <label for="matrix_creation_path" style="float:right;"> File: </label>
+					 	<label for="matrix_creation_path" style="float:right;"> File: </label>
 		             </td><td style="width: 60%;">
-		             <input class = "parameter text_field_widget" id="matrix_creation_path" type="text" style="width:90%;" readonly>
+		             	<input class = "parameter text_field_widget" id="matrix_creation_path" type="text" style="width:90%;" readonly>
 		             </td><td style="width: 20%;">
-		             <div class = "button_widget" id = "browse_matrix_button" > Browse </div>
+		            	<div class = "button_widget browse_button" id = "browse_matrix_button" > 
+		            		<span class='ui-icon ui-icon-folder-collapsed'></span>
+		             	</div>
 					 </td></tr>
 					</table>
 				</div>
@@ -618,27 +649,27 @@
 			<div class = "step_body">
 					
 					<table><tr><td>
-		            <label for = "evaluation::maximum_noise" style="float:right;">Maximum noise (%):</label>
+		            <label for = "evaluation_maximum_noise" style="float:right;">Maximum noise (%):</label>
 		            </td><td>
-	                <input class = "parameter spinner_widget" id="evaluation::maximum_noise" value = "15">
+	                <input class = "parameter spinner_widget" id="evaluation_maximum_noise" value = "15">
 	                </td>
 					
 					<tr><td>
-                    <label for = "evaluation::minimum_clusters" style="float:right;"> Minimum number of clusters:   </label>
+                    <label for = "evaluation_minimum_clusters" style="float:right;"> Minimum number of clusters:   </label>
                     </td><td>
-                    <input class = "parameter spinner_widget" id="evaluation::minimum_clusters" value = "10"></br>
+                    <input class = "parameter spinner_widget" id="evaluation_minimum_clusters" value = "10"></br>
 	                </td></tr>    
                     
                     <tr><td>
-                    <label for = "evaluation::maximum_clusters" style="float:right;"> Maximum number of clusters:   </label>
+                    <label for = "evaluation_maximum_clusters" style="float:right;"> Maximum number of clusters:   </label>
                    	</td><td>
-                   	<input class = "parameter spinner_widget" id="evaluation::maximum_clusters" value = "30"></br>
+                   	<input class = "parameter spinner_widget" id="evaluation_maximum_clusters" value = "30"></br>
                     </td></tr>    
                     
                     <tr><td>
-                    <label for = "evaluation::minimum_cluster_size" style="float:right;"> Minimum cluster size (elements):   </label>
+                    <label for = "evaluation_minimum_cluster_size" style="float:right;"> Minimum cluster size (elements):   </label>
                     </td><td>
-                    <input class = "parameter spinner_widget" id="evaluation::minimum_cluster_size" value = "50"></br>
+                    <input class = "parameter spinner_widget" id="evaluation_minimum_cluster_size" value = "50"></br>
                     </td></tr></table>
                     
             </div>
@@ -651,7 +682,7 @@
 
        	    <div class = "step_body">
        	    	<label for="query_list"> Queries: </label>
-           		<ul id = "query_list" name = 'query_list' > </ul>
+           		<ul id = "query_list" name = 'query_list' class="parameter"> </ul>
          	</div>
        	</div>
        	
@@ -662,7 +693,7 @@
 
        	    <div class = "step_body">
          		<label for="criteria_list"> Evaluation criteria: </label>
-           		<ul id = "criteria_list" name = 'criteria_list' > </ul>
+           		<ul id = "criteria_list" name = 'criteria_list' class= "parameter" > </ul>
          	</div>
        	</div>
         
