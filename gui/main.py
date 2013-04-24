@@ -140,8 +140,8 @@ if __name__ == '__main__':
             pass
         
         def save_params_handler(self, data):
-            pass
             data = convert_to_utf8(json.loads(data))
+            print data
             create_directory("scripts")
             my_hash = hashlib.sha1()
             my_hash.update(str(time.time()))

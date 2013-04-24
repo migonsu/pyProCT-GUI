@@ -406,29 +406,11 @@
             $("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
             
             $("#script_button").click(function(){
-            	var parameters = {};
-            	$(".parameter").each(function(){
-            		var id = $(this).attr("id");
-            		if(typeof parameter_descriptions[id] == "undefined"){
-            			id = $(this).attr("name");
-            			if(typeof parameter_descriptions[id] == "undefined"){
-            				return;
-            			}
-            		}
-	            	
-            		var description = parameter_descriptions[id];
-            		console.log(id,description,$(this).html());
-                    set_parameters_entry(
-                    		parameters, 
-                    		description.maps_to.split(":"), 
-                    		0, 
-                    		get_value_of($(this), description.type));
-            	});
-            	console.log(parameters);
+            	var parameters = create_parameters();
+            	ajax_save_script(parameters);
             });
             
-            var test = ["Minimize CythonSilhouette (weigth: 0.05) and Minimize PCAanalysis (weigth: 0.05)","Minimize lolize (weigth: 0.05)"]
-            console.log("XXXXX",parse_criteria_tags(test))
+            console.log(create_parameters())
     	}); 
         
     </script>

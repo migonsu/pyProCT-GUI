@@ -305,6 +305,7 @@ function parse_criteria_tags(list_of_tags){
  **/
 function parse_one_criteria_tag(list_of_tags){
     var parts = list_of_tags.split("and");
+    console.log("parts",parts)
     var criteria_list = [];
     for (var i = 0; i < parts.length; i++){
         criteria_list.push(parse_subcriteria(parts[i]));
@@ -324,16 +325,17 @@ function parse_one_criteria_tag(list_of_tags){
  *
  **/
 function parse_subcriteria(subcriteria_string){
-    var parts = subcriteria_string.split(" ");
+	var regex = /\s*(\w*)\s{1}(\w*)\s{1}\(weigth:\s{1}(\d+\.\d+)\)\s*/
+	var parts = regex.exec(subcriteria_string);
     var subcriteria = {};
     
-    if(parts[0] == "Minimize"){
+    if(parts[1] == "Minimize"){
         subcriteria["action"] = ">";
     }
     else{
         subcriteria["action"] = "<";
     }
-    subcriteria["query"] = parts[1];
+    subcriteria["query"] = parts[2];
     
     subcriteria["weight"] = parseFloat(parts[3]);
     
@@ -366,6 +368,8 @@ function get_value_of(of_this_control, type){
         	return $(of_this_control).dynamiclist("getItems");
         	
         case "list:criteria":
+        	console.log($(of_this_control).dynamiclist("getItems"));
+        	
         	return parse_criteria_tags($(of_this_control).dynamiclist("getItems"));
         
         case "text":
@@ -375,7 +379,8 @@ function get_value_of(of_this_control, type){
             return $(of_this_control).is(":checked");
         
         case "radio":
-            return $(of_this_control).find(":checked").val();
+        	console.log($.find("[name='"+$(of_this_control).attr('name')+"']:checked"))
+            return $.find("[name='"+$(of_this_control).attr('name')+"']:checked").val('value');
         
         case "int":
             return parseInt($(of_this_control).val());
