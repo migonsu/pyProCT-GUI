@@ -6,12 +6,12 @@ function get_parameter_descriptions(){
 		},
 		
 		'workspace_base':{
-			type: 'text_field',
+			type: 'text',
 			maps_to:'workspace:base'
 		},
 		
 		'workspace_results':{
-			type: 'text_field',
+			type: 'text',
 			maps_to:'workspace:results',
 			defaults_to:"results"
 		},
@@ -27,27 +27,27 @@ function get_parameter_descriptions(){
 		},
 		
 		'rmsd_fit_selection':{
-			type:'text_field',
+			type:'text',
 			maps_to:'matrix:parameters:fit_selection'
 		},
 		
 		'rmsd_calc_selection':{
-			type:'text_field',
+			type:'text',
 			maps_to:'matrix:parameters:calc_selection'
 		},
 		
 		'dist_fit_selection':{
-			type:'text_field',
+			type:'text',
 			maps_to:'matrix:parameters:fit_selection'
 		},
 	
 		'dist_calc_selection':{
-			type:'text_field',
+			type:'text',
 			maps_to:'matrix:parameters:body_selection'
 		},
 		
 		'matrix_creation_path':{
-			type:'text_field',
+			type:'text',
 			maps_to:'matrix:parameters:path'
 		},
 		

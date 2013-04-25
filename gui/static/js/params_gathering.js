@@ -51,7 +51,7 @@ function create_parameters(){
 				value = "not defined";
 			}
 		}
-		console.log("PARAM", id_or_name,value,description.maps_to.split(":"))
+		console.log("PARAM", id_or_name,value,description.maps_to.split(":"));
 		set_parameters_entry(
 			        		parameters, 
 			        		description.maps_to.split(":"), 
