@@ -13,14 +13,16 @@
 		<table border='0'><tbody>
         {{#properties}}
         <tr><td>
-            <label for = '{{control_id}}'>{{label}}</label>
+        	<div style="width:200px;">
+            	<label for = '{{control_id}}' style="float:right;">{{label}}</label>
+        	</div>
         </td>
         <td>
             {{! To handle select statements }}
             {{#unless options}}
-                <input id = '{{control_id}}' name ='{{control_id}}' type='{{control_type}}'>
+                <input id = '{{control_id}}' name ='{{control_id}}' type='{{control_type}}' style="width:200px;">
             {{else}}
-                <select id='{{control_id}}' name ='{{control_id}}'>
+                <select id='{{control_id}}' name ='{{control_id}}' style="width:120px;"">
                     {{#each options}}
                     <option> {{this}} </option>
                     {{/each}}

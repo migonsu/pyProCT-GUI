@@ -81,6 +81,57 @@ function get_value_of(of_this_control, type){
 }
 
 /**
+ * 
+ * @param this_field
+ * @param value
+ * @param type
+ */
+function set_value_of(this_field, value, type){
+	switch(type){
+	    case "list:float":
+	        $(this_field).val(""+value);
+	        break;
+	    case "list:int":
+	    	$(this_field).val(""+value);
+	        break;
+	    case "list":
+	    	$(this_field).dynamiclist("setItems",
+	    									value);
+	    	break;
+	    case "list:criteria":
+	    	$(this_field).dynamiclist("setItems",
+	    									criteria_object_to_string(value));
+	    	break;
+	    case "checkbox":
+	        $(this_field).prop('checked', value);
+	        break;
+	    case "radio":
+	    	break;
+	    default:
+	    	$(this_field).val(value);
+	}
+}
+function criteria_object_to_string(value){
+	var criteria;
+	var result_strings = [];
+	var current_string;
+	for (criteria_id in value){
+		criteria = value[criteria_id];
+		current_string = "";
+		for (metric_id in criteria){
+			if(criteria[metric_id]["action"] == ">"){
+				current_string += "Maximize ";
+			}
+			else{
+				current_string += "Minimize ";
+			}
+			current_string += metric_id+" (weight: "+criteria[metric_id]["weight"]+") and ";
+		}
+		result_strings.push(current_string.substring(0, current_string.length - 4));
+	}
+	return result_strings;
+}
+/**
  *   Parses the contents of a text control holding a list of numbers description. This list can 
  *   have two forms:
  *  - Comma separated list of numbers Ex. "1, 2, 3, 4"
@@ -199,7 +250,7 @@ function parse_one_criteria(criteria){
  *	@returns {object} Its object representation.
  **/
 function parse_criterium(criterium_string){
-	var regex = /\s*(Minimize|Maximize)\s{1}(\w*)\s{1}\(weigth:\s{1}(\d+\.\d+)\)\s*/;
+	var regex = /\s*(Minimize|Maximize)\s{1}(\w*)\s{1}\(weigth:\s{1}(\d+\.*\d*)\)\s*/;
 	var parts = regex.exec(criterium_string);
     
 	var criterium = {
@@ -224,3 +275,81 @@ function parse_criterium(criterium_string){
     return criterium;    
 }
 
+
+/**
+ *	This function recursively generates a dictionary of objects in order to give a final
+ *	value to its ending tag.
+ *	Example: for a key list ["foo","bar","pi"] and value 3.1415, it will create:
+ *
+ *	{
+ *		"foo":{
+ *			"bar":{
+ *				"pi":3.1415
+ *			}
+ *		}
+ *	}
+ *
+ *	If called again, for instance with key list ["foo","lol"] and value [1,2], the resulting
+ *	object will be:
+ *
+ *  {
+ *		"foo":{
+ *			"bar":{
+ *				"pi":3.1415
+ *			},
+ *			"lol":[1,2]
+ *		}
+ *	}
+ *
+ * @param {object} this_dictionary A dictionary where the new keys and values will be inserted.
+ *
+ * @param {list} key_list The in-depth dictionary key representation
+ *
+ * @param {string|int|float|list|object} value The value the field will have.
+ *
+ * @param {int} key_index Index for recursive handling.
+ */
+function set_dictionary_entry( 	this_dictionary, 
+								key_list, 
+								value,
+								key_index){
+	var index;
+	if (typeof key_index == "undefined"){
+		index = 0;
+	}
+	else{
+		index = key_index;
+	}
+	
+    if (index == key_list.length-1){
+		this_dictionary[key_list[index]] = value;
+    }
+    else{
+    	
+		if(this_dictionary[key_list[index]] == undefined){
+		    this_dictionary[key_list[index]] = {};
+		}
+		
+		set_dictionary_entry(this_dictionary[key_list[index]],
+							key_list, 
+							value,
+							index+1);
+    }
+}
+
+/**
+ * Searches for a document object with the provided id or name.
+ * 
+ * @param id_or_name Name or Id of the field we want to retrieve.
+ * 
+ * @returns {jQuery object | string} The field or "undefined".
+ */
+function find_target_field(id_or_name){
+	var field_by_id = $("[id='"+id_or_name+"']");
+	var field_by_name = $("[name='"+id_or_name+"']");
+	
+	if(field_by_id.length != 0) return field_by_id;
+	if(field_by_name.length != 0) return field_by_name;
+	
+	return "undefined";
+}

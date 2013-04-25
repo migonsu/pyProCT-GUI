@@ -1,9 +1,13 @@
 /**
- *
- *
- *
- *
- **/
+ * Queries if a remote path exists or not.  
+ * 
+ * @param {string} location Is the remote path to be queried.
+ * 
+ * @returns {object} Returns an object composed of the attributes:
+ * 					- exists: True if the path already exists or false otherwise.
+ *                  - isfile: True if the path already exists or false otherwise.
+ *                  - isdir:os.path.isdir(data['locatio
+ */
 function file_exists(location){
     var response = undefined;
     $.ajax({
@@ -28,11 +32,12 @@ function file_exists(location){
 }
 
 /**
- *
- *
- *
- *
- **/
+ * Creates a remote folder.  
+ * 
+ * @param {string} location Remote path to this folder.
+ * @returns {object} Returns an object composed of the attributes:
+ * 					- done: Which is true if the folder was created.
+ */
 function create_folder(location){
     var response = undefined;
     $.ajax({

@@ -41,6 +41,11 @@ DynamicList.prototype.deleteSelectedElements = function (){
      this.refreshInput();
 };
 
+DynamicList.prototype.clear = function (){
+    $(this.list_part_selector+" li").remove();
+    this.refreshInput();
+};
+
 DynamicList.prototype.addElement = function(content){
     $(this.list_part_selector).append("<li class = 'dynListItem dynListNotSelected'>"+content+"</li>");
     this.addListeners();
@@ -118,7 +123,7 @@ $(function() {
       },
       
       isEmpty: function(){
-    	  console.log(this.getValue())
+    	  console.log(this.getValue());
     	  return this.getValue() == ""; 
       },
       
@@ -128,6 +133,21 @@ $(function() {
       
       getItems: function(){
     	  return this.list_handler.getItems();
+      },
+      
+      setItems: function(item_list){
+    	  this.list_handler.clear();
+    	  for(var i =0; i < item_list.length; i++){
+    		  this.list_handler.addElement(item_list[i]);
+    	  }
+      },
+      
+      addItem: function(item){
+    	  this.list_handler.addElement(item);
+      },
+      
+      addUniqueItem: function(item){
+    	  this.list_handler.addUniqueElement(item);
       }
     });
 });
