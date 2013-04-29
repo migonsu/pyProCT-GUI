@@ -76,7 +76,7 @@ function get_parameter_descriptions(){
 		
 		'dist_fit_selection':{
 			type:'text',
-			maps_to:'matrix:parameters:fit_selection'
+			maps_to:'matrix:parameters:dist_fit_selection'
 		},
 	
 		'dist_calc_selection':{
@@ -131,12 +131,12 @@ function get_parameter_descriptions(){
 			defaults_to: {
 							"criteria_0": { "CythonSilhouette":{"action": ">","weight": 0.9},
                                          	"PCAanalysis":{"action": "<","weight": 1},          
-                                         	"NormNCut":{"action": ">","weight": 0.3}
-							} ,
+                                         	"CythonNormNCut":{"action": ">","weight": 0.3}
+							},
 							"criteria_1": {	"CythonSilhouette":{"action": ">","weight": 0.8},
 											"PCAanalysis":{"action": "<","weight": 1},
 											"CythonMirrorCohesion":{"action": ">","weight": 0.2},
-											"NormNCut":{"action": ">","weight": 0.1}
+											"CythonNormNCut":{"action": ">","weight": 0.1}
 							}
 			}
 		},
@@ -149,9 +149,9 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'gromos_algorithm_default_auto':{
+		'guess_params_gromos':{
 			maps_to:'clustering:algorithms:gromos:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 		'hierarchical_algorithm_default_use':{
@@ -159,9 +159,9 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'hierarchical_algorithm_default_auto':{
+		'guess_params_hierarchical':{
 			maps_to:'clustering:algorithms:hierarchical:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 		'kmedoids_algorithm_default_use':{
@@ -169,9 +169,9 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'kmedoids_algorithm_default_auto':{
+		'guess_params_kmedoids':{
 			maps_to:'clustering:algorithms:kmedoids:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 		'spectral_algorithm_default_use':{
@@ -179,9 +179,14 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'spectral_algorithm_default_auto':{
+		'spectral_algorithm_sigma':{
+			maps_to:'clustering:algorithms:spectral:sigma',
+			defaults_to: 1.0
+		},
+		
+		'guess_params_spectral':{
 			maps_to:'clustering:algorithms:spectral:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 		'dbscan_algorithm_default_use':{
@@ -189,9 +194,9 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'dbscan_algorithm_default_auto':{
+		'guess_params_dbscan':{
 			maps_to:'clustering:algorithms:dbscan:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 		'random_algorithm_default_use':{
@@ -199,9 +204,9 @@ function get_parameter_descriptions(){
 			defaults_to: false
 		},
 		
-		'random_algorithm_default_auto':{
+		'guess_params_random':{
 			maps_to:'clustering:algorithms:random:auto',
-			defaults_to: false
+			defaults_to: true
 		},
 		
 //		

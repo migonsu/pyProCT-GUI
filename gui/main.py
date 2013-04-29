@@ -17,6 +17,10 @@ from pyproclust.tools.scriptTools import create_directory
 import urllib
 import prody
 import urllib2
+from pyproclust.driver.driver import Driver
+from pyproclust.driver.parameters import ProtocolParameters
+from pyproclust.driver.observer.observer import Observer
+import threading
 
 def browsing_connector(root_folder):
     print root_folder
@@ -87,9 +91,51 @@ def get_pdb_selection(data):
             initial_string+=("%10.5f"%coord).rjust(15)
         lines.append(initial_string+"\n")
     return urllib2.quote("".join(lines))
+
+
+class StatusListener(threading.Thread):
     
+    def __init__(self,data_source, status):
+        super(StatusListener, self).__init__()
+        self._stop = threading.Event()
+        self.data_source = data_source
+        self.status = status
+        
+    def stop(self):
+        self._stop.set()
+        self.data_source.notify("Main","Stop","Finished")
+
+    def stopped(self):
+        return self._stop.isSet()
+    
+    def run(self):
+        while not self.stopped():
+            self.data_source.data_change_event.wait()
+            print self.data_source.data
+            self.status["lol"] += 1
+            self.data_source.data_change_event.clear()
+            if self.data_source.data.contents["action"] == "SHUTDOWN":
+                break
+        self.status["lol"] = -1
+
+class ExecutionThread(threading.Thread):
+    def __init__(self, observer, status_listener, parameters):
+        super(ExecutionThread, self).__init__()
+        self.observer = observer
+        self.parameters = parameters
+        self.finished = False
+        self.status_listener = status_listener
+        
+    def run(self):
+        print "running"
+        Driver(self.observer).run(self.parameters)
+        self.status_listener.stop()
+        self.finished = True
+        
 if __name__ == '__main__':
     
+    status = {"lol":1}
+    status_listener = None
     class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         """
         Very simple implementation of a Request handler which only accepts POST requests.
@@ -98,6 +144,7 @@ if __name__ == '__main__':
         def get_handlers(self):
             return {
                     "/run": self.run_handler,
+                    "/run_update_status": self.run_update_status,
                     "/save_params": self.save_params_handler,
                     "/file_exists": self.file_exists_handler,
                     "/create_directory": self.create_directory,
@@ -133,11 +180,30 @@ if __name__ == '__main__':
                 self.wfile.write(json.dumps({"done":False}))
            
         def run_handler(self, data):
-#            parameters = ProtocolParameters.get_params_from_json(data)#
-#            print parameters
-#            protocol = Protocol()
-#            protocol.run(parameters)
-            pass
+            json_script = convert_to_utf8(json.loads(data))
+            print json_script
+            parameters = None
+            try:
+                parameters = ProtocolParameters(json_script)
+            except ValueError:
+                self.wfile.write(json.dumps({"exit_status":"Malformed json script."}))
+            
+            observer = Observer()
+            
+            global status 
+            status = {"lol":1}
+            print "Creating threads"
+            global status_listener
+            status_listener=StatusListener(observer, status)
+            status_listener.start()
+            self.executor = ExecutionThread(observer, status_listener, parameters)
+            self.executor.start()
+            
+        def run_update_status(self,data):
+            #try:
+            self.wfile.write(json.dumps(status_listener.status))
+            #except:
+            #    print "WARNING STATUS REQUESTED BEFORE EXISTS"
         
         def save_params_handler(self, data):
             data = convert_to_utf8(json.loads(data))
@@ -164,6 +230,6 @@ if __name__ == '__main__':
     Handler = ServerHandler
     SocketServer.TCPServer.allow_reuse_address = True
     httpd = SocketServer.TCPServer(("localhost", PORT), Handler)
-    webbrowser.open("http://127.0.0.1:8000", new=0, autoraise=True)
+    webbrowser.open("http://127.0.0.1:8000", new = 0, autoraise=True)
     print "Serving at port", PORT
     httpd.serve_forever()

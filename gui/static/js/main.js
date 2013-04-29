@@ -18,13 +18,10 @@ function main_function(){
     		clustering_algorithm_titles, 
     		get_algorithm_parameters_definition(), 
     		algorithm_wizard_steps);
-    
 
     /////////////////////////////
     // APPEARANCE
     /////////////////////////////
-    
-    
     // Selection widgets
     $("select").selectmenu();
  

@@ -20,7 +20,9 @@ function create_parameters(selected_algorithms){
 			value = get_value_of(field, description.type);
 		}
 		else{
-			if (typeof description.defaults_to !== "undefined"){
+			console.log("Is ",description.maps_to ,"already defined?", is_defined(parameters,description.maps_to.split(":")))
+			if (typeof description.defaults_to !== "undefined" 
+				&& !is_defined(parameters,description.maps_to.split(":"))){
 				value = description.defaults_to;
 			}
 			else{
@@ -38,24 +40,25 @@ function create_parameters(selected_algorithms){
 	console.log(selected_algorithms);
 	for(var i = 0; i < selected_algorithms.length; i++){
 		algorithm_type = clustering_algorithm_title_reverse[selected_algorithms[i]];
+		set_dictionary_entry(
+				parameters, 
+				["clustering","algorithms",algorithm_type,"use"],
+				true);
 		parameter_parser = get_algorithm_parameter_parsers(algorithm_type);
 		algorithm_field = find_target_field("algorithm-"+algorithm_type);
 		// Do we want pyProClust to calculate the parameters itself?
 		guess_params_checkbox = algorithm_field.find("#guess_params_"+algorithm_type);
-		if(guess_params_checkbox.is(":checked")){
-			set_dictionary_entry(parameters,["clustering","algorithms",algorithm_type,""],true);
-		}
-		else{
+		if(!guess_params_checkbox.is(":checked")){
 			set_dictionary_entry(
 					parameters, 
 					["clustering","algorithms",algorithm_type,"parameters"],
 					parameter_parser(algorithm_field));
 		}
-		
 	}
 	
 	return parameters;
 }
+
 
 function set_defaults_to_fields(){
 	var parameter_descriptions = get_parameter_descriptions();

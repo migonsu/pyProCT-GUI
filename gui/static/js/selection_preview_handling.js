@@ -48,8 +48,6 @@ function create_previewer(
     	console.log("#"+previewers[i].input_id)
     	var input_field_c_id = "#"+previewers[i].input_id;
 	    
-    	$(input_field_c_id).val("all");
-	    
 	    $(input_field_c_id).keypress(function(event) {
 			if (event.which == 13 ) {
 				event.preventDefault();

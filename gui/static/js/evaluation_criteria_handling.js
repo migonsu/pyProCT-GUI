@@ -63,7 +63,7 @@ function criteria_to_string(dialog_to_extract_data, criteria_list){
         if (weight != 0){
             // Maximize or minimize?
             var min_max = $("#"+criteria_name+"_listbox").val();
-            string_criteria += min_max + " " + criteria_name + " (weigth: "+ weight + ") and "   
+            string_criteria += min_max + " " + criteria_name + " (weight: "+ weight + ") and "   
         }
     }
     // remove last and return

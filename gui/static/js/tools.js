@@ -56,9 +56,10 @@ function get_value_of(of_this_control, type){
         case "list:criteria":
         	console.log($(of_this_control).dynamiclist("getItems"));
         	
-        	return parse_criteria_tags($(of_this_control).dynamiclist("getItems"));
+        	return parse_criteria($(of_this_control).dynamiclist("getItems"));
         
         case "text":
+        	console.log("TEXT",of_this_control.attr("id"), of_this_control.val(), $(of_this_control).val())
             return $(of_this_control).val();
         
         case "checkbox":
@@ -81,10 +82,11 @@ function get_value_of(of_this_control, type){
 }
 
 /**
+ * 	Sets the value of a field (jQuery object).
  * 
- * @param this_field
- * @param value
- * @param type
+ * @param {jQuery Object} this_field Field to set its value.
+ * @param value The value we want to set.
+ * @param {String} type Type of the field.
  */
 function set_value_of(this_field, value, type){
 	switch(type){
@@ -111,7 +113,16 @@ function set_value_of(this_field, value, type){
 	    	$(this_field).val(value);
 	}
 }
-function criteria_object_to_string(value){
+
+/**
+ * Converts a crieria object (as the one in parameters) to strings. Is the opposite operation of
+ * 'parse_criteria' .
+ * 
+ * @param {Object} value An object of objects containing all the criteria.
+ * 
+ * @returns {Array} List containing the string representation of each criteria. 
+ */
+function criteria_object_to_string (value){
 	var criteria;
 	var result_strings = [];
 	var current_string;
@@ -137,12 +148,12 @@ function criteria_object_to_string(value){
  *  - Comma separated list of numbers Ex. "1, 2, 3, 4"
  *  - Range with this form : start, end : step  Ex. "4, 14 :2"  = "4, 6, 8, 10, 12"
  *   
- *   @param {string} in_this_control The control holding the list.
+ *   @param {String} in_this_control The control holding the list.
  *
- *   @param {function} using_this_conversor Function that, given a string, returns its numeric 
+ *   @param {Function} using_this_conversor Function that, given a string, returns its numeric 
  *   representation (Ex. parseInt)
  *
- *   @returns {list} The expected list of numbers.    
+ *   @returns {Array} The expected list of numbers.    
  **/
 function parse_list( in_this_control, using_this_conversor){
     
@@ -204,14 +215,29 @@ function parse_list( in_this_control, using_this_conversor){
 }
 
 /**
+ * Checks if a list in string format is ok or not.
+ * 
+ * @param {String} string_list String representation of a list.
+ * 
+ * @returns {Boolean}  Whether if the string list has list format or not.
+ */
+function has_list_format( string_list ){
+	var list =  /\s*(?:\d+\.*\d*)\s*(?:,{1}\s*(?:\d+\.*\d*)\s*)*\s*$/;
+	var compressed_list = /\s*\d+\.*\d*\s*,{1}\s*\d+\.*\d*\s*:\s*\d+\.*\d*\s*$/;
+	console.log(list.test(string_list)) 
+	console.log(compressed_list.test(string_list))
+	return list.test(string_list) || compressed_list.test(string_list);
+}
+
+/**
  *	Given a list of string representations of criteria, creates a dictionary of objects defining them.
  *
- *	@param {list} list_of_criteria Is the list of string representations of criteria.
+ *	@param {Array} list_of_criteria Is the list of string representations of criteria.
  *
- *	@returns {object} An object indexed by criteria name with the criteria representations.
+ *	@returns {Object} An object indexed by criteria name with the criteria representations.
  *
  **/
-function parse_criteria_tags(list_of_criteria){
+function parse_criteria(list_of_criteria){
     var all_criteria = {};
     for (var i = 0; i < list_of_criteria.length; i++){
         all_criteria["criteria_"+i] = parse_one_criteria(list_of_criteria[i]);
@@ -222,9 +248,9 @@ function parse_criteria_tags(list_of_criteria){
 /**
  *	Converts one criteria string into a criteria object.
  *
- *	@param {string} criteria String representation of a criteria (and separated list).
+ *	@param {String} criteria String representation of a criteria (and separated list).
  *
- *	@returns {object} The object representation of that criteria.
+ *	@returns {Object} The object representation of that criteria.
  **/
 function parse_one_criteria(criteria){
     var criterium_strings = criteria.split("and");
@@ -245,14 +271,15 @@ function parse_one_criteria(criteria){
 /**
  *	Transforms one criterium into its object representation.
  *
- *	@param {string} criterium The criterium we want to convert.
+ *	@param {String} criterium The criterium we want to convert.
  *
- *	@returns {object} Its object representation.
+ *	@returns {Object} Its object representation.
  **/
 function parse_criterium(criterium_string){
-	var regex = /\s*(Minimize|Maximize)\s{1}(\w*)\s{1}\(weigth:\s{1}(\d+\.*\d*)\)\s*/;
+	console.log("criterium sring", criterium_string);
+	var regex = /\s*(Minimize|Maximize)\s{1}(\w*)\s{1}\(weight:\s{1}(\d+\.*\d*)\)\s*/;
 	var parts = regex.exec(criterium_string);
-    
+    console.log("criterium PARTS", parts);
 	var criterium = {
     		"query": "undefined",
     		"action":"undefined",
@@ -301,13 +328,13 @@ function parse_criterium(criterium_string){
  *		}
  *	}
  *
- * @param {object} this_dictionary A dictionary where the new keys and values will be inserted.
+ * @param {Object} this_dictionary A dictionary where the new keys and values will be inserted.
  *
- * @param {list} key_list The in-depth dictionary key representation
+ * @param {Array} key_list The in-depth dictionary key representation
  *
- * @param {string|int|float|list|object} value The value the field will have.
+ * @param {String|Int|Float|List|Object} value The value the field will have.
  *
- * @param {int} key_index Index for recursive handling.
+ * @param {Int} key_index Index for recursive handling.
  */
 function set_dictionary_entry( 	this_dictionary, 
 								key_list, 
@@ -340,9 +367,9 @@ function set_dictionary_entry( 	this_dictionary,
 /**
  * Searches for a document object with the provided id or name.
  * 
- * @param id_or_name Name or Id of the field we want to retrieve.
+ * @param {String} id_or_name Name or Id of the field we want to retrieve.
  * 
- * @returns {jQuery object | string} The field or "undefined".
+ * @returns {jQuery Object | String} The field or "undefined".
  */
 function find_target_field(id_or_name){
 	var field_by_id = $("[id='"+id_or_name+"']");
@@ -352,4 +379,23 @@ function find_target_field(id_or_name){
 	if(field_by_name.length != 0) return field_by_name;
 	
 	return "undefined";
+}
+
+
+function is_defined(dict, in_depth_keys, index){
+	var f_index = 0;
+	
+	if(typeof index !== "undefined"){
+		f_index = index;
+	}
+	if (index == in_depth_keys.length){
+		return true;
+	}
+	
+	if (typeof dict[in_depth_keys] == "undefined"){
+		return false;
+	}
+	else{
+		return is_defined(dict, in_depth_keys, index+1);
+	}
 }

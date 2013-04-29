@@ -4,11 +4,8 @@
 	</div>
 	
 	<div class = "step_body">
-		<table border='0'><tbody> <tr> <td>
-		<input checked='checked' id='guess_params_{{id}}' name ='guess_params_{{id}}'  type='checkbox'>
-        </td><td>
-        <label>Let the software guess the best parameters</label>
-        </td></tr></tbody></table> 
+		<input checked='checked' id='guess_params_{{id}}' name ='guess_params'  type='checkbox'>
+        <label id='guess_label' for='guess_params_{{id}}'>Let the software guess the best parameters</label>
 		
 		<table border='0'><tbody>
         {{#properties}}

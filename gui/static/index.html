@@ -74,8 +74,8 @@
 		 	//******************************
             $("#trajectory_list").dynamiclist({height:150,buttons:["Add","Remove"]});
             var dl = $("#trajectory_list").dynamiclist("getListHandler");
-            dl.addElement('/home/victor/Desktop/test/1M94.pdb');
-            //dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
+            //dl.addElement('/home/victor/Desktop/test/1M94.pdb');
+            dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
             dl.buttons["Add"].click(function(){
             	var callback = function(value){
             		dl.addElement(value);
@@ -306,9 +306,46 @@
 			            	else{
 			            		warning_dialog ("You have to add at least one clustering algorithm.");
 			            	}
-			            	
 			           		break;
-			            
+
+			            case 'algorithm-gromos':
+			            case 'algorithm-hierarchical':
+			            case 'algorithm-random':
+			            case 'algorithm-spectral':
+			            case 'algorithm-dbscan':
+			            case 'algorithm-kmedoids':
+			            	var cbox = step.find("[name='guess_params']");
+			            	if(cbox.is(":checked")){
+			            		return true;
+			            	}
+			            	else{
+			            		var a_list_is_incorrect = false;
+			            		
+			            		step.find(":text").each(function(){
+			            			if(!a_list_is_incorrect){
+				            			if($(this).val() == ""){
+				            				warning_dialog ("List must have at least one element.");
+				            				a_list_is_incorrect = true;
+				            				return;
+				            			}
+				            			else{
+				            				console.log($(this).val());
+				            				if(!has_list_format($(this).val())){
+				            					a_list_is_incorrect = true;
+				            					warning_dialog ("List has not the correct format.");
+				            					return;
+				            				}
+				            			}
+			            			}
+			            			else{
+			            				return;
+			            			}
+			            		});
+			            		
+			            		return ! a_list_is_incorrect;
+			            	}
+			            	break;
+			            	
 			            case 'criteria-2':
 			            	if ($("#criteria_list").dynamiclist("isEmpty")){
 			            		warning_dialog ("You need to define at least one selection criterium.");
@@ -393,8 +430,12 @@
 	        .validate();
 
             $("#run_button").button("option", "icons",{primary:"ui-icon-gear"});
+            $("#run_button").click(function(){
+            	var parameters = create_parameters(selected_algorithms);
+            	ajax_run_script(parameters);
+            });
+
             $("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
-            
             $("#script_button").click(function(){
             	var parameters = create_parameters(selected_algorithms);
             	ajax_save_script(parameters);
@@ -412,7 +453,29 @@
 								"NormNCut":{"action": ">","weight": 0.1}
 				}
             }));
+            
+		      
+            $("[name='guess_params']").each(function(){
+            	$(this).parent().find("label[id!='guess_label']").addClass("disabled");
+        		$(this).parent().find(":text").button("disable");
+        		$(this).parent().find("select").selectmenu('disable');
+            });
+            
+            $("[name='guess_params']").click(function(){
+            	if($(this).is(":checked")){
+            		$(this).parent().find("label[id!='guess_label']").addClass("disabled");
+            		$(this).parent().find(":text").button("disable");
+            		$(this).parent().find("select").selectmenu('disable');
+            	}
+            	else{
+            		$(this).parent().find("label").removeClass("disabled");
+            		$(this).parent().find(":text").button('enable');
+            		$(this).parent().find("select").selectmenu('enable');
+            	}
+            });
             set_defaults_to_fields();
+            create_parameters(selected_algorithms);
+            console.log($.find("[name='guess_params']"))
     	}); 
         
     </script>
@@ -470,7 +533,7 @@
 				<label for="workspace_base" style="float:right;"> Project folder:</label>
 				</td><td style="width: 50%;">
                	<input class = "parameter required" name="workspace_base" id="workspace_base" type= "text" 
-               		style="width:88%;" value = "/home/victor/Desktop/test" readonly>
+               		style="width:88%;" value = "/home/victor/Escritorio/test" readonly>
                	</td><td style="width: 20%;">
                	<div class = "button_widget" id = "browse_project_folder_button" > 
                		<span class='ui-icon ui-icon-folder-collapsed'></span>
