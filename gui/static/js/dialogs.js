@@ -19,30 +19,29 @@ function browsing_dialog(target, ok_callback){
         <div id = 'browsing_area' class='fileBrowserWrapper'>\
         </div>\
        </div>")
-    .dialog(
-            {
+    .dialog({
                 modal:true, 
                 autoResize:true,
                 width:'auto',
                 close: function( event, ui ){
                     $(this).dialog("destroy");
-            },
-            buttons: [
-                        { 
-                            text: "Ok",
-                            click: function() { 
-                            	ok_callback($("#selected_file_or_folder").text());
-                                $(this).dialog("destroy");
-                            
-                            }
-                        },
-                        {
-                            text: "Cancel",
-                            click: function() { 
-                                $(this).dialog("destroy");
-                            }
-                        }
-            ]
+                },
+	            buttons: [
+	                        { 
+	                            text: "Ok",
+	                            click: function() { 
+	                            	ok_callback($("#selected_file_or_folder").text());
+	                                $(this).dialog("destroy");
+	                            
+	                            }
+	                        },
+	                        {
+	                            text: "Cancel",
+	                            click: function() { 
+	                                $(this).dialog("destroy");
+	                            }
+	                        }
+	            ]
     });
     
     $('.ui-dialog button:nth-child(1)').button('disable');

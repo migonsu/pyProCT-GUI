@@ -10,7 +10,6 @@ import webbrowser
 import json
 import hashlib
 import time
-import os
 import os.path
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
@@ -21,6 +20,9 @@ from pyproclust.driver.driver import Driver
 from pyproclust.driver.parameters import ProtocolParameters
 from pyproclust.driver.observer.observer import Observer
 import threading
+from gui.exceptionThread import ThreadWithExc
+
+
 
 def browsing_connector(root_folder):
     print root_folder
@@ -92,6 +94,14 @@ def get_pdb_selection(data):
         lines.append(initial_string+"\n")
     return urllib2.quote("".join(lines))
 
+def undefined_action(status, action, value):
+    status["status"] = action
+    status["value"] = False
+
+def cluster_search_action(status, action, value):
+    status["status"] = action
+    total = len(value["Ended"])+len(value["Idle"])+len(value["Running"])
+    status["value"] = (len(value["Ended"]) / float(total))*100
 
 class StatusListener(threading.Thread):
     
@@ -109,33 +119,56 @@ class StatusListener(threading.Thread):
         return self._stop.isSet()
     
     def run(self):
+        global ongoing_clustering
+        observable_actions = {
+                              "Matrix calculation": {"label": "Initializing (Matrix Calculation) ...",
+                                                     "function":undefined_action},
+                              "Process List":{"label": "Performing Clustering Exploration...",
+                                              "function": cluster_search_action}
+                              }
         while not self.stopped():
             self.data_source.data_change_event.wait()
             print self.data_source.data
-            self.status["lol"] += 1
+            action = self.data_source.data.contents["action"]
+            value = self.data_source.data.contents["message"]
+            if action in observable_actions:
+                observable_actions[action]["function"](self.status, observable_actions[action]["label"], value)
             self.data_source.data_change_event.clear()
             if self.data_source.data.contents["action"] == "SHUTDOWN":
                 break
-        self.status["lol"] = -1
-
-class ExecutionThread(threading.Thread):
-    def __init__(self, observer, status_listener, parameters):
+        self.status["status"] = "Ended"
+        print "statusListener ended"
+        
+class ExecutionThread(ThreadWithExc):
+    def __init__(self, observer, parameters):
         super(ExecutionThread, self).__init__()
         self.observer = observer
         self.parameters = parameters
-        self.finished = False
-        self.status_listener = status_listener
+        self.status = {"status":"Initializing...","value":False}
+        self.driver = None
+        self.driver_process = None
         
     def run(self):
-        print "running"
-        Driver(self.observer).run(self.parameters)
-        self.status_listener.stop()
-        self.finished = True
+        global ongoing_clustering
+        ongoing_clustering = True
+        self.status_listener = StatusListener(self.observer, self.status)
+        self.status_listener.start()
+        try:
+            self.driver = Driver(self.observer)
+            self.driver.run(self.parameters)
+        except Exception, e:
+            print e
+        finally:
+            self.status_listener.stop()
+            self.observer.notify("ExecutionThread","SHUTDOWN","Driver ended.")
+            ongoing_clustering = False
+            print "Exethread ended"
         
 if __name__ == '__main__':
     
-    status = {"lol":1}
-    status_listener = None
+    executor = None
+    ongoing_clustering = False
+    
     class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         """
         Very simple implementation of a Request handler which only accepts POST requests.
@@ -149,7 +182,8 @@ if __name__ == '__main__':
                     "/file_exists": self.file_exists_handler,
                     "/create_directory": self.create_directory,
                     "/browse_folder":self.browse_folder,
-                    "/do_selection":self.do_selection
+                    "/do_selection":self.do_selection,
+                    "/stop_calculations":self.stop_calculations
             }
         
         def do_selection(self,data):
@@ -190,21 +224,31 @@ if __name__ == '__main__':
             
             observer = Observer()
             
-            global status 
-            status = {"lol":1}
-            print "Creating threads"
-            global status_listener
-            status_listener=StatusListener(observer, status)
-            status_listener.start()
-            self.executor = ExecutionThread(observer, status_listener, parameters)
-            self.executor.start()
+            global executor 
+            global ongoing_clustering
             
-        def run_update_status(self,data):
-            #try:
-            self.wfile.write(json.dumps(status_listener.status))
-            #except:
-            #    print "WARNING STATUS REQUESTED BEFORE EXISTS"
+            if ongoing_clustering == False:
+                executor = ExecutionThread(observer, parameters)
+                executor.start()
+                self.wfile.write("OK")
+            else:
+                self.wfile.write("KO")
+            
+        def run_update_status(self, data):
+            global executor
+            self.wfile.write(json.dumps(executor.status))
         
+        def stop_calculations(self, data):
+            global executor 
+            global ongoing_clustering
+            if ongoing_clustering == True:
+                executor.raiseExc(Exception)
+                time.sleep(5)
+                if executor.is_alive():
+                    self.wfile.write('KO')
+                else:
+                    self.wfile.write('OK')
+
         def save_params_handler(self, data):
             data = convert_to_utf8(json.loads(data))
             print data
@@ -226,10 +270,11 @@ if __name__ == '__main__':
             
     os.system("pwd")
     os.chdir("./static") 
+    IP = "127.0.0.1"
     PORT = 8000
     Handler = ServerHandler
     SocketServer.TCPServer.allow_reuse_address = True
-    httpd = SocketServer.TCPServer(("localhost", PORT), Handler)
-    webbrowser.open("http://127.0.0.1:8000", new = 0, autoraise=True)
+    httpd = SocketServer.TCPServer((IP, PORT), Handler)
+    webbrowser.open("http://"+IP+":"+str(PORT), new = 0, autoraise=True)
     print "Serving at port", PORT
     httpd.serve_forever()

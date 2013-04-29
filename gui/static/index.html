@@ -276,6 +276,9 @@
 					        	warning_dialog ("Fields cannot be empty.");
 								return false;			            		
 			            	}
+		            		if (step.find("#usesamefitandcalc").is(':checked')){
+		            			$("#rmsd_calc_selection").val($("#rmsd_fit_selection").val());
+		            		}
 							return true;				            	
 			            	break;
 			            
