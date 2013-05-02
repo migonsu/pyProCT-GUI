@@ -1,0 +1,48 @@
+<ul id="runDetailsList" class="expList"> <br>Run details<br>
+	<li> Trajectory details <a class = "clik_for_details"> (more)</a>
+		<ul> 
+			<li>PDB files used:<br>
+				{{#trajectories}}
+				&emsp;&emsp;{{source}} , with {{conformations}} conformations and {{atoms}} per conformation.<br>
+				{{/trajectories}}
+			</li>
+		</ul>
+	
+	<ul>
+		<br>
+		<li> Timing <a class = "clik_for_details"> (more)</a>
+			<ul>
+			{{#timing}}
+			<li>{{name}}: {{elapsed}} </li>
+			{{/timing}}
+			</ul>
+		</li>
+	</ul>
+</ul>
+
+<ul id="runSummaryList" class = "expList"> <br>Run summary<br> 
+	<li> We have produced {{total_number_of_clusterings}} clusterings <a class = "clik_for_details"> (more)</a>
+		<ul>
+			{{#number_of_clustering_types}}
+			<li>{{number_of_clusterings}} are of the type {{type}}.</li>
+			{{/number_of_clustering_types}}
+			</br>
+		</ul>
+	</li>
+	
+	<li> {{number_of_rejected_clusterings}} clusterings were rejected <a class = "clik_for_details"> (more)</a>
+		<ul>
+		{{#rejected}}
+		{{type}} with parameteres {{parameters}}. Reason:  {{reason}}
+		{{/rejected}}
+		</ul>
+	</li>
+	
+	<li> <a class = "clik_for_details"> (more)</a>
+	
+	</li>
+	
+	<li> {{number_of_accepted_clusterings}} clusterings were accepted and evaluated <a class = "clik_for_details"> (more)</a>
+		
+	<li>
+</ul>

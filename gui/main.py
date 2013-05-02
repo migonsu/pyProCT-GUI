@@ -21,6 +21,7 @@ from pyproclust.driver.parameters import ProtocolParameters
 from pyproclust.driver.observer.observer import Observer
 import threading
 from gui.exceptionThread import ThreadWithExc
+import traceback
 
 
 
@@ -99,7 +100,21 @@ def undefined_action(status, action, value):
     status["value"] = False
 
 def cluster_search_action(status, action, value):
-    status["status"] = action
+    probe = ""
+    if len(value["Idle"]) != 0:
+        probe = value["Idle"][0]
+    
+    if len(value["Running"]) != 0:
+        probe = value["Running"][0]
+    
+    if len(value["Ended"]) != 0:
+        probe = value["Ended"][0]
+    
+    if "Evaluation" in probe:
+        status["status"] = action[1]
+    else:
+        status["status"] = action[0]
+        
     total = len(value["Ended"])+len(value["Idle"])+len(value["Running"])
     status["value"] = (len(value["Ended"]) / float(total))*100
 
@@ -123,8 +138,10 @@ class StatusListener(threading.Thread):
         observable_actions = {
                               "Matrix calculation": {"label": "Initializing (Matrix Calculation) ...",
                                                      "function":undefined_action},
-                              "Process List":{"label": "Performing Clustering Exploration...",
-                                              "function": cluster_search_action}
+                              "Process List":{"label": ["Performing clustering exploration...",
+                                                        "Evaluating ..."],
+                                              "function": cluster_search_action},
+                              
                               }
         while not self.stopped():
             self.data_source.data_change_event.wait()
@@ -158,6 +175,7 @@ class ExecutionThread(ThreadWithExc):
             self.driver.run(self.parameters)
         except Exception, e:
             print e
+            print traceback.format_exc()
         finally:
             self.status_listener.stop()
             self.observer.notify("ExecutionThread","SHUTDOWN","Driver ended.")
