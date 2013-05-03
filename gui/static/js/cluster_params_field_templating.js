@@ -26,7 +26,7 @@ function get_contents_for(title, clustering_algorithm, algorithm_parameters, tem
         "title": title,
         "properties":algorithm_parameters[clustering_algorithm]
     };
-           
+    
     var template = Handlebars.compile(template_contents);
     return template(data);
 }
