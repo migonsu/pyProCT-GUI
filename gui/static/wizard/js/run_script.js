@@ -10,7 +10,7 @@ function ajax_run_script(parameters){
           
           complete: function(jqXHR, textStatus){
         	  var progress_dialog = $("<div title='Progress' id = 'progress_dialog'>" +
-        	  		"<span id='status_label'>Initializing... </span><br>"+
+        	  		"<span id='status_label'>Initializing... </span></br>"+
         		    "<div id = 'progress_bar' style='width:250px;'>"+
         			"</div></div>")
         	       .dialog({
@@ -66,7 +66,7 @@ function ajax_run_script(parameters){
         	       });
         	  $( "#progress_bar" ).progressbar({ value: false});
         	  $( ".ui-dialog-titlebar-close").remove();
-        	  setTimeout(function(){start_monitoring_run(progress_dialog);},5000);
+        	  setTimeout(function(){start_monitoring_run(progress_dialog, parameters);},5000);
           },
           
           error:function( jqXHR, textStatus, errorThrown ){
@@ -76,7 +76,7 @@ function ajax_run_script(parameters){
 }       
 
 
-function start_monitoring_run( progress_dialog ){
+function start_monitoring_run( progress_dialog, parameters){
 	$.ajax({
 		url: "/run_update_status",
 		type: "POST",
@@ -88,13 +88,44 @@ function start_monitoring_run( progress_dialog ){
 		    	// Then destroy the dialog
 		    	progress_dialog.dialog("destroy");
 		    	// Create the results dialog
+		    	 $("<div title='Results' id = 'results_dialog'>" +
+	        		    "<span id = 'results_string' > Do you want to check the results? </span>"+
+	        			"</div>")
+	        	       .dialog({
+	                       modal:true,
+	                       autoResize:true,
+	                       width:'auto',
+		       	           buttons: [{ 
+  	                            text: "Yes",
+   	                            click: function() {
+   	                            	$.ajax({
+	   	                         		url: "/show_results",
+	   	                         		type: "POST",
+	   	                         		dataType: "text",
+	   	                         		data: JSON.stringify(parameters["workspace"]),
+	   	                         		complete:function(jqXHR, textStatus){
+	   	                         			$("#results_dialog").dialog("destroy");
+	   	                         		},
+	   	                         		error:function(jqXHR, textStatus, errorThrown){
+	   	                         			alert( "Request failed: " + textStatus+". Is the server working?" );
+		                         		}
+	   	                            });
+   	                            }
+		       	           },
+		       	           {
+ 	                            text: "No",
+  	                            click: function(){
+  	                            	$("#results_dialog").dialog("destroy");
+  	                            }
+		       	           }]});
+		       	           
 		    }
 		    else{
 		    	// Capture Status
 		    	progress_dialog.find("#status_label").text(my_response_object["status"]);
 		    	progress_dialog.find("#progress_bar").progressbar("value",my_response_object["value"]);
 		    	setTimeout(function(){
-		    		start_monitoring_run(progress_dialog);
+		    		start_monitoring_run(progress_dialog, parameters);
 		    		},
 		    		3000);
 		    }

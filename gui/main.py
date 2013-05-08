@@ -8,6 +8,7 @@ import json
 import time
 import hashlib
 import os.path
+import urlparse
 import webbrowser
 import SocketServer
 import SimpleHTTPServer
@@ -18,7 +19,8 @@ from pyproclust.driver.observer.observer import Observer
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 from pyproclust.driver.parameters import ProtocolParameters
-import urlparse
+from pyproclust.driver.handlers import trajectoryHandler
+import shutil
 
 if __name__ == '__main__':
     
@@ -39,13 +41,20 @@ if __name__ == '__main__':
                     "/create_directory": self.create_directory,
                     "/browse_folder":self.browse_folder,
                     "/do_selection":self.do_selection,
-                    "/stop_calculations":self.stop_calculations
+                    "/stop_calculations":self.stop_calculations,
+                    "/show_results":self.show_results_handler
             }
         
         def get_handlers(self):
             return {
                     "/serve_file": self.serve_file_handler,
             }
+        
+        
+        
+        #############
+        ##  POST
+        #############
         
         def do_selection(self,data):
             data = convert_to_utf8(json.loads(data))
@@ -120,6 +129,27 @@ if __name__ == '__main__':
             script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
             script_handler.close()
             self.wfile.write('{"file_url":"'+path+'"}')
+            self.wfile.write("OK")
+        
+        def show_results_handler(self, data):
+            print "SHOWING RESULTS"
+            data = convert_to_utf8(json.loads(data))
+            print data
+            create_directory("results/tmp")
+            results_path = os.path.join(data["base"],data["results"],"results.json")
+            shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
+            webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
+
+        def do_POST(self):
+            fp= self.rfile
+            data = fp.read(int(self.headers['Content-Length']))
+            handle = self.post_handlers()[self.path]
+            print "PATH (POST) ", self.path
+            handle(data)
+        
+        #############
+        ##  GET
+        #############
         
         def serve_file_handler(self, query):
             path = query["path"][0]
@@ -136,20 +166,13 @@ if __name__ == '__main__':
             lines = open(path,"r").readlines()
             for l in lines:
                 self.wfile.write(l)
-        
-        def do_POST(self):
-            fp= self.rfile
-            data = fp.read(int(self.headers['Content-Length']))
-            handle = self.post_handlers()[self.path]
-            print "PATH (POST) ", self.path
-            handle(data)
-        
+                
         def do_GET(self):
             parsedParams = urlparse.urlparse(self.path)
             queryParsed = urlparse.parse_qs(parsedParams.query)
             print "PATH (GET) *", self.path,"*",parsedParams.path,"*", parsedParams.query,"*", queryParsed
             if parsedParams.path in self.get_handlers().keys():
-                handler = self.get_handlers()[parsedParams.path];
+                handler = self.get_handlers()[parsedParams.path]
                 handler(queryParsed)
             else:
                 SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self);
@@ -161,6 +184,6 @@ if __name__ == '__main__':
     Handler = ServerHandler
     SocketServer.TCPServer.allow_reuse_address = True
     httpd = SocketServer.TCPServer((IP, PORT), Handler)
-    webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
+    webbrowser.open("http://"+IP+":"+str(PORT), new = 0, autoraise=True)
     print "Serving at port", PORT
     httpd.serve_forever()

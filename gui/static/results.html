@@ -14,20 +14,18 @@
 <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
 
-
 <script>
-
 
 	$(document).ready(function() {
 		var summary_template = load_text_resource_with_ajax("results/templates/summary.template");
 		var evaluation_template = load_text_resource_with_ajax("results/templates/evaluation.template");
 		var files_template = load_text_resource_with_ajax("results/templates/files.template");
-		var example_data = JSON.parse(load_text_resource_with_ajax("example_data.json"));
+		var data = JSON.parse(load_text_resource_with_ajax("results/tmp/data.json"));
 		 
-		var all_clusterings = jQuery.extend({}, example_data["selected"],example_data["not_selected"]);
-		example_data['total_number_of_clusterings'] = Object.keys(all_clusterings).length;
-		example_data['number_of_rejected_clusterings'] = Object.keys(example_data["selected"]).length;
-		example_data['number_of_accepted_clusterings'] = Object.keys(example_data["not_selected"]).length;
+		var all_clusterings = jQuery.extend({}, data["selected"],data["not_selected"]);
+		data['total_number_of_clusterings'] = Object.keys(all_clusterings).length;
+		data['number_of_rejected_clusterings'] = Object.keys(data["selected"]).length;
+		data['number_of_accepted_clusterings'] = Object.keys(data["not_selected"]).length;
 		
 		Handlebars.registerHelper('formatted', function(number) {
 			if(isInt(number)){
@@ -52,28 +50,28 @@
 			}
 		}
 	
-		example_data['number_of_clusterings_by_type'] = [];
+		data['number_of_clusterings_by_type'] = [];
 		for (clustering_type in tmp_data){
-			example_data['number_of_clusterings_by_type'].push({"number_of_clusterings": tmp_data[clustering_type],
+			data['number_of_clusterings_by_type'].push({"number_of_clusterings": tmp_data[clustering_type],
 																"type":clustering_type});
 		}
 		
-		example_data["accepted"] = [];
+		data["accepted"] = [];
 		var accepted_ids = [];
-		for (var clustering_id in example_data["selected"]){
+		for (var clustering_id in data["selected"]){
 			accepted_ids.push({id:clustering_id});
-			var clustering_definition = example_data["selected"][clustering_id];
-			example_data["accepted"].push({ 
+			var clustering_definition = data["selected"][clustering_id];
+			data["accepted"].push({ 
 				id:clustering_id,
 				type:clustering_definition["type"],
 				parameters:JSON.stringify(clustering_definition["parameters"])
 			});
 		}
 		
-		example_data["rejected"] = [];
-		for (var clustering_id in example_data["not_selected"]){
-			var clustering_definition = example_data["not_selected"][clustering_id];
-			example_data["rejected"].push({ 
+		data["rejected"] = [];
+		for (var clustering_id in data["not_selected"]){
+			var clustering_definition = data["not_selected"][clustering_id];
+			data["rejected"].push({ 
 				id:clustering_id,
 				type:clustering_definition["type"],
 				parameters:JSON.stringify(clustering_definition["parameters"]),
@@ -81,20 +79,20 @@
 			});
 		}
 		
-		example_data["evaluation_tags"] = [];
-		for (var evaluation_tag in example_data["selected"][Object.keys(example_data["selected"])[0]]["evaluation"]){
+		data["evaluation_tags"] = [];
+		for (var evaluation_tag in data["selected"][Object.keys(data["selected"])[0]]["evaluation"]){
 			if (evaluation_tag.substr(0,11) !== "Normalized_"){
-				example_data["evaluation_tags"].push({tag:evaluation_tag});
+				data["evaluation_tags"].push({tag:evaluation_tag});
 			}
 		}
 		
-		example_data["evaluations"] = [];
-		for (var clustering_id in example_data["selected"]){
-			var clustering_evaluation = example_data["selected"][clustering_id]["evaluation"];
+		data["evaluations"] = [];
+		for (var clustering_id in data["selected"]){
+			var clustering_evaluation = data["selected"][clustering_id]["evaluation"];
 			var eval_data = {
 				id:clustering_id,
 				values:[],
-				best_clustering : (clustering_id == example_data["best_clustering"])
+				best_clustering : (clustering_id == data["best_clustering"])
 			};
 			for(var evaluation_tag in clustering_evaluation){
 				if (evaluation_tag.substr(0,11) !== "Normalized_"){
@@ -102,35 +100,35 @@
 					eval_data["values"].push({value:value});
 				}
 			}
-			example_data["evaluations"] .push(eval_data);
+			data["evaluations"] .push(eval_data);
 		}
 		
-		example_data["criteria_table_headers"] = accepted_ids;
-		example_data["criteria_table"] = [];
-		for(var criteria_id in example_data["scores"]){
+		data["criteria_table_headers"] = accepted_ids;
+		data["criteria_table"] = [];
+		for(var criteria_id in data["scores"]){
 			var criteria_val = {
 				id : criteria_id,
 				values: []
 			};
 			
 			for(var i =0; i < accepted_ids.length; i++){
-				criteria_val.values.push({value:example_data["scores"][criteria_id][accepted_ids[i]["id"]]});
+				criteria_val.values.push({value:data["scores"][criteria_id][accepted_ids[i]["id"]]});
 			}
 			
-			example_data["criteria_table"].push(criteria_val);			
+			data["criteria_table"].push(criteria_val);			
 		}
 		
 		
     	$("#tabs").tabs();
     	
     	var template = Handlebars.compile(summary_template);
-    	$("#summary-tab").html(template(example_data))
+    	$("#summary-tab").html(template(data))
 
     	template = Handlebars.compile(evaluation_template);
-    	$("#evaluation-tab").html(template(example_data))
+    	$("#evaluation-tab").html(template(data))
     	
     	template = Handlebars.compile(files_template);
-    	$("#files-tab").html(template(example_data))
+    	$("#files-tab").html(template(data))
     	
     	
     	$("#expandList").button();
