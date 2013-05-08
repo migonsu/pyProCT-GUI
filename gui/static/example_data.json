@@ -1,0 +1,199 @@
+{
+    "best_clustering": "clustering_0001",
+    "files": [
+        {
+            "path": "/home/victor/Escritorio/test/results/parameters.json",
+            "description": "Parameters file",
+            "type": "file"
+        },
+        {
+            "path": "/home/victor/Escritorio/test/matrix/statistics.json",
+            "description": "Matrix statistics",
+            "type":"file"
+        }
+    ],
+    "trajectories": [
+        {
+            "source": "/home/victor/Escritorio/test/ubi_9_clusters.pdb",
+            "conformations": 900,
+            "atoms": 1231
+        }
+    ],
+    "selected": {
+        "clustering_0002": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "elements": "0:99"
+                    },
+                    {
+                        "elements": "100:199"
+                    },
+                    {
+                        "elements": "200:299"
+                    },
+                    {
+                        "elements": "300:399"
+                    },
+                    {
+                        "elements": "400:499"
+                    },
+                    {
+                        "elements": "500:599"
+                    },
+                    {
+                        "elements": "600:699"
+                    },
+                    {
+                        "elements": "700:799"
+                    },
+                    {
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 1.0,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.9999999979123689,
+                "Normalized_CythonSilhouette": 1.0,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 2
+            }
+        },
+        "clustering_0001": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "elements": "0:99"
+                    },
+                    {
+                        "elements": "100:199"
+                    },
+                    {
+                        "elements": "200:299"
+                    },
+                    {
+                        "elements": "300:399"
+                    },
+                    {
+                        "elements": "400:499"
+                    },
+                    {
+                        "elements": "500:599"
+                    },
+                    {
+                        "elements": "600:699"
+                    },
+                    {
+                        "elements": "700:799"
+                    },
+                    {
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 1.0,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423427,
+                "Normalized_PCAanalysis": 1.0,
+                "Normalized_CythonSilhouette": 0.9999999999999999,
+                "PCAanalysis": 0.019858198463830436,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1.5
+            }
+        }
+    },
+    "not_selected": {
+        "clustering_0000": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 8
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1
+            }
+        }
+    },
+    "scores": {
+        "criteria_0": {
+            "clustering_0002": 0.9999999979123689,
+            "clustering_0001": 1.0
+        },
+        "criteria_1": {
+            "clustering_0002": 0.9999999979123689,
+            "clustering_0001": 1.0
+        }
+    },
+    "timing": [
+        {
+            "name": "Global",
+            "elapsed": 77.75107288360596
+        },
+        {
+            "name": "Trajectory Loading",
+            "elapsed": 1.988051176071167
+        },
+        {
+            "name": "Matrix Generation",
+            "elapsed": 0.6147770881652832
+        },
+        {
+            "name": "Matrix Save",
+            "elapsed": 0.0010218620300292969
+        },
+        {
+            "name": "Clustering Exploration",
+            "elapsed": 15.070350885391235
+        },
+        {
+            "name": "Clustering Filtering",
+            "elapsed": 0.0013499259948730469
+        },
+        {
+            "name": "Evaluation",
+            "elapsed": 60.01866698265076
+        },
+        {
+            "name": "Selection",
+            "elapsed": 0.00012111663818359375
+        }
+    ]
+}

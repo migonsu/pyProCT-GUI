@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="wizard/css/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="results/css/style.css" media="screen">
+
+<script type="text/javascript" src="wizard/js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
+
+
+<script>
+
+
+	$(document).ready(function() {
+		var summary_template = load_text_resource_with_ajax("results/templates/summary.template");
+		var evaluation_template = load_text_resource_with_ajax("results/templates/evaluation.template");
+		var files_template = load_text_resource_with_ajax("results/templates/files.template");
+		var example_data = JSON.parse(load_text_resource_with_ajax("example_data.json"));
+		 
+		var all_clusterings = jQuery.extend({}, example_data["selected"],example_data["not_selected"]);
+		example_data['total_number_of_clusterings'] = Object.keys(all_clusterings).length;
+		example_data['number_of_rejected_clusterings'] = Object.keys(example_data["selected"]).length;
+		example_data['number_of_accepted_clusterings'] = Object.keys(example_data["not_selected"]).length;
+		
+		Handlebars.registerHelper('formatted', function(number) {
+			if(isInt(number)){
+				return ""+number;
+			}
+			else{
+				return number.toFixed(4);
+			}
+		});
+		
+		
+		var tmp_data = {};
+		
+		for (clustering_id in all_clusterings){
+			var clustering_definition = all_clusterings[clustering_id];
+			var type = clustering_definition["type"];
+			if(tmp_data[type] == undefined){
+				tmp_data[type] = 1;
+			}
+			else{
+				tmp_data[type] += 1;
+			}
+		}
+	
+		example_data['number_of_clusterings_by_type'] = [];
+		for (clustering_type in tmp_data){
+			example_data['number_of_clusterings_by_type'].push({"number_of_clusterings": tmp_data[clustering_type],
+																"type":clustering_type});
+		}
+		
+		example_data["accepted"] = [];
+		var accepted_ids = [];
+		for (var clustering_id in example_data["selected"]){
+			accepted_ids.push({id:clustering_id});
+			var clustering_definition = example_data["selected"][clustering_id];
+			example_data["accepted"].push({ 
+				id:clustering_id,
+				type:clustering_definition["type"],
+				parameters:JSON.stringify(clustering_definition["parameters"])
+			});
+		}
+		
+		example_data["rejected"] = [];
+		for (var clustering_id in example_data["not_selected"]){
+			var clustering_definition = example_data["not_selected"][clustering_id];
+			example_data["rejected"].push({ 
+				id:clustering_id,
+				type:clustering_definition["type"],
+				parameters:JSON.stringify(clustering_definition["parameters"]),
+				reasons: clustering_definition["reasons"]
+			});
+		}
+		
+		example_data["evaluation_tags"] = [];
+		for (var evaluation_tag in example_data["selected"][Object.keys(example_data["selected"])[0]]["evaluation"]){
+			if (evaluation_tag.substr(0,11) !== "Normalized_"){
+				example_data["evaluation_tags"].push({tag:evaluation_tag});
+			}
+		}
+		
+		example_data["evaluations"] = [];
+		for (var clustering_id in example_data["selected"]){
+			var clustering_evaluation = example_data["selected"][clustering_id]["evaluation"];
+			var eval_data = {
+				id:clustering_id,
+				values:[],
+				best_clustering : (clustering_id == example_data["best_clustering"])
+			};
+			for(var evaluation_tag in clustering_evaluation){
+				if (evaluation_tag.substr(0,11) !== "Normalized_"){
+					var value = clustering_evaluation[evaluation_tag];
+					eval_data["values"].push({value:value});
+				}
+			}
+			example_data["evaluations"] .push(eval_data);
+		}
+		
+		example_data["criteria_table_headers"] = accepted_ids;
+		example_data["criteria_table"] = [];
+		for(var criteria_id in example_data["scores"]){
+			var criteria_val = {
+				id : criteria_id,
+				values: []
+			};
+			
+			for(var i =0; i < accepted_ids.length; i++){
+				criteria_val.values.push({value:example_data["scores"][criteria_id][accepted_ids[i]["id"]]});
+			}
+			
+			example_data["criteria_table"].push(criteria_val);			
+		}
+		
+		
+    	$("#tabs").tabs();
+    	
+    	var template = Handlebars.compile(summary_template);
+    	$("#summary-tab").html(template(example_data))
+
+    	template = Handlebars.compile(evaluation_template);
+    	$("#evaluation-tab").html(template(example_data))
+    	
+    	template = Handlebars.compile(files_template);
+    	$("#files-tab").html(template(example_data))
+    	
+    	
+    	$("#expandList").button();
+    	$("#collapseList").button();
+    	
+    	prepareList();
+    	
+    	$(".file_retrieval").click(function(event){
+    		event.preventDefault();
+    		window.location.href = "/serve_file?path="+$(this).attr("href");
+    	});
+	});
+ </script>
+<body>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#summary-tab">Summary</a></li>
+    <li><a href="#evaluation-tab">Evaluation</a></li>
+    <li><a href="#files-tab">Files</a></li>
+  </ul>
+  <div id="summary-tab">
+  </div>
+  <div id="evaluation-tab">
+  </div>
+  <div id="files-tab">
+  </div>
+</div>
+
+
+</body>
+</html>

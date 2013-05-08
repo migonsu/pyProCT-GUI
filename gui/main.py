@@ -4,184 +4,22 @@ Created on 21/01/2013
 @author: victor
 '''
 
-import SimpleHTTPServer
-import SocketServer
-import webbrowser
 import json
-import hashlib
 import time
+import hashlib
 import os.path
+import webbrowser
+import SocketServer
+import SimpleHTTPServer
+from gui.execution import ExecutionThread
+from gui.browsing import browsing_connector
+from gui.pdbSelection import get_pdb_selection
+from pyproclust.driver.observer.observer import Observer
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
-import urllib
-import prody
-import urllib2
-from pyproclust.driver.driver import Driver
 from pyproclust.driver.parameters import ProtocolParameters
-from pyproclust.driver.observer.observer import Observer
-import threading
-from gui.exceptionThread import ThreadWithExc
-import traceback
+import urlparse
 
-
-
-def browsing_connector(root_folder):
-    print root_folder
-    root_folder = root_folder.replace("%2F","/")
-    r=['<ul class="jqueryFileTree" style="display: none;">']
-    r.append('<li class="directory collapsed"><a href="#" rel="%s/..">..</a></li>'%root_folder)
-    try:
-        d=urllib.unquote(root_folder)
-        for f in os.listdir(d):
-            ff=os.path.join(d,f)
-            if os.path.isdir(ff):
-                r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ff,f))
-            else:
-                e=os.path.splitext(f)[1][1:] # get .ext and remove dot
-                r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ff,f))
-        r.append('</ul>')
-    except Exception,e:
-        r.append('Could not load directory: %s' % str(e))
-    r.append('</ul>')
-    return ''.join(r)
-
-def get_pdb_selection(data):
-    pdb_file = data['pdb']
-    selection_string = data['selection']
-    base_workspace = data['base']
-    
-    if selection_string == "":
-        return "EMPTY"
-    
-    # First extract the first frame
-    pdb_file_handler = open(pdb_file,"r")
-    
-    for line in pdb_file_handler:
-        if line[0:5] == "MODEL":
-            break
-        
-    first_frame_lines = line
-    for line in pdb_file_handler:
-        if line[0:5] == "MODEL":
-            break
-        else:
-            first_frame_lines += line
-    
-    first_frame_lines += "ENDMDL\n"
-    pdb_file_handler.close()
-    open(os.path.join(base_workspace,"tmp_pdb_first_frame"),"w").write(first_frame_lines)
-    
-    selection = None
-    try:
-        selection = prody.parsePDB(os.path.join(base_workspace,"tmp_pdb_first_frame")).select(selection_string)
-    except prody.SelectionError:
-        return "ERROR:MalformedSelection"
-    except AttributeError:
-        return "ERROR:MalformedSelection"
-    
-    if selection == None or len(selection.getCoordsets()) == 0:
-        return "ERROR:ImproductiveSelection"
-    
-    selection_coordsets = selection.getCoordsets()[0]
-    number_of_atoms = len(selection_coordsets)
-    atom_elements = selection.getElements()
-
-    lines = ["%d\n"%(number_of_atoms),"%s first frame\n"%(pdb_file)]
-    for i in range(number_of_atoms):
-        initial_string = "  %s"%atom_elements[i]
-        coord_triplet = selection_coordsets[i]
-        for coord in coord_triplet:
-            initial_string+=("%10.5f"%coord).rjust(15)
-        lines.append(initial_string+"\n")
-    return urllib2.quote("".join(lines))
-
-def undefined_action(status, action, value):
-    status["status"] = action
-    status["value"] = False
-
-def cluster_search_action(status, action, value):
-    probe = ""
-    if len(value["Idle"]) != 0:
-        probe = value["Idle"][0]
-    
-    if len(value["Running"]) != 0:
-        probe = value["Running"][0]
-    
-    if len(value["Ended"]) != 0:
-        probe = value["Ended"][0]
-    
-    if "Evaluation" in probe:
-        status["status"] = action[1]
-    else:
-        status["status"] = action[0]
-        
-    total = len(value["Ended"])+len(value["Idle"])+len(value["Running"])
-    status["value"] = (len(value["Ended"]) / float(total))*100
-
-class StatusListener(threading.Thread):
-    
-    def __init__(self,data_source, status):
-        super(StatusListener, self).__init__()
-        self._stop = threading.Event()
-        self.data_source = data_source
-        self.status = status
-        
-    def stop(self):
-        self._stop.set()
-        self.data_source.notify("Main","Stop","Finished")
-
-    def stopped(self):
-        return self._stop.isSet()
-    
-    def run(self):
-        global ongoing_clustering
-        observable_actions = {
-                              "Matrix calculation": {"label": "Initializing (Matrix Calculation) ...",
-                                                     "function":undefined_action},
-                              "Process List":{"label": ["Performing clustering exploration...",
-                                                        "Evaluating ..."],
-                                              "function": cluster_search_action},
-                              
-                              }
-        while not self.stopped():
-            self.data_source.data_change_event.wait()
-            print self.data_source.data
-            action = self.data_source.data.contents["action"]
-            value = self.data_source.data.contents["message"]
-            if action in observable_actions:
-                observable_actions[action]["function"](self.status, observable_actions[action]["label"], value)
-            self.data_source.data_change_event.clear()
-            if self.data_source.data.contents["action"] == "SHUTDOWN":
-                break
-        self.status["status"] = "Ended"
-        print "statusListener ended"
-        
-class ExecutionThread(ThreadWithExc):
-    def __init__(self, observer, parameters):
-        super(ExecutionThread, self).__init__()
-        self.observer = observer
-        self.parameters = parameters
-        self.status = {"status":"Initializing...","value":False}
-        self.driver = None
-        self.driver_process = None
-        
-    def run(self):
-        global ongoing_clustering
-        ongoing_clustering = True
-        self.status_listener = StatusListener(self.observer, self.status)
-        self.status_listener.start()
-        try:
-            self.driver = Driver(self.observer)
-            self.driver.run(self.parameters)
-        except Exception, e:
-            print e
-            print traceback.format_exc()
-        finally:
-            self.status_listener.stop()
-            self.observer.notify("ExecutionThread","SHUTDOWN","Driver ended.")
-            ongoing_clustering = False
-            print "Exethread ended"
-        
 if __name__ == '__main__':
     
     executor = None
@@ -192,7 +30,7 @@ if __name__ == '__main__':
         Very simple implementation of a Request handler which only accepts POST requests.
         """
         
-        def get_handlers(self):
+        def post_handlers(self):
             return {
                     "/run": self.run_handler,
                     "/run_update_status": self.run_update_status,
@@ -202,6 +40,11 @@ if __name__ == '__main__':
                     "/browse_folder":self.browse_folder,
                     "/do_selection":self.do_selection,
                     "/stop_calculations":self.stop_calculations
+            }
+        
+        def get_handlers(self):
+            return {
+                    "/serve_file": self.serve_file_handler,
             }
         
         def do_selection(self,data):
@@ -269,22 +112,47 @@ if __name__ == '__main__':
 
         def save_params_handler(self, data):
             data = convert_to_utf8(json.loads(data))
-            print data
-            create_directory("scripts")
+            create_directory("wizard/scripts")
             my_hash = hashlib.sha1()
             my_hash.update(str(time.time()))
-            path = "scripts/"+my_hash.hexdigest()[:10]+".ppc"
+            path = os.path.join("wizard","scripts",my_hash.hexdigest()[:10]+".ppc")
             script_handler = open(path,"w")
             script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
             script_handler.close()
             self.wfile.write('{"file_url":"'+path+'"}')
         
+        def serve_file_handler(self, query):
+            path = query["path"][0]
+            if "filename" in query.keys():
+                filename = query["filename"][0]
+            else:
+                filename = os.path.basename(path)
+            self.send_response(200)
+            self.send_header('Content-type', "application/octet-stream")
+            self.send_header('Cache-Control', "private")
+            self.send_header('Content-Length', "%d"%os.path.getsize(path))
+            self.send_header('Content-Disposition', "attachment; filename=%s"%filename)
+            self.end_headers()
+            lines = open(path,"r").readlines()
+            for l in lines:
+                self.wfile.write(l)
+        
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))
-            handle = self.get_handlers()[self.path]
-            print "PATH", self.path
+            handle = self.post_handlers()[self.path]
+            print "PATH (POST) ", self.path
             handle(data)
+        
+        def do_GET(self):
+            parsedParams = urlparse.urlparse(self.path)
+            queryParsed = urlparse.parse_qs(parsedParams.query)
+            print "PATH (GET) *", self.path,"*",parsedParams.path,"*", parsedParams.query,"*", queryParsed
+            if parsedParams.path in self.get_handlers().keys():
+                handler = self.get_handlers()[parsedParams.path];
+                handler(queryParsed)
+            else:
+                SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self);
             
     os.system("pwd")
     os.chdir("./static") 
@@ -293,6 +161,6 @@ if __name__ == '__main__':
     Handler = ServerHandler
     SocketServer.TCPServer.allow_reuse_address = True
     httpd = SocketServer.TCPServer((IP, PORT), Handler)
-    webbrowser.open("http://"+IP+":"+str(PORT), new = 0, autoraise=True)
+    webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
     print "Serving at port", PORT
     httpd.serve_forever()
