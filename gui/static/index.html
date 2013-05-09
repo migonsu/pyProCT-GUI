@@ -43,31 +43,56 @@
     <script type="text/javascript" src="wizard/js/cluster_params_field_templating.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/evaluation_criteria_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/params_gathering.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/definitions/algorithm_parameters_description.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/definitions/algorithm_types.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/definitions/query_and_criteria_types.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/definitions/parameter_description.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/definitions/algorithm.types.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/definitions/algorithm.parameters.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/definitions/queries.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/definitions/parameters.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/algorithm_parameter_parsers.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/run_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/main.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/wizard.control.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/wizard.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/wizard.algorithms.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/wizard.steps/steps.description.js" charset="utf-8"></script>
     
     <script>
         $(document).ready( function() {
+        	$("#main").center();
+        	
         	//------------------
             // Template Loading
             //------------------
             var	dialog_contents_template = load_text_resource_with_ajax("wizard/templates/dialog_contents.template");
             
-        	WIZARD_CONTROL.generate_wizard_course("#steps_wrapper","advanced");
+        	WIZARD.generate_wizard_course("#steps_wrapper","advanced");
+        	WIZARD.algorithms.insert_algorithm_steps("#algorithms-1");
         	
-            main_function();
+            /////////////////////////////
+            // APPEARANCE
+            /////////////////////////////
+            // Selection widgets
+            $("select").selectmenu();
+         
+            // Buttons
+            $(".button_widget").button();
+         
+            // Set up text entry widgets            
+            $(':text').not('.spinner_widget')
+              .button()
+              .css({
+                    'font' : 'inherit',
+                    'color' : 'inherit',
+                    'text-align' : 'left',
+                    'outline' : 'none',
+                    'cursor' : 'text'
+            });
+            
+            // All widgets of class spinner_widget are converted to real sp. w.
+            $(".spinner_widget").spinner();
+        	
             
 		 	//******************************
 		 	// List of trajectories
@@ -94,8 +119,8 @@
             dl2.buttons["Algorithms"].replaceWith("<select class='dynListButton' id = 'algorithms_listbox'></select>")
          	// Add options to the cluster algorithms selection widget
            	$("#algorithms_listbox").append("<option id='all_option'>All</option>");
-            for (clustering_algorithm in clustering_algorithm_titles){
-                var title = clustering_algorithm_titles[clustering_algorithm];
+            for (clustering_algorithm in ALGORITHM.titles){
+                var title = ALGORITHM.titles[clustering_algorithm];
                 $("#algorithms_listbox").append("<option id='"+clustering_algorithm+"_option'>"+title+"</option>");
             }
             dl2.buttons["Add"].click(function(){
@@ -104,9 +129,9 @@
             		dl2.addUniqueElement(algorithm);
             	}
             	else{
-            		for (clustering_algorithm in clustering_algorithm_titles){
+            		for (clustering_algorithm in ALGORITHM.titles){
             			if (clustering_algorithm!="random"){
-            				dl2.addUniqueElement(clustering_algorithm_titles[clustering_algorithm]);
+            				dl2.addUniqueElement(ALGORITHM.titles[clustering_algorithm]);
             			}
             		}
             	}

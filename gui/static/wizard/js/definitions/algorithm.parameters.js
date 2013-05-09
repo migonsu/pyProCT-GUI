@@ -1,4 +1,4 @@
-function get_algorithm_parameters_definition(){
+var ALGORITHM_PARAMETERS= (function(){
     return {
             "gromos":[{
                         label:"Cutoff (list) :",
@@ -64,4 +64,5 @@ function get_algorithm_parameters_definition(){
                       }
             ]
         };
-}
+}());
+
