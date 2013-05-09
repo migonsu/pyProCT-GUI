@@ -19,7 +19,7 @@ function pre_prepareList(list_name){
 	.children('ul').hide();
 }
 
-function prepareList() {
+function prepare_list() {
     
 	pre_prepareList('#runDetailsList');
 	pre_prepareList('#runSummaryList');
