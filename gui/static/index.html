@@ -54,6 +54,9 @@
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/main.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/wizard.control.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/wizard.steps/steps.description.js" charset="utf-8"></script>
     
     <script>
         $(document).ready( function() {
@@ -61,8 +64,9 @@
             // Template Loading
             //------------------
             var	dialog_contents_template = load_text_resource_with_ajax("wizard/templates/dialog_contents.template");
-            var algorithm_wizard_steps = load_text_resource_with_ajax("wizard/templates/algorithm.wizard.template");
             
+        	WIZARD_CONTROL.generate_wizard_course("#steps_wrapper","advanced");
+        	
             main_function();
             
 		 	//******************************
@@ -216,10 +220,14 @@
                 	browsing_dialog("file::npy", callback);
              });
             
+            
+            
+            
+            
             var selected_algorithms = [];
             
             $("#wizard-wrapper").wizard({
-		        stepsWrapper: "#steps-wrapper",
+		        stepsWrapper: "#steps_wrapper",
 		        
 		        forward: ".forward",
 		        
@@ -418,7 +426,7 @@
 			    },
 			    // Where to go in transitions
 			    transitions: {
-				    'matrix_creation_options': function( $step, action ) {
+				    'matrix_creation_options': function($step, action) {
 					    // The branch to go changes to reflect your choice.
 					    var branch = $step.find("[name=matrix_creation_options]:checked").val();
 					    return branch;
@@ -453,7 +461,6 @@
 				}
             }));
             
-		      
             $("[name='guess_params']").each(function(){
             	$(this).parent().find("label[id!='guess_label']").addClass("disabled");
         		$(this).parent().find(":text").button("disable");
@@ -475,7 +482,6 @@
             set_defaults_to_fields();
             create_parameters(selected_algorithms);
             console.log($.find("[name='guess_params']"));
-            //window.location = "/home/victor/Escritorio/results_webpage/report.html"
     	}); 
         
     </script>
@@ -490,295 +496,8 @@
   <div class = 'main_window'> 
   
     <div id="wizard-wrapper" >
-        <form name="main" id="steps-wrapper" class="step_wrapper">
+        <form name="main" id="steps_wrapper" class="step_wrapper">
         
-		<!-- ------------- -->
-		<!-- ACTION CHOICE -->
-		<!-- ------------- -->
-		<div class="step">
-			<div class="step_header">
-				<h2>What's your goal?</h2>
-			</div>
-	
-			<div class = "step_body">		
-				<div id="action_group_wrapper">
-					<label for="action_clustering">
-						<input type="radio" id = "action_clustering" name="action_group" value ="clustering"/> 
-					Get clusters from a set of trajectories</label> </br>
-					
-					<label for="action_clustering_advanced">
-						<input type="radio" id = "action_clustering_advanced" name="action_group" value ="clustering_advanced" checked/> 
-					Get clusters from a set of trajectories (advanced)</label> </br>
-						
-					<label for="action_compress">
-						<input type="radio" id = "action_compress" name="action_group" value="compression"/> 
-					Compress a set of trajectories</label></br>
-					
-					<label for="action_compare">
-						<input type="radio" id = "action_compare" name="action_group" value="comparison" disabled/>
-					Compare trajectories</label></br>
-					
-					<label for="action_results">
-						<input type="radio" id = "action_results" name="action_group" value="results"/> 
-					See results</label></br>
-					
-				</div>
-			</div>
-		</div>
-		
-		<!-- --------- -->
-		<!-- WORKSPACE -->
-		<!-- --------- -->
-		<div class="step" id = "workspace-1" data-state="trajectory-1">
-			<div class="step_header">
-				<h2>Project's workspace:</h2>
-			</div>
-			
-			<div class = "step_body">	
-				<table>
-				<tr><td style="width: 25%;">
-				<label for="workspace_base" style="float:right;"> Project folder:</label>
-				</td><td style="width: 50%;">
-               	<input class = "parameter required" name="workspace_base" id="workspace_base" type= "text" 
-               		style="width:88%;" value = "/home/victor/Escritorio/test" readonly>
-               	</td><td style="width: 20%;">
-               	<div class = "button_widget" id = "browse_project_folder_button" > 
-               		<span class='ui-icon ui-icon-folder-collapsed'></span>
-               	</div>
-               	</td></tr>
-               	</table>
-			</div>
-		</div>
-		
-		<!-- ------------ -->
-		<!-- TRAJECTORIES -->
-		<!-- ------------ -->
-		<div class="step" id = "trajectory-1">
-			<div class="step_header">
-            	<h2>Add the trajectories you want to work with:</h2>
-            </div>
-            
-            <div class = "step_body">
-                <label for="trajectory_list"> Trajectories: </label>
-                <ul id = "trajectory_list" name = 'trajectory_list' class="parameter"> </ul>
-			</div>
-		</div>
-		
-		<!-- ---------------- -->
-		<!-- MATRIX OBTENTION -->
-		<!-- ---------------- -->
-		<div class="step" data-state="matrix_creation_options">
-			<div class="step_header">
-				<h2>Choose how do you want to obtain the matrix:</h2>
-			</div>
-			
-			<div class = "step_body" >
-				<input type="radio" checked id = "matrix_creation_rmsd" name="matrix_creation_options" value ="rmsd"/>
-				<label for = "matrix_creation_rmsd"> Calculate RMSD </label>
-				</br>
-				
-				<input type="radio" id = "matrix_creation_distance" name="matrix_creation_options" value ="distance"/>
-				<label for = "matrix_creation_distance">Calculate euclidean distances </label>
-				</br>
-				
-				<input type="radio" id = "matrix_creation_load" name="matrix_creation_options" value ="load"/>
-				<label for = "matrix_creation_load">Load from disk</label>
-				</br>
-			</div>
-		</div>
-		
-		<div class="branch" id='rmsd'>
-			<div class="step" data-state="algorithms-1" id = "rmsd-1">
-				<div class="step_header">
-					<h2>Define the part of the molecule used for superposition:</h2>
-				</div>
-				
-				<div class = "step_body">
-					<table>
-						<tr><td style="width: 50%;">
-							<table>
-								<tr ><td style="height:65px;">
-									<label for="rmsd_fit_selection" > Superposition selection: </label>
-			                    	<input class = "parameter text_field_widget" id="rmsd_fit_selection"  type="text">
-									<div class = "button_widget" id = "preview_rmsd_fit_button" > 
-										<span class='ui-icon ui-icon-search'> </span>
-									</div> 
-									<input id = "usesamefitandcalc" type='checkbox' checked/>
-									<label for="usesamefitandcalc" class = "small" > Use same selection for superposition and RMSD calculation</label>
-								</td></tr><tr ><td style="height:65px;">
-								</td></tr><tr ><td style="height:65px;">
-									<br>
-									<label id = "calc_selection_label" for="rmsd_calc_selection" > Calculation selection: </label>
-			                    	<input class = "parameter text_field_widget" id="rmsd_calc_selection"  type="text">
-									<div class = "button_widget " id = "preview_rmsd_calc_button">
-										<span class='ui-icon ui-icon-search'> </span></div>
-								</td></tr>
-							</table>
-						</td><td style="width: 50%;">
-							<canvas id="rmsdViewer">This browser does not support HTML5/Canvas.</canvas>
-						</td></tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	
-		<div class="branch" id='distance' >
-			<div class="step" data-state="algorithms-1" id = "distance-1">
-				<div class="step_header">
-					<h2>Define the part of the molecule used for superposition:</h2>
-				</div>
-				
-				<div class = "step_body">
-               		<table>
-						<tr><td style="width: 50%;">
-							<table>
-								<tr><td style="height:65px;">
-									<label for="dist_fit_selection" > Superposition selection: </label>
-			                    	<input class = "parameter text_field_widget" id="dist_fit_selection"  type="text">
-									<div class = "button_widget" id = "preview_dist_fit_button" > 
-										<span class='ui-icon ui-icon-search'> </span>
-									</div> 
-								</td></tr><tr ><td style="height:65px;">
-								</td></tr><tr ><td style="height:65px;">
-									<br>
-									<label id = "dist_calc_selection_label" for="dist_calc_selection" > Calculation selection: </label>
-			                    	<input class = "parameter text_field_widget" id="dist_calc_selection"  type="text">
-									<div class = "button_widget " id = "preview_dist_calc_button">
-										<span class='ui-icon ui-icon-search'> </span>
-									</div>
-								</td></tr>
-							</table>
-						</td><td style="width: 50%;">
-							<canvas id="distanceViewer">This browser does not support HTML5/Canvas.</canvas>
-						</td></tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		
-		<div class="branch" id="load">
-			<div class="step" id = 'load_matrix-1' data-state="algorithms-1">
-				 <div class="step_header">
-					<h2>Choose the file to load:</h2>
-				</div>
-				 
-				 <div class = "step_body">
-			 	 	<table>
-					 <tr><td style="width: 20%;">
-					 	<label for="matrix_creation_path" style="float:right;"> File: </label>
-		             </td><td style="width: 60%;">
-		             	<input class = "parameter text_field_widget" id="matrix_creation_path" type="text" style="width:90%;" readonly>
-		             </td><td style="width: 20%;">
-		            	<div class = "button_widget browse_button" id = "browse_matrix_button" > 
-		            		<span class='ui-icon ui-icon-folder-collapsed'></span>
-		             	</div>
-					 </td></tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		
-		<!-- ---------- -->
-		<!-- ALGORITHMS -->
-		<!-- ---------- -->
-		<div class="step" id='algorithms-1'>
-			<div class="step_header">
-				<h2> Choose the algorithms that you want to use:</h2>
-			</div>
-			<div class = "step_body">
-	        	<label for="algorithms_list"> Algorithms to use: </label>
-                <ul id = "algorithms_list" name ='algorithms_list' > </ul>
-             </div>
-		</div>
-		
-		
-		<!-- ---------- -->
-		<!-- CRITERIA   -->
-		<!-- ---------- -->
-		<div class="step" id ="criteria-1">
-			<div class="step_header">
-				<h2>Define clustering's desired properties:</h2>
-			</div>
-			
-			<div class = "step_body">
-					
-					<table><tr><td>
-		            <label for = "evaluation_maximum_noise" style="float:right;">Maximum noise (%):</label>
-		            </td><td>
-	                <input class = "parameter spinner_widget" id="evaluation_maximum_noise" value = "15">
-	                </td>
-					
-					<tr><td>
-                    <label for = "evaluation_minimum_clusters" style="float:right;"> Minimum number of clusters:   </label>
-                    </td><td>
-                    <input class = "parameter spinner_widget" id="evaluation_minimum_clusters" value = "10"></br>
-	                </td></tr>    
-                    
-                    <tr><td>
-                    <label for = "evaluation_maximum_clusters" style="float:right;"> Maximum number of clusters:   </label>
-                   	</td><td>
-                   	<input class = "parameter spinner_widget" id="evaluation_maximum_clusters" value = "30"></br>
-                    </td></tr>    
-                    
-                    <tr><td>
-                    <label for = "evaluation_minimum_cluster_size" style="float:right;"> Minimum cluster size (elements):   </label>
-                    </td><td>
-                    <input class = "parameter spinner_widget" id="evaluation_minimum_cluster_size" value = "50"></br>
-                    </td></tr></table>
-                    
-            </div>
-       	</div>
-       	
-       	<div class="step" id ="query-1">
-        	<div class="step_header">
-				<h2>Which information do you want to get from the clustering?</h2>
-			</div>
-
-       	    <div class = "step_body">
-       	    	<label for="query_list"> Queries: </label>
-           		<ul id = "query_list" name = 'query_list' class="parameter"> </ul>
-         	</div>
-       	</div>
-       	
-       	<div class="step" id="criteria-2">
-        	<div class="step_header">
-				<h2>Which criteria do you want to use?</h2>
-			</div>
-
-       	    <div class = "step_body">
-         		<label for="criteria_list"> Evaluation criteria: </label>
-           		<ul id = "criteria_list" name = 'criteria_list' class= "parameter" > </ul>
-         	</div>
-       	</div>
-        
-        <!-- ---------- -->
-		<!-- FINAL STEP -->
-		<!-- ---------- -->
-		<div class="step" id="ending">
-        	<div class="step_header">
-				<h2>Go!</h2>
-			</div>
-
-       	    <div class = "step_body">
-         		<div class = "button_widget final_button" id = "script_button">
-         			Download Script 
-				</div>
-				<br>
-				<div class = "button_widget final_button" id = "run_button">
-					Run Locally
-				</div>
-         	</div>
-       	</div>
-       	
-		<!-- ---------- -->
-		<!-- NAVIGATION -->
-		<!-- ---------- -->
-		<div class="navigation" id="navigation">
-			<ul class="clearfix">
-				<li><button type="button" name="forward" class="forward">Forward</button></li>
-				<li><button type="button" name="backward" class="backward">Backward</button></li>
-			</ul>
-		</div>
 	   </form>	
       </div>
     </div>
