@@ -1,5 +1,4 @@
 var WIZARD = (function(){
-	var available_algorithms = [];
 	var algorithm_wizard_step_template = load_text_resource_with_ajax("wizard/templates/algorithm.wizard.template");
 	var step_template = load_text_resource_with_ajax("wizard/templates/step.wizard.template");
 
@@ -41,14 +40,12 @@ var WIZARD = (function(){
 		}
 	};
 	
-	
 	var generate_wizard_course = function(holder_selector, option){
 		create_branch_course(holder_selector,WIZARD_STEPS.courses[option]);
 		insert_navigation(holder_selector);
 	};
 	
 	return {
-		available_algorithms:available_algorithms,
 		generate_wizard_course:generate_wizard_course
 	}
 	

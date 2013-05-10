@@ -39,7 +39,7 @@ function create_parameters(selected_algorithms){
 	// Now gather algorithm's parameters
 	console.log(selected_algorithms);
 	for(var i = 0; i < selected_algorithms.length; i++){
-		algorithm_type = clustering_algorithm_title_reverse[selected_algorithms[i]];
+		algorithm_type = ALGORITHM.titles_reverse[selected_algorithms[i]];
 		set_dictionary_entry(
 				parameters, 
 				["clustering","algorithms",algorithm_type,"use"],

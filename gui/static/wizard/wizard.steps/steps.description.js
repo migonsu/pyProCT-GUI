@@ -20,6 +20,11 @@ var WIZARD_STEPS = (function(){
 						{id:"criteria-2",next:"run-1"},
 						{id:"run-1",next:""}
 					],
+			
+			"results":[
+			           {id:"workspace-1",next:"run-2"},
+			           {id:"run-2",next:""}
+			        ]
 	};
 
 	var navigation_html = "navigation.html";
@@ -71,7 +76,11 @@ var WIZARD_STEPS = (function(){
 		},
 		"run-1":{
 			"title": "Go!",
-			"html": "criteria-2.html"
+			"html": "run-1.html"
+		},
+		"run-2":{
+			"title": "Go!",
+			"html": "run-2.html"
 		}
 	};
 
