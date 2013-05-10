@@ -19,10 +19,12 @@ WIZARD.components_behaviour = (function(){
 		general_widget_behaviour();
 		switch (action){
 		
-			case "results":
+			case MAIN_MENU.RESULTS_ACTION:
+				this.setup_browse_workspace_button();
+				this.setup_show_results_button();
 				break;
 				
-			case "advanced":
+			case MAIN_MENU.ADVANCED_ACTION:
 				
 				// Lists
 				this.setup_trajectory_list();
@@ -36,7 +38,7 @@ WIZARD.components_behaviour = (function(){
 				this.setup_browse_workspace_button();
 				this.setup_browse_matrix_button();
 				
-				// Checkbox (guess params)
+				// Checkbox (guess params; algorithm steps may be created beforehand)
 				this.setup_guess_params_checkbox();
 				
 				// Previewers

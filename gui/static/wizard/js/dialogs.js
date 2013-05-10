@@ -1,3 +1,47 @@
+function show_results_dialog(parameters, confirmation){
+	function do_ajax_results_request(parameters){
+		$.ajax({
+     		url: "/show_results",
+     		type: "POST",
+     		dataType: "text",
+     		data: JSON.stringify(parameters),
+     		complete:function(jqXHR, textStatus){
+     			console.log(jqXHR);
+     			$("#results_dialog").dialog("destroy");
+     		},
+     		error:function(jqXHR, textStatus, errorThrown){
+     			alert( "Request failed: " + textStatus+". Is the server working?" );
+     		}
+        });
+	}
+	
+	if(confirmation){
+		$("<div title='Results' id = 'results_dialog'>" +
+		    "<span id = 'results_string' > Do you want to check the results? </span>"+
+			"</div>")
+	       .dialog({
+	           modal:true,
+	           autoResize:true,
+	           width:'auto',
+	           buttons: [{ 
+	                text: "Yes",
+	                click: function() {
+	                	do_ajax_results_request(parameters);
+	                }
+	           },
+	           {
+	                text: "No",
+	                click: function(){
+	                	$("#results_dialog").dialog("destroy");
+	                }
+	           }]});
+	}
+	else{
+		do_ajax_results_request(parameters);
+	}
+}
+
+
 function browsing_dialog(target, ok_callback){
     var what_we_search = target;
 	var expected_extension = "";

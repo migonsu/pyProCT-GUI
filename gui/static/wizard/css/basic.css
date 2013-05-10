@@ -34,20 +34,6 @@ body
     border-radius: 7px;
 }
 
-.main_window
-{
-	position:relative;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
-    border:1px solid;
-    height:400px;
-    width:500px;
-    overflow-y:hidden;
-    overflow-x: hidden;  
-    background-color: #fff;
-}
-
 label
 {
 	font-size: 120%;

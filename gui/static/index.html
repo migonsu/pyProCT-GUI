@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="wizard/css/ui/jquery.ui.selectmenu.css" media="screen">
     <link rel="stylesheet" type="text/css" href="wizard/css/basic.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="wizard/css/wizard.css"  media="screen">
+    <link rel="stylesheet" type="text/css" href="wizard/css/main_menu.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="wizard/css/dynamicList.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="wizard/css/fileBrowser.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="wizard/js/jquery/filetree/filetree.css"  media="screen">
@@ -38,7 +39,6 @@
     <!-- CUSTOM SCRIPTS -->
     <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/path_tools.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/cluster_params_field_templating.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/evaluation_criteria_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/params_gathering.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/definitions/algorithm.types.js" charset="utf-8"></script>
@@ -51,6 +51,7 @@
     <script type="text/javascript" src="wizard/js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/mainmenu.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.algorithms.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.components_behaviour.js" charset="utf-8"></script>
@@ -60,38 +61,43 @@
     <script type="text/javascript" src="wizard/js/wizard.control.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.control.steps.advanced.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.control.steps.results.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/steps.description.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/steps.js" charset="utf-8"></script>
+    
     <script>
         $(document).ready( function() {
         	$("#main").center();
         	
             var	dialog_contents_template = load_text_resource_with_ajax("wizard/templates/dialog_contents.template");
-            
-            var action = WIZARD.RESULTS_ACTION;
-        	WIZARD.generate_wizard_course("#steps_wrapper",action);
-            WIZARD.control.setup_wizard(WIZARD.ADVANCED_ACTION, action);
-        	WIZARD.components_behaviour.apply_behaviour(WIZARD.ADVANCED_ACTION, action);
-			
-        	set_defaults_to_fields();
+            $(".main_menu_window").show();
+            $(".wizard_window").hide();
+            MAIN_MENU.setup_main_menu(".main_menu_button_row");
+        	
     	}); 
         
     </script>
   </head>
-  <body> 
-<div class = 'main_frame' id="main"> 
-    
-  <div class = 'main_title_container'>
-      <img src="wizard/img/pyproclust.png" >
-  </div>
-  
-  <div class = 'main_window'> 
-  
-    <div id="wizard-wrapper" >
-        <form name="main" id="steps_wrapper" class="step_wrapper">
-        
-	   </form>	
-      </div>
-    </div>
-</div>
+  <body>
+	<div class='main_frame' id="main">
+
+		<div class='main_title_container'>
+			<img src="wizard/img/pyproclust.png">
+		</div>
+
+		<div id='main_menu' class='main_menu_window'>
+				<div id='main_menu_button_row' class='main_menu_button_row'>
+				
+				</div>
+		</div>
+		
+		<div class='wizard_window'>
+			<div id="wizard-wrapper">
+				<form name="main" id="steps_wrapper" class="steps_wrapper"></form>
+			</div>
+		</div>
+	</div>
+	
+	<div id = 'start_over_button' class='start_over_button'>
+		<img src="wizard/img/startover.png">
+	</div>
 </body>
 </html>

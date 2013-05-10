@@ -47,8 +47,6 @@ var WIZARD = (function(){
 	};
 	
 	return {
-		ADVANCED_ACTION: "advanced",
-		RESULTS_ACTION: "results",
 		generate_wizard_course:generate_wizard_course
 	}
 	

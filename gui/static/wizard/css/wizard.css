@@ -1,3 +1,17 @@
+.wizard_window
+{
+	position:relative;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    border:1px solid;
+    height:400px;
+    width:500px;
+    overflow-y:hidden;
+    overflow-x: hidden;  
+    background-color: #fff;
+}
+
 .step_header {
 	border-bottom: #ddd 1px solid;
 	margin-left: 10px;
@@ -26,7 +40,7 @@
 	height:240px;
 }
 
-.step_wrapper{
+.steps_wrapper{
 	position:absolute;
 }
 

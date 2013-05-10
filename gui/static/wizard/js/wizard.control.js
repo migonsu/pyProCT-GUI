@@ -3,7 +3,7 @@ WIZARD.control = (function(){
 	
 	var setup_wizard = function(action){
         console.log("creating wizard for action", action);
-       if (action === WIZARD.ADVANCED_ACTION){ 
+       if (action === MAIN_MENU.ADVANCED_ACTION){ 
     	   // Add the algorithm steps 
     	   WIZARD.algorithms.insert_algorithm_steps("#algorithms-1");
     	   
@@ -76,7 +76,7 @@ WIZARD.control = (function(){
 	        });
        }
        
-       if (action ===WIZARD.RESULTS_ACTION){
+       if (action ===MAIN_MENU.RESULTS_ACTION){
     	   $("#wizard-wrapper").wizard({
 		        stepsWrapper: "#steps_wrapper",
 		        
@@ -90,6 +90,7 @@ WIZARD.control = (function(){
 			        var step_id = state.step[0].id;
 			        
 			        console.log(step_id)
+			        console.log("LOL",WIZARD.control.functions[action])
 			        var transition_function = WIZARD.control.functions[action][step_id];
 			        if(typeof transition_function !== "undefined"){
 			        	transition_function(event, state, step, step_id);

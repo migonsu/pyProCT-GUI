@@ -139,7 +139,8 @@ if __name__ == '__main__':
             results_path = os.path.join(data["base"],data["results"],"results.json")
             shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
             webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
-
+            self.wfile.write("OK - meter try-except!!")
+            
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))

@@ -88,37 +88,7 @@ function start_monitoring_run( progress_dialog, parameters){
 		    	// Then destroy the dialog
 		    	progress_dialog.dialog("destroy");
 		    	// Create the results dialog
-		    	 $("<div title='Results' id = 'results_dialog'>" +
-	        		    "<span id = 'results_string' > Do you want to check the results? </span>"+
-	        			"</div>")
-	        	       .dialog({
-	                       modal:true,
-	                       autoResize:true,
-	                       width:'auto',
-		       	           buttons: [{ 
-  	                            text: "Yes",
-   	                            click: function() {
-   	                            	$.ajax({
-	   	                         		url: "/show_results",
-	   	                         		type: "POST",
-	   	                         		dataType: "text",
-	   	                         		data: JSON.stringify(parameters["workspace"]),
-	   	                         		complete:function(jqXHR, textStatus){
-	   	                         			$("#results_dialog").dialog("destroy");
-	   	                         		},
-	   	                         		error:function(jqXHR, textStatus, errorThrown){
-	   	                         			alert( "Request failed: " + textStatus+". Is the server working?" );
-		                         		}
-	   	                            });
-   	                            }
-		       	           },
-		       	           {
- 	                            text: "No",
-  	                            click: function(){
-  	                            	$("#results_dialog").dialog("destroy");
-  	                            }
-		       	           }]});
-		       	           
+		    	show_results_dialog(parameters["workspace"],true);
 		    }
 		    else{
 		    	// Capture Status

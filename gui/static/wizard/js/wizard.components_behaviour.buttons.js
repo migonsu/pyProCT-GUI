@@ -16,6 +16,13 @@ WIZARD.components_behaviour = (function(module){
         });
 	}
 	
+	module.setup_show_results_button = function(){
+        $("#show_results_button").click(function(){
+        	var parameters = create_parameters([]);
+        	show_results_dialog(parameters["workspace"], false);
+        });
+	}
+	
 	module.setup_browse_workspace_button = function(){  
 	    $("#browse_project_folder_button").click(function(){
 	        var callback = function(value){
