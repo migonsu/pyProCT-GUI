@@ -23,6 +23,7 @@ WIZARD.components_behaviour = (function(){
 				break;
 				
 			case "advanced":
+				
 				// Lists
 				this.setup_trajectory_list();
 				this.setup_algorithms_list();

@@ -51,7 +51,6 @@
     <script type="text/javascript" src="wizard/js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.algorithms.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.components_behaviour.js" charset="utf-8"></script>
@@ -59,21 +58,21 @@
     <script type="text/javascript" src="wizard/js/wizard.components_behaviour.buttons.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.components_behaviour.previewers.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/wizard.control.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/wizard.steps/steps.description.js" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="wizard/js/wizard.control.steps.advanced.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/wizard.control.steps.results.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/steps.description.js" charset="utf-8"></script>
     <script>
         $(document).ready( function() {
         	$("#main").center();
         	
             var	dialog_contents_template = load_text_resource_with_ajax("wizard/templates/dialog_contents.template");
             
-        	WIZARD.generate_wizard_course("#steps_wrapper","results");
-        	WIZARD.algorithms.insert_algorithm_steps("#algorithms-1");
-        	WIZARD.components_behaviour.apply_behaviour("results");
-            
-            WIZARD.control.setup_wizard("results");
-            
-            set_defaults_to_fields();
+            var action = WIZARD.RESULTS_ACTION;
+        	WIZARD.generate_wizard_course("#steps_wrapper",action);
+            WIZARD.control.setup_wizard(WIZARD.ADVANCED_ACTION, action);
+        	WIZARD.components_behaviour.apply_behaviour(WIZARD.ADVANCED_ACTION, action);
+			
+        	set_defaults_to_fields();
     	}); 
         
     </script>

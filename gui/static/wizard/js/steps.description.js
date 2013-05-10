@@ -1,4 +1,6 @@
-var WIZARD_STEPS = (function(){
+var STEPS = (function(){
+	
+	var transitionFunctions = {};
 	
 	var courses = {
 			"advanced":[

@@ -1,4 +1,5 @@
 var WIZARD = (function(){
+	
 	var algorithm_wizard_step_template = load_text_resource_with_ajax("wizard/templates/algorithm.wizard.template");
 	var step_template = load_text_resource_with_ajax("wizard/templates/step.wizard.template");
 
@@ -10,7 +11,7 @@ var WIZARD = (function(){
 	};
 	
 	function insert_navigation (holder_selector){
-		var inner_html = load_text_resource_with_ajax("wizard/wizard.steps/"+WIZARD_STEPS.navigation_html);
+		var inner_html = load_text_resource_with_ajax("wizard/wizard.steps/"+STEPS.navigation_html);
 		$(holder_selector).append(inner_html);
 	}
 	
@@ -21,7 +22,7 @@ var WIZARD = (function(){
 		var new_holder = null;
 		for(var i = 0; i < branch_descriptor.length; i++){
 			step_id = branch_descriptor[i]["id"];
-			step_descriptor = WIZARD_STEPS.descriptor[step_id];
+			step_descriptor = STEPS.descriptor[step_id];
 			step_descriptor["step_id"] = step_id;
 			if ( typeof branch_descriptor[i]["next"] === "string"){
 				step_descriptor["next_id"] = branch_descriptor[i]["next"];
@@ -41,11 +42,13 @@ var WIZARD = (function(){
 	};
 	
 	var generate_wizard_course = function(holder_selector, option){
-		create_branch_course(holder_selector,WIZARD_STEPS.courses[option]);
+		create_branch_course(holder_selector, STEPS.courses[option]);
 		insert_navigation(holder_selector);
 	};
 	
 	return {
+		ADVANCED_ACTION: "advanced",
+		RESULTS_ACTION: "results",
 		generate_wizard_course:generate_wizard_course
 	}
 	
