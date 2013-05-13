@@ -1,6 +1,27 @@
 WIZARD.control = (function(){
 	var selected_algorithms = [];
 	
+	function forward_move_common(action, event, state){
+		var step = $(state.step[0]);
+        var step_id = state.step[0].id;
+        
+        console.log(step_id)
+        var transition_function = WIZARD.control.functions[action][step_id];
+        if(typeof transition_function !== "undefined"){
+        	var val = transition_function(event, state, step, step_id);
+        	if (typeof val === "undefined"){
+        		return false;
+        	}
+        	else{
+        		return val;
+        	}
+        }
+        else{
+        	// if it does not exist, then it returns true as default.
+        	return true;
+        }
+	};
+	
 	var setup_wizard = function(action){
         console.log("creating wizard for action", action);
        if (action === MAIN_MENU.ADVANCED_ACTION){ 
@@ -16,19 +37,9 @@ WIZARD.control = (function(){
 		        backward: ".backward",
 		
 			    onForwardMove: function(event, state) {	
-			        
-			    	var step = $(state.step[0]);
-			        var step_id = state.step[0].id;
-			        
-			        console.log(step_id)
-			        var transition_function = WIZARD.control.functions[action][step_id];
-			        if(typeof transition_function !== "undefined"){
-			        	transition_function(event, state, step, step_id);
-			        }
-			        else{
-			        	// if it does not exist, then it returns true as default.
-			        	return true;
-			        }
+			    	var com = forward_move_common(action, event, state);
+			    	console.log("COM",com)
+			    	return com;//forward_move_common(action, event, state);
 			    },
 			    
 			    afterForward:function(event, state) {
@@ -85,20 +96,7 @@ WIZARD.control = (function(){
 		        backward: ".backward",
 		        
 		        onForwardMove: function(event, state) {	
-			        
-			    	var step = $(state.step[0]);
-			        var step_id = state.step[0].id;
-			        
-			        console.log(step_id)
-			        console.log("LOL",WIZARD.control.functions[action])
-			        var transition_function = WIZARD.control.functions[action][step_id];
-			        if(typeof transition_function !== "undefined"){
-			        	transition_function(event, state, step, step_id);
-			        }
-			        else{
-			        	// if it does not exist, then it returns true as default.
-			        	return true;
-			        }
+		        	return forward_move_common(action, event, state);
 			    }
     	   });
        }

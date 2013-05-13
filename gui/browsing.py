@@ -9,16 +9,16 @@ import urllib
 def browsing_connector(root_folder):
     print root_folder
     root_folder = root_folder.replace("%2F","/")
-    r=['<ul class="jqueryFileTree" style="display: none;">']
+    r = ['<ul class="jqueryFileTree" style="display: none;">']
     r.append('<li class="directory collapsed"><a href="#" rel="%s/..">..</a></li>'%root_folder)
     try:
-        d=urllib.unquote(root_folder)
+        d = urllib.unquote(root_folder)
         for f in os.listdir(d):
-            ff=os.path.join(d,f)
+            ff = os.path.join(d,f)
             if os.path.isdir(ff):
                 r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ff,f))
             else:
-                e=os.path.splitext(f)[1][1:] # get .ext and remove dot
+                e = os.path.splitext(f)[1][1:] # get .ext and remove dot
                 r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ff,f))
         r.append('</ul>')
     except Exception,e:

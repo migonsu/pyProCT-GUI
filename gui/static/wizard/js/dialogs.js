@@ -97,38 +97,47 @@ function browsing_dialog(target, ok_callback){
     );
 }
 
-function yes_or_no_dialog (dialog_title, message){
-    var deferred_response = $.Deferred();
+
+var DIALOG = (function(){
+	
+	
+	 var yes_or_no = function(dialog_title, message, ok_function_callback){
     
-    $("<div title='"+dialog_title+"'>"+message+"</div>", { id:'yes_or_no_dialog'})
-    .dialog(
-            {
-                modal:true, 
-                autoResize:true,
-                width:'auto',
-                close: function( event, ui ){
-                    $(this).dialog("destroy");
-            },
-            buttons: [
-                        { 
-                            text: "Yes",
-                            click: function() { 
-                                deferred_response.resolve();
-                                $(this).dialog("destroy");
-                            
-                            }
-                        },
-                        {
-                            text: "No",
-                            click: function() { 
-                                deferred_response.reject();
-                                $(this).dialog("destroy");
-                            }    
-                        }
-            ]
-    });
-    return deferred_response.promise();
-}
+	    $("<div/>", { 
+	    	id:'yes_or_no_dialog',
+	    	title: dialog_title,
+	    	html:message})
+	    .dialog(
+	            {
+	                modal:true, 
+	                autoResize:true,
+	                width:'auto',
+	                close: function( event, ui ){
+	                    $(this).dialog("destroy");
+	            },
+	            buttons: [
+	                        { 
+	                            text: "Yes",
+	                            click: function() { 
+	                            	ok_function_callback();
+	                                $(this).dialog("destroy");
+	                            }
+	                        },
+	                        {
+	                            text: "No",
+	                            click: function() { 
+	                                $(this).dialog("destroy");
+	                            }    
+	                        }
+	            ]
+	    });
+	}
+	
+	return {
+		yes_or_no:yes_or_no
+	}
+
+}());
 
 function warning_dialog (message){
     $("<div title='Warning'>"+message+"</div>", { id:'warning_dialog'})

@@ -1,5 +1,6 @@
 WIZARD.components_behaviour = (function(module){
-
+	var	dialog_contents_template = COMM.synchronous.load_text_resource("wizard/templates/dialog_contents.template");
+	
 	module.setup_trajectory_list = function (){
 		//******************************
 	 	// List of trajectories

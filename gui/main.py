@@ -141,12 +141,19 @@ if __name__ == '__main__':
             webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
             self.wfile.write("OK - meter try-except!!")
             
+#         def normalize_path(self, data):
+#             data = convert_to_utf8(json.loads(data))
+#             print data
+            
+            
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))
             handle = self.post_handlers()[self.path]
             print "PATH (POST) ", self.path
             handle(data)
+            
+            
         
         #############
         ##  GET

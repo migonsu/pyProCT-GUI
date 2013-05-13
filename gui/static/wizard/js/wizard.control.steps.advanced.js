@@ -15,18 +15,21 @@ WIZARD.control = (function(module){
 					return true;
 				}
 				else{
-					var create_new_folder_question = yes_or_no_dialog ("Warning",
-					"Folder does not exist, do you want to create it?");
-
-					create_new_folder_question.done(function(){
-						COMM.synchronous.create_folder(file_path);
-						$("#wizard-wrapper").wizard("forward",[event,1]);
-					});
+					var create_new_folder_question = DIALOG.yes_or_no(
+										"Warning",
+										"Folder does not exist, do you want to create it?",
+										function(){
+											COMM.synchronous.create_folder(file_path);
+											console.log("adelante!");
+											$("#wizard-wrapper").wizard("forward",[event,1]);
+										});
 				}
 			}
 			else{
 				warning_dialog ("The field cannot be empty.");
 			}
+			
+			console.log("last return")
 			return false;
 		},
 	    'trajectory-1':function(event, state, step, step_id){
