@@ -19,7 +19,6 @@ from pyproclust.driver.observer.observer import Observer
 from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 from pyproclust.driver.parameters import ProtocolParameters
-from pyproclust.driver.handlers import trajectoryHandler
 import shutil
 
 if __name__ == '__main__':
@@ -42,7 +41,8 @@ if __name__ == '__main__':
                     "/browse_folder":self.browse_folder,
                     "/do_selection":self.do_selection,
                     "/stop_calculations":self.stop_calculations,
-                    "/show_results":self.show_results_handler
+                    "/show_results":self.show_results_handler,
+                    "/normalize_path":self.normalize_path_handler
             }
         
         def get_handlers(self):
@@ -139,12 +139,14 @@ if __name__ == '__main__':
             results_path = os.path.join(data["base"],data["results"],"results.json")
             shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
             webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
-            self.wfile.write("OK - meter try-except!!")
+            self.wfile.write("OK - put a  try-except!!")
             
-#         def normalize_path(self, data):
-#             data = convert_to_utf8(json.loads(data))
-#             print data
-            
+        def normalize_path_handler(self, data):
+            data = convert_to_utf8(json.loads(data))
+            print "DATA", data
+            print "PATH", data["path"].replace("%2F","/")
+            print "NORM PATH", os.path.abspath(data["path"].replace("%2F","/"))
+            self.wfile.write('{"path":"'+os.path.abspath(data["path"].replace("%2F","/"))+'"}')
             
         def do_POST(self):
             fp= self.rfile
@@ -152,8 +154,6 @@ if __name__ == '__main__':
             handle = self.post_handlers()[self.path]
             print "PATH (POST) ", self.path
             handle(data)
-            
-            
         
         #############
         ##  GET

@@ -23,21 +23,26 @@ WIZARD.components_behaviour = (function(module){
         });
 	}
 	
-	module.setup_browse_workspace_button = function(){  
+	module.setup_browse_workspace_button = function(){
 	    $("#browse_project_folder_button").click(function(){
 	        var callback = function(value){
-	        	$("#workspace_base").val(value);
+	        	console.log("DIALOG.last_root",DIALOG.last_root)
+	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
+	        	DIALOG.last_root = abs_path;
+	        	$("#workspace_base").val(abs_path);
 	        };
-	    	browsing_dialog("folder", callback);
+	    	DIALOG.browse("folder", callback);
 	    });
 	}
 	
 	module.setup_browse_matrix_button = function(){  
 	    $("#browse_matrix_button").click(function(){
 	            var callback = function(value){
-	            	$("#matrix_creation_path").val(value);
+	            	var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
+		        	DIALOG.last_root = abs_path;
+	            	$("#matrix_creation_path").val(abs_path);
 	            };
-	        	browsing_dialog("file::npy", callback);
+	            DIALOG.browse("file::npy", callback);
 	     });
 	}
 	

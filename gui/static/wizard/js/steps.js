@@ -24,7 +24,7 @@ var STEPS = (function(){
 					],
 			
 			"results":[
-			           {id:"workspace-1",next:"run-2"},
+			           {id:"browse-results-1",next:"run-2"},
 			           {id:"run-2",next:""}
 			        ]
 	};
@@ -35,6 +35,10 @@ var STEPS = (function(){
 		"main_selection":{
 			"title": "What's your goal?",
 			"html": "main_selection.html"
+		},
+		"browse-results-1":{
+			"title": "Choose a results folder:",
+			"html": "browse-results-1.html"
 		},
 		"workspace-1":{
 			"title": "Project's workspace:",

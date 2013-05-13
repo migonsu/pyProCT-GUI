@@ -69,7 +69,7 @@ var COMM = (function(){
 				 *
 				 *   @returns {string} The contents of the resource.    
 				 **/
-				load_text_resource: function load_text_resource_with_ajax(resource){
+				load_text_resource: function (resource){
 				    var text_resource = "";
 				    
 				    $.ajax({
@@ -88,6 +88,27 @@ var COMM = (function(){
 				            });
 				            
 				    return text_resource;
+				},
+				
+				absolute_path: function (path){
+					var abs = "";
+					console.log("sending",JSON.stringify({"path":path}))
+					$.ajax({
+			              url: "/normalize_path",
+			              type: "POST",
+			              dataType: "text",
+			              async: false,
+			              data: JSON.stringify({'path':path}),
+			              
+			              complete: function(jqXHR, textStatus){
+			                  abs = $.parseJSON(jqXHR.responseText)["path"];
+			              },
+			              
+			              error:function( jqXHR, textStatus, errorThrown ){
+			                  alert( "Request failed: " + textStatus+". Is the server working?" );
+			              }
+			            });
+					return abs;
 				}
 
 		};

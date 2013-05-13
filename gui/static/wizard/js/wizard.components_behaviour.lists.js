@@ -11,9 +11,11 @@ WIZARD.components_behaviour = (function(module){
         dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
         dl.buttons["Add"].click(function(){
         	var callback = function(value){
-        		dl.addElement(value);
+        		var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
+	        	DIALOG.last_root = abs_path;
+        		dl.addElement(abs_path);
             };
-        	browsing_dialog("file::pdb", callback);
+            DIALOG.browse("file::pdb", callback);
         });
         dl.buttons["Remove"].click(function(){
             dl.deleteSelectedElements();

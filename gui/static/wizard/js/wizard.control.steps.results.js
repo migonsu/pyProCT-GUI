@@ -5,29 +5,26 @@ WIZARD.control = (function(module){
 	}
 	
 	module.functions[MAIN_MENU.RESULTS_ACTION] = {
-		'workspace-1':function(event, state, step, step_id){
-			var file_path = step.find("#workspace_base")
-			.val();
+		'browse-results-1':function(event, state, step, step_id){
+			var file_path = step.find("#results_folder").val();
 			if(file_path!=""){
 				var file_check  = COMM.synchronous.file_exists(file_path);
 
 				if(file_check["exists"]){
-					return true;
+					// Check the existence of "results.json"
+					var file_check  = COMM.synchronous.file_exists(file_path+"/results.json");
+					if(file_check["exists"]){
+						var results = COMM.synchronous.load_text_resource(file_path+"/results.json");
+					}
 				}
 				else{
-					DIALOG.yes_or_no (
-							"Warning",
-							"Folder does not exist, do you want to create it?",
-							function(){
-								COMM.synchronous.trigger_results_page(file_path);
-								$("#wizard-wrapper").wizard("forward",[event,1]);
-							});
+					return false;
 				}
 			}
 			else{
 				DIALOG.warning ("The field cannot be empty.");
+				return false;
 			}
-			return false;
 		}
 	};
 	

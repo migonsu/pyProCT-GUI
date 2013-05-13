@@ -19,4 +19,6 @@
 }
 .fileBrowserSelection{
     float:right;
+    overflow-x:auto;
+    width:250px;
 }
