@@ -1,34 +1,4 @@
 /**
- *   Loads a system resource, returning its contents. The function does not finish
- *   until the contents have been loaded.
- *
- *   @param {string} resource path to the resource to be loaded.
- *
- *   @returns {string} The contents of the resource.    
- **/
-function load_text_resource_with_ajax(resource){
-    var text_resource = "";
-    
-    $.ajax({
-              url: resource,
-              type: "GET",
-              dataType: "text",
-              async: false,
-              
-              complete: function(jqXHR, textStatus){
-                  text_resource = jqXHR.responseText;
-              },
-              
-              error:function( jqXHR, textStatus, errorThrown ){
-                  alert( "Request failed: " + textStatus+". Is the server working?" );
-              }
-            });
-            
-    return text_resource;
-}
-
-
-/**
  *   Helper function to get the value of an undetermined control.
  *
  *   @param {string} of_this_control The control we want to get the value.

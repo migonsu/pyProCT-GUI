@@ -1,5 +1,5 @@
 WIZARD.algorithms = (function () {
-	var algorithm_wizard_steps = load_text_resource_with_ajax("wizard/templates/algorithm.wizard.template");
+	var algorithm_wizard_steps = COMM.synchronous.load_text_resource("wizard/templates/algorithm.wizard.template");
 	
 	var insert_algorithm_steps = function(selector_for_step_before){
 		var step = null;

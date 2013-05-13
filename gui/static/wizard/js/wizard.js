@@ -1,17 +1,17 @@
 var WIZARD = (function(){
 	
-	var algorithm_wizard_step_template = load_text_resource_with_ajax("wizard/templates/algorithm.wizard.template");
-	var step_template = load_text_resource_with_ajax("wizard/templates/step.wizard.template");
+	var algorithm_wizard_step_template = COMM.synchronous.load_text_resource("wizard/templates/algorithm.wizard.template");
+	var step_template = COMM.synchronous.load_text_resource("wizard/templates/step.wizard.template");
 
 	function insert_wizard_step(holder_selector, step){
-		var inner_html = load_text_resource_with_ajax("wizard/wizard.steps/"+step["html"]);
+		var inner_html = COMM.synchronous.load_text_resource("wizard/wizard.steps/"+step["html"]);
 		step["inner_html"] = new Handlebars.SafeString(inner_html);
 		var template = Handlebars.compile(step_template);
 		$(holder_selector).append(template(step));
 	};
 	
 	function insert_navigation (holder_selector){
-		var inner_html = load_text_resource_with_ajax("wizard/wizard.steps/"+STEPS.navigation_html);
+		var inner_html = COMM.synchronous.load_text_resource("wizard/wizard.steps/"+STEPS.navigation_html);
 		$(holder_selector).append(inner_html);
 	}
 	

@@ -9,7 +9,7 @@ WIZARD.control = (function(module){
 			var file_path = step.find("#workspace_base")
 			.val();
 			if(file_path!=""){
-				var file_check  = file_exists(file_path);
+				var file_check  = COMM.synchronous.file_exists(file_path);
 
 				if(file_check["exists"]){
 					return true;
@@ -19,7 +19,7 @@ WIZARD.control = (function(module){
 					"Folder does not exist, do you want to create it?");
 
 					create_new_folder_question.done(function(){
-						create_folder(file_path);
+						COMM.synchronous.create_folder(file_path);
 						$("#wizard-wrapper").wizard("forward",[event,1]);
 					});
 				}

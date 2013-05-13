@@ -38,7 +38,7 @@
     
     <!-- CUSTOM SCRIPTS -->
     <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/path_tools.js" charset="utf-8"></script>
+    <script type="text/javascript" src="wizard/js/communication.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/evaluation_criteria_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/params_gathering.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/definitions/algorithm.types.js" charset="utf-8"></script>
@@ -46,9 +46,6 @@
     <script type="text/javascript" src="wizard/js/definitions/queries.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/definitions/parameters.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/algorithm_parameter_parsers.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/run_script.js" charset="utf-8"></script>
-    <script type="text/javascript" src="wizard/js/save_script.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/dialogs.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/selection_preview_handling.js" charset="utf-8"></script>
     <script type="text/javascript" src="wizard/js/mainmenu.js" charset="utf-8"></script>
@@ -67,7 +64,7 @@
         $(document).ready( function() {
         	$("#main").center();
         	
-            var	dialog_contents_template = load_text_resource_with_ajax("wizard/templates/dialog_contents.template");
+            var	dialog_contents_template = COMM.synchronous.load_text_resource("wizard/templates/dialog_contents.template");
             $(".main_menu_window").show();
             $(".wizard_window").hide();
             MAIN_MENU.setup_main_menu(".main_menu_button_row");

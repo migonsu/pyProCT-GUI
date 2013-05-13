@@ -4,7 +4,7 @@ WIZARD.components_behaviour = (function(module){
 		$("#run_button").button("option", "icons",{primary:"ui-icon-gear"});
         $("#run_button").click(function(){
         	var parameters = create_parameters(selected_algorithms);
-        	ajax_run_script(parameters);
+        	COMM.asynchronous.run_pyproclust(parameters);
         });
 	}
 	
@@ -12,7 +12,7 @@ WIZARD.components_behaviour = (function(module){
         $("#script_button").button("option", "icons",{primary:"ui-icon-disk"});
         $("#script_button").click(function(){
         	var parameters = create_parameters(selected_algorithms);
-        	ajax_save_script(parameters);
+        	COMM.asynchronous.download_script(parameters);
         });
 	}
 	

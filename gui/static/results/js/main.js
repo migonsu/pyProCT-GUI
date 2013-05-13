@@ -100,9 +100,9 @@ function process_result_data(data){
 
 
 function generate_tabs_content(data){
-	var summary_template = load_text_resource_with_ajax("results/templates/summary.template");
-	var evaluation_template = load_text_resource_with_ajax("results/templates/evaluation.template");
-	var files_template = load_text_resource_with_ajax("results/templates/files.template");
+	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
+	var evaluation_template = COMM.synchronous.load_text_resource("results/templates/evaluation.template");
+	var files_template = COMM.synchronous.load_text_resource("results/templates/files.template");
 	
 	$("#tabs").tabs();
 	
