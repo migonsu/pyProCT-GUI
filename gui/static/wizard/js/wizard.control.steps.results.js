@@ -15,17 +15,17 @@ WIZARD.control = (function(module){
 					return true;
 				}
 				else{
-					var create_new_folder_question = yes_or_no_dialog ("Warning",
-					"Folder does not exist, do you want to create it?");
-
-					create_new_folder_question.done(function(){
-						COMM.synchronous.trigger_results_page(file_path);
-						$("#wizard-wrapper").wizard("forward",[event,1]);
-					});
+					DIALOG.yes_or_no (
+							"Warning",
+							"Folder does not exist, do you want to create it?",
+							function(){
+								COMM.synchronous.trigger_results_page(file_path);
+								$("#wizard-wrapper").wizard("forward",[event,1]);
+							});
 				}
 			}
 			else{
-				warning_dialog ("The field cannot be empty.");
+				DIALOG.warning ("The field cannot be empty.");
 			}
 			return false;
 		}

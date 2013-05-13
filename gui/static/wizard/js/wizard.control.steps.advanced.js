@@ -15,18 +15,18 @@ WIZARD.control = (function(module){
 					return true;
 				}
 				else{
-					var create_new_folder_question = DIALOG.yes_or_no(
-										"Warning",
-										"Folder does not exist, do you want to create it?",
-										function(){
-											COMM.synchronous.create_folder(file_path);
-											console.log("adelante!");
-											$("#wizard-wrapper").wizard("forward",[event,1]);
-										});
+					DIALOG.yes_or_no(
+									"Warning",
+									"Folder does not exist, do you want to create it?",
+									function(){
+										COMM.synchronous.create_folder(file_path);
+										console.log("adelante!");
+										$("#wizard-wrapper").wizard("forward",[event,1]);
+									});
 				}
 			}
 			else{
-				warning_dialog ("The field cannot be empty.");
+				DIALOG.warning("The field cannot be empty.");
 			}
 			
 			console.log("last return")
@@ -37,7 +37,7 @@ WIZARD.control = (function(module){
             	return true;
         	}
         	else{
-        		warning_dialog ("You have to add at least one trajectory.");
+        		DIALOG.warning("You have to add at least one trajectory.");
         		return false;
         	}
 		},
@@ -45,7 +45,7 @@ WIZARD.control = (function(module){
 	    	if($("#rmsd_fit_selection").val() == "" || 
     				(!step.find("#usesamefitandcalc").is(':checked') && 
     						$("#rmsd_calc_selection").val() == "")){
-	        	warning_dialog ("Fields cannot be empty.");
+	        	DIALOG.warning ("Fields cannot be empty.");
 				return false;			            		
         	}
     		if (step.find("#usesamefitandcalc").is(':checked')){
@@ -56,7 +56,7 @@ WIZARD.control = (function(module){
 	    "distance-1":function(event, state, step, step_id){
 	    	if($("#dist_fit_selection").val() == "" || 
 					$("#dist_calc_selection").val() == ""){
-		    	warning_dialog ("Fields cannot be empty.");
+		    	DIALOG.warning ("Fields cannot be empty.");
 				return false;			            		
 			}
 	    	return true;
@@ -66,7 +66,7 @@ WIZARD.control = (function(module){
             	return true;
         	}
         	else{
-        		warning_dialog ("You have to specify the file you want to load.");
+        		DIALOG.warning ("You have to specify the file you want to load.");
         	}
 	    	return false;
 		},
@@ -77,7 +77,7 @@ WIZARD.control = (function(module){
             	return true;
         	}
         	else{
-        		warning_dialog ("You have to add at least one clustering algorithm.");
+        		DIALOG.warning ("You have to add at least one clustering algorithm.");
         	}
 	    	return false;
 		},
@@ -92,7 +92,7 @@ WIZARD.control = (function(module){
         		step.find(":text").each(function(){
         			if(!a_list_is_incorrect){
             			if($(this).val() == ""){
-            				warning_dialog ("List must have at least one element.");
+            				DIALOG.warning ("List must have at least one element.");
             				a_list_is_incorrect = true;
             				return;
             			}
@@ -100,7 +100,7 @@ WIZARD.control = (function(module){
             				console.log($(this).val());
             				if(!has_list_format($(this).val())){
             					a_list_is_incorrect = true;
-            					warning_dialog ("List has not the correct format.");
+            					DIALOG.warning ("List has not the correct format.");
             					return;
             				}
             			}
@@ -115,7 +115,7 @@ WIZARD.control = (function(module){
 		},
 	    'criteria-2':function(event, state, step, step_id){
 	    	if ($("#criteria_list").dynamiclist("isEmpty")){
-        		warning_dialog ("You need to define at least one selection criterium.");
+        		DIALOG.warning ("You need to define at least one selection criterium.");
         		return false;
         	}
         	else{

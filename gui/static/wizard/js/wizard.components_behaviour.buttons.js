@@ -19,7 +19,7 @@ WIZARD.components_behaviour = (function(module){
 	module.setup_show_results_button = function(){
         $("#show_results_button").click(function(){
         	var parameters = create_parameters([]);
-        	show_results_dialog(parameters["workspace"], false);
+        	COMM.synchronous.trigger_results_page(parameters["workspace"]);
         });
 	}
 	

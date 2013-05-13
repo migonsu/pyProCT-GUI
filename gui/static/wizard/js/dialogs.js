@@ -1,32 +1,3 @@
-function show_results_dialog(parameters, confirmation){
-	if(confirmation){
-		$("<div title='Results' id = 'results_dialog'>" +
-		    "<span id = 'results_string' > Do you want to check the results? </span>"+
-			"</div>")
-	       .dialog({
-	           modal:true,
-	           autoResize:true,
-	           width:'auto',
-	           buttons: [{ 
-	                text: "Yes",
-	                click: function() {
-	                	COMM.synchronous.trigger_results_page(parameters);
-	                	$("#results_dialog").dialog("destroy");
-	                }
-	           },
-	           {
-	                text: "No",
-	                click: function(){
-	                	$("#results_dialog").dialog("destroy");
-	                }
-	           }]});
-	}
-	else{
-		COMM.synchronous.trigger_results_page(parameters);
-	}
-}
-
-
 function browsing_dialog(target, ok_callback){
     var what_we_search = target;
 	var expected_extension = "";
@@ -132,27 +103,33 @@ var DIALOG = (function(){
 	            ]
 	    });
 	}
+	 
+	 var warning = function (message){
+		    $("<div/>", { 
+		    	id: 'warning_dialog',
+		    	title: 'Warning',
+		    	html: message})
+		    .dialog({
+		                modal:true, 
+		                autoResize:true,
+		                width:'auto',
+		                close: function( event, ui ){
+		                    $(this).dialog("destroy");
+		                },
+		                buttons: [{ 
+		                            text: "Ok",
+		                            click: function() { 
+		                            	$(this).dialog("destroy")
+		                            }
+		                }]
+		    });
+		}
 	
 	return {
-		yes_or_no:yes_or_no
+		yes_or_no:yes_or_no,
+		warning: warning
 	}
 
 }());
 
-function warning_dialog (message){
-    $("<div title='Warning'>"+message+"</div>", { id:'warning_dialog'})
-    .dialog({
-                modal:true, 
-                autoResize:true,
-                width:'auto',
-                close: function( event, ui ){
-                    $(this).dialog("destroy");
-                },
-                buttons: [{ 
-                            text: "Ok",
-                            click: function() { 
-                            	$(this).dialog("destroy")
-                            }
-                }]
-    });
-}
+

@@ -112,19 +112,19 @@ function do_preview(
 	     complete: function(jqXHR, textStatus){
 		      var molFile = decodeURIComponent(jqXHR.responseText);
 		      if (molFile == "ERROR:ImproductiveSelection"){
-		    	  warning_dialog ("Improoductive selection (returned 0 atoms).");
+		    	  DIALOG.warning("Improoductive selection (returned 0 atoms).");
 		    	  input_field.val("");
 		    	  viewer.clear();
 		      }
 		      else {
 		    	  if (molFile == "ERROR:MalformedSelection"){
-			    	  warning_dialog ("Malformed selection.");
+		    		  DIALOG.warning("Malformed selection.");
 			    	  input_field.val("");
 			    	  viewer.clear();
 		      	  }
 			      else{
 			    	  if (molFile == "EMPTY"){
-			    		  warning_dialog ("Fields cannot be empty.");
+			    		  DIALOG.warning("Fields cannot be empty.");
 				    	  input_field.val("");
 				    	  viewer.clear();
 			    	  }

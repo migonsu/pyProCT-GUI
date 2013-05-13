@@ -107,7 +107,13 @@ var COMM = (function(){
 							    	// Then destroy the dialog
 							    	progress_dialog.dialog("destroy");
 							    	// Create the results dialog
-							    	show_results_dialog(parameters["workspace"],true);
+							    	DIALOG.yes_or_no(
+							    			"Results",
+							    			"Do you want to check the results?",
+							    			function(){
+							    				COMM.synchronous.trigger_results_page(parameters["workspace"]);
+							    			}
+							    	);
 							    }
 							    else{
 							    	// Capture Status
@@ -174,11 +180,11 @@ var COMM = (function(){
 				       	                                	 var response = jqXHR.responseText;
 				       	                                	 console.log("RESPONSE", response);
 				       	                                	 if(response == "OK"){
-				       	                                		 warning_dialog("Process succesfully terminated.");
+				       	                                		 DIALOG.warning("Process succesfully terminated.");
 				       	                                		 $("#progress_dialog").dialog("destroy");
 				       	                                	 }
 				       	                                	 else{
-				       	                                		warning_dialog("It was impossible to terminate the calculation process. Please try again.");
+				       	                                		DIALOG.warning("It was impossible to terminate the calculation process. Please try again.");
 				       	                                	 }
 				       	                                	 $("#spinner_progress").spin(false);
 				       	                                	 $("body").remove("#spinner_progress")
