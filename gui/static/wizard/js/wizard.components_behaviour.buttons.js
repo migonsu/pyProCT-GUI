@@ -37,38 +37,32 @@ WIZARD.components_behaviour = (function(module){
         });
 	}
 	
+	
+	function browsing_common(type, input_id){
+		var callback = function(value){
+        	console.log("DIALOG.last_root",DIALOG.browsing.last_root)
+        	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); 
+        	DIALOG.browsing.last_root = abs_path;
+        	$("#"+input_id).val(abs_path);
+        };
+    	DIALOG.browsing.browse(type, callback);
+	}
+	
 	module.setup_browse_results_folder_button = function(){
 	    $("#browse_results_folder_button").click(function(){
-	        var callback = function(value){
-	        	console.log("DIALOG.last_root",DIALOG.browsing.last_root)
-	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
-	        	DIALOG.browsing.last_root = abs_path;
-	        	$("#results_folder").val(abs_path);
-	        };
-	    	DIALOG.browsing.browse("folder", callback);
+	    	browsing_common("folder","results_folder");
 	    });
 	}
 	
 	module.setup_browse_workspace_button = function(){
 	    $("#browse_project_folder_button").click(function(){
-	        var callback = function(value){
-	        	console.log("DIALOG.last_root",DIALOG.browsing.last_root)
-	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
-	        	DIALOG.browsing.last_root = abs_path;
-	        	$("#workspace_base").val(abs_path);
-	        };
-	    	DIALOG.browsing.browse("folder", callback);
+	    	browsing_common("folder","workspace_base");
 	    });
 	}
 	
 	module.setup_browse_matrix_button = function(){  
 	    $("#browse_matrix_button").click(function(){
-	            var callback = function(value){
-	            	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
-		        	DIALOG.browsing.last_root = abs_path;
-	            	$("#matrix_creation_path").val(abs_path);
-	            };
-	            DIALOG.browsing.browse("file::npy", callback);
+	    	browsing_common("file::npy","matrix_creation_path");
 	     });
 	}
 	
