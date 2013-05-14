@@ -310,6 +310,7 @@ function set_dictionary_entry( 	this_dictionary,
 								key_list, 
 								value,
 								key_index){
+	
 	var index;
 	if (typeof key_index == "undefined"){
 		index = 0;

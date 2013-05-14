@@ -47,6 +47,21 @@ WIZARD.components_behaviour = (function(){
 				this.setup_rmsd_previewer();
 				this.setup_distance_previewer();
 				break;
+			
+			case MAIN_MENU.CLUSTERING_ACTION:
+				
+				// Lists
+				this.setup_trajectory_list();
+				
+				// Buttons
+				this.setup_run_button();
+				this.setup_get_script_button();
+				this.setup_browse_workspace_button();
+				
+				// Previewers
+				this.setup_rmsd_previewer();
+				this.setup_distance_previewer();
+				break;
 				
 			default:
 				break;

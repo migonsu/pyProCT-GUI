@@ -17,9 +17,8 @@ var WIZARD = (function(){
 	
 	var create_branch_course = function(holder_selector, branch_descriptor){
 		var step_descritor = null;
-		var id = "";
 		var next_branch_descriptor = null;
-		var new_holder = null;
+		var step_id = "";
 		for(var i = 0; i < branch_descriptor.length; i++){
 			step_id = branch_descriptor[i]["id"];
 			step_descriptor = STEPS.descriptor[step_id];
@@ -32,7 +31,7 @@ var WIZARD = (function(){
 				next_branch_descriptor = branch_descriptor[i]["next"];
 				step_descriptor["next_id"] = next_branch_descriptor["id"];
 				insert_wizard_step(holder_selector, step_descriptor);
-				for(branch_id in next_branch_descriptor["branches"]){
+				for(var branch_id in next_branch_descriptor["branches"]){
 					$(holder_selector).append("<div class='branch' id='"+branch_id+"'> </div>");
 					create_branch_course("#"+branch_id, 
 							next_branch_descriptor["branches"][branch_id]);
@@ -48,6 +47,6 @@ var WIZARD = (function(){
 	
 	return {
 		generate_wizard_course:generate_wizard_course
-	}
+	};
 	
 }());

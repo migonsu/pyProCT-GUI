@@ -15,7 +15,7 @@ var COMM = (function(){
 					      },
 					      
 					      error:function( jqXHR, textStatus, errorThrown ){
-					          alert( "Request failed: " + textStatus+". Is the server working?" );
+					    	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 					          response = {'exists':false,'isfile':false};
 					      }
 					    });
@@ -35,7 +35,7 @@ var COMM = (function(){
 				      },
 				      
 				      error:function( jqXHR, textStatus, errorThrown ){
-				          alert( "Request failed: " + textStatus+". Is the server working?" );
+				    	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				          response = {'done':false};
 				      }
 				    });
@@ -50,12 +50,14 @@ var COMM = (function(){
 			     		dataType: "text",
 			     		async: false,
 			     		data: JSON.stringify(parameters),
-			     		complete: function(jqXHR, textStatus) {
+			     		complete: function(jqXHR, textStatus){
 					          response =  jqXHR.responseText;
-					          console.log("TODO: add fallback function in case of recoverable error.")
+					          if(response === "KO"){
+					        	  DIALOG.warning("No results found. Check server log.");
+					          }
 			     		},
 			     		error:function(jqXHR, textStatus, errorThrown){
-			     			alert( "Request failed: " + textStatus+". Is the server working?" );
+			     			DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 			     		}
 			        });
 				},
@@ -82,7 +84,7 @@ var COMM = (function(){
 				              },
 				              
 				              error:function( jqXHR, textStatus, errorThrown ){
-				                  alert( "Request failed: " + textStatus+". Is the server working?" );
+				            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				              }
 				            });
 				            
@@ -104,7 +106,7 @@ var COMM = (function(){
 				              },
 				              
 				              error:function( jqXHR, textStatus, errorThrown ){
-				                  alert( "Request failed: " + textStatus+". Is the server working?" );
+				            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				              }
 				            });
 				            
@@ -127,7 +129,7 @@ var COMM = (function(){
 			              },
 			              
 			              error:function( jqXHR, textStatus, errorThrown ){
-			                  alert( "Request failed: " + textStatus+". Is the server working?" );
+			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 			              }
 			            });
 					return abs;
@@ -169,7 +171,7 @@ var COMM = (function(){
 							},
 							
 							error:function( jqXHR, textStatus, errorThrown ){
-							    alert( "Request failed: " + textStatus+". Is the server working?" );
+								DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 							}
 						});
 					};
@@ -242,7 +244,7 @@ var COMM = (function(){
 				          },
 				          
 				          error:function( jqXHR, textStatus, errorThrown ){
-				              alert( "***Request failed: " + textStatus+". Is the server working?" );
+				        	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				          }
 				        });
 				},
@@ -259,7 +261,7 @@ var COMM = (function(){
 							window.location.href = "/serve_file?path="+my_response_object.file_url+"&filename=parameters.json";
 						},
 						error:function( jqXHR, textStatus, errorThrown ){
-							alert( "Request failed: " + textStatus+". Is the server working?" );
+							DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 						}
 					});
 				}     

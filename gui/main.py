@@ -132,14 +132,16 @@ if __name__ == '__main__':
             self.wfile.write('{"file_url":"'+path+'"}')
         
         def show_results_handler(self, data):
-            print "SHOWING RESULTS"
-            data = convert_to_utf8(json.loads(data))
-            print data
-            create_directory("results/tmp")
-            results_path = os.path.join(data["base"],data["results"],"results.json")
-            shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
-            webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
-            self.wfile.write("OK - put a  try-except!!")
+            try:
+                data = convert_to_utf8(json.loads(data))
+                print data
+                create_directory("results/tmp")
+                results_path = os.path.join(data["base"],data["results"],"results.json")
+                shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
+                webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
+                self.wfile.write("OK")
+            except IOError:
+                self.wfile.write("KO")
             
         def normalize_path_handler(self, data):
             data = convert_to_utf8(json.loads(data))

@@ -6,8 +6,8 @@ WIZARD.control = (function(module){
 	
 	module.functions[MAIN_MENU.ADVANCED_ACTION] = {
 		'workspace-1':function(event, state, step, step_id){
-			var file_path = step.find("#workspace_base")
-			.val();
+			var file_path = step.find("#workspace_base").val();
+			
 			if(file_path!=""){
 				var file_check  = COMM.synchronous.file_exists(file_path);
 
@@ -20,7 +20,6 @@ WIZARD.control = (function(module){
 									"Folder does not exist, do you want to create it?",
 									function(){
 										COMM.synchronous.create_folder(file_path);
-										console.log("adelante!");
 										$("#wizard-wrapper").wizard("forward",[event,1]);
 									});
 				}
@@ -29,7 +28,6 @@ WIZARD.control = (function(module){
 				DIALOG.warning("The field cannot be empty.");
 			}
 			
-			console.log("last return")
 			return false;
 		},
 	    'trajectory-1':function(event, state, step, step_id){
@@ -73,7 +71,7 @@ WIZARD.control = (function(module){
 	    'algorithms-1':function(event, state, step, step_id){
 	    	if (!$("#algorithms_list").dynamiclist("isEmpty")){
         		var list = step.find(":custom-dynamiclist");
-            	selected_algorithms = list.dynamiclist("getValue").split(",");
+        		GLOBAL.selected_algorithms = list.dynamiclist("getValue").split(",");
             	return true;
         	}
         	else{

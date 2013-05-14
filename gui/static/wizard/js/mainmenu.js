@@ -76,6 +76,7 @@ var MAIN_MENU = (function(){
 		return {
 			RESULTS_ACTION:RESULTS_ACTION,
 			ADVANCED_ACTION:ADVANCED_ACTION,
+			CLUSTERING_ACTION:CLUSTERING_ACTION,
 			setup_main_menu:setup_main_menu,
 			selected_action:selected_action
 		};

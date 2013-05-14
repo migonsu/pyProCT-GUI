@@ -1,5 +1,4 @@
 WIZARD.control = (function(){
-	var selected_algorithms = [];
 	
 	function forward_move_common(action, event, state){
 		var step = $(state.step[0]);
@@ -37,9 +36,7 @@ WIZARD.control = (function(){
 		        backward: ".backward",
 		
 			    onForwardMove: function(event, state) {	
-			    	var com = forward_move_common(action, event, state);
-			    	console.log("COM",com)
-			    	return com;//forward_move_common(action, event, state);
+			    	return forward_move_common(action, event, state);
 			    },
 			    
 			    afterForward:function(event, state) {
@@ -49,11 +46,7 @@ WIZARD.control = (function(){
 			        // detect an algorithm transition
 			    	if(step_id.indexOf("algorithm-")!=-1){
 			    		var algorithm_id = step_id.substring(10);
-			    		console.log(algorithm_id)
-			    		if($("#algorithms_list").dynamiclist("getListHandler").isAlreadyInTheList(ALGORITHM.titles[algorithm_id])){
-			    			console.log(algorithm_id+" it's being selected")
-			    		}
-			    		else{
+			    		if(!$("#algorithms_list").dynamiclist("getListHandler").isAlreadyInTheList(ALGORITHM.titles[algorithm_id])){
 			    			$("#wizard-wrapper").wizard("forward",[event,1]);
 			    		}
 			    	}
@@ -66,7 +59,6 @@ WIZARD.control = (function(){
 			        // detect an algorithm transition
 			    	if(step_id.indexOf("algorithm-")!=-1){
 			    		var algorithm_id = step_id.substring(10);
-			    		console.log(algorithm_id)
 			    		if($("#algorithms_list").dynamiclist("getListHandler").isAlreadyInTheList(ALGORITHM.titles[algorithm_id])){
 			    			console.log(algorithm_id+" it's being selected")
 			    		}
@@ -87,7 +79,7 @@ WIZARD.control = (function(){
 	        });
        }
        
-       if (action ===MAIN_MENU.RESULTS_ACTION){
+       if (action === MAIN_MENU.RESULTS_ACTION){
     	   $("#wizard-wrapper").wizard({
 		        stepsWrapper: "#steps_wrapper",
 		        
@@ -100,10 +92,37 @@ WIZARD.control = (function(){
 			    }
     	   });
        }
-	}
+       
+       if (action === MAIN_MENU.CLUSTERING_ACTION){
+    	   console.log("DOING CLUSTERING")
+    	   
+    	   $("#wizard-wrapper").wizard({
+		        stepsWrapper: "#steps_wrapper",
+		        
+		        forward: ".forward",
+		        
+		        backward: ".backward",
+		        
+		        onForwardMove: function(event, state) {	
+		        	return forward_move_common(action, event, state);
+			    },
+			    
+			    transitions: {
+				    'matrix_creation_options': function($step, action) {
+					    // The branch to go changes to reflect your choice.
+					    var branch = $step.find("[name=matrix_creation_options]:checked").val();
+					    return branch;
+				    }
+			    }
+    	   });
+       }
+       
+       if (action === MAIN_MENU.COMPRESS){
+       }
+	};
 	
 	
 	return {
-		setup_wizard:setup_wizard
+		setup_wizard:setup_wizard,
 	};
 }());

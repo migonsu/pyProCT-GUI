@@ -1,6 +1,21 @@
 var STEPS = (function(){
 	
 	var courses = {
+			"clustering":[
+			              {id:"workspace-1", next:"trajectory-1"},
+			              {id:"trajectory-1", next:"matrix_creation-2"},
+			              {id:"matrix_creation-2",next:{
+								id:"matrix_creation_options",
+								branches:{
+									"rmsd":[{id:"rmsd-1",next:"criteria-1"}],
+									"distance":[{id:"distance-1",next:"criteria-1"}],
+								}
+							}
+			              },
+			              {id:"criteria-1",next:"run-1"},
+			              {id:"run-1",next:""}
+			],
+			
 			"advanced":[
 						{id:"workspace-1",next:"trajectory-1"},
 						{id:"trajectory-1",next:"matrix_creation-1"},
@@ -18,12 +33,12 @@ var STEPS = (function(){
 						{id:"query-1",next:"criteria-2"},
 						{id:"criteria-2",next:"run-1"},
 						{id:"run-1",next:""}
-					],
+			],
 			
 			"results":[
 			           {id:"browse-results-1",next:"run-2"},
 			           {id:"run-2",next:""}
-			        ]
+			]
 	};
 
 	var navigation_html = "navigation.html";
@@ -44,6 +59,10 @@ var STEPS = (function(){
 		"matrix_creation-1":{
 			"title": "Choose how do you want to obtain the matrix:",
 			"html": "matrix_creation-1.html"
+		},
+		"matrix_creation-2":{
+			"title": "Choose how do you want to obtain the matrix:",
+			"html": "matrix_creation-2.html"
 		},
 		"rmsd-1":{
 			"title": "Define the part of the molecule used for superposition:",

@@ -12,7 +12,7 @@ function create_parameters(selected_algorithms){
 	
 	// Add the action value
 	set_dictionary_entry(
-				parameters, 
+				parameters,
 				'global:action:type'.split(":"),
 				MAIN_MENU.selected_action);
 	
@@ -26,7 +26,6 @@ function create_parameters(selected_algorithms){
 			value = get_value_of(field, description.type);
 		}
 		else{
-			console.log("Is ",description.maps_to ,"already defined?", is_defined(parameters,description.maps_to.split(":")))
 			if (typeof description.defaults_to !== "undefined" 
 				&& !is_defined(parameters,description.maps_to.split(":"))){
 				value = description.defaults_to;
@@ -35,37 +34,55 @@ function create_parameters(selected_algorithms){
 				value = "not defined";
 			}
 		}
-
 		set_dictionary_entry(
 				parameters, 
 				description.maps_to.split(":"), 
 				value);
+		
 	}
 	
 	// Now gather algorithm's parameters
-	console.log(selected_algorithms);
-	for(var i = 0; i < selected_algorithms.length; i++){
-		algorithm_type = ALGORITHM.titles_reverse[selected_algorithms[i]];
+	for(var i = 0; i < GLOBAL.selected_algorithms.length; i++){
+		algorithm_type = ALGORITHM.titles_reverse[GLOBAL.selected_algorithms[i]];
 		set_dictionary_entry(
 				parameters, 
 				["clustering","algorithms",algorithm_type,"use"],
 				true);
-		parameter_parser = get_algorithm_parameter_parsers(algorithm_type);
+		
 		algorithm_field = find_target_field("algorithm-"+algorithm_type);
-		// Do we want pyProClust to calculate the parameters itself?
-		guess_params_checkbox = algorithm_field.find("#guess_params_"+algorithm_type);
-		if(!guess_params_checkbox.is(":checked")){
+		
+		// If the wizard step is defined...
+		console.log("ALGOF", algorithm_field);
+		if (algorithm_field !== "undefined"){
+			// Do we want pyProClust to calculate the parameters itself?
+			parameter_parser = get_algorithm_parameter_parsers(algorithm_type);
+			guess_params_checkbox = algorithm_field.find("#guess_params_"+algorithm_type);
+			if(!guess_params_checkbox.is(":checked")){
+				set_dictionary_entry(
+						parameters,
+						["clustering","algorithms",algorithm_type,"parameters"],
+						parameter_parser(algorithm_field));
+				
+				set_dictionary_entry(
+						parameters,
+						["clustering","algorithms",algorithm_type,"auto"],
+						false);
+			}
+		}
+		else{
 			set_dictionary_entry(
-					parameters, 
-					["clustering","algorithms",algorithm_type,"parameters"],
-					parameter_parser(algorithm_field));
+					parameters,
+					["clustering","algorithms",algorithm_type,"auto"],
+					true);
 		}
 	}
 	
 	return parameters;
 }
 
-
+/**
+ * Sets all known fields to their default values.
+ */
 function set_defaults_to_fields(){
 	var parameter_descriptions = get_parameter_descriptions();
 	var field = "undefined";
@@ -77,7 +94,6 @@ function set_defaults_to_fields(){
 		//Search a parameter holder
 		field = find_target_field(id_or_name);
 		if(field !== "undefined"){
-			console.log("ID ",id_or_name);
 			if(typeof description.defaults_to !== "undefined"){
 				set_value_of(field, 
 							description.defaults_to, 
