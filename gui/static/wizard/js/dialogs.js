@@ -183,7 +183,7 @@ var DIALOG = (function(){
 		/*
 		    Creates the contents of the dialog (using handlebars))
 		*/
-		function get_eval_dialog_contents(template){
+		function get_eval_dialog_contents(template_contents){
 		    // Gather data
 		    var data = {criteria:[]};
 		    for (var i = 0;i < QUERIES.criteria_types.length; i++){
@@ -192,7 +192,7 @@ var DIALOG = (function(){
 		    }
 		    
 		    // Render it
-		    var template = Handlebars.compile(template);
+		    var template = Handlebars.compile(template_contents);
 		    return template(data);
 		}
 	
@@ -208,7 +208,7 @@ var DIALOG = (function(){
 		        if (weight != 0){
 		            // Maximize or minimize?
 		            var min_max = $("#"+criteria_name+"_listbox").val();
-		            string_criteria += min_max + " " + criteria_name + " (weight: "+ weight + ") and "   
+		            string_criteria += min_max + " " + criteria_name + " (weight: "+ weight + ") and ";
 		        }
 		    }
 		    // remove last and return
@@ -217,7 +217,7 @@ var DIALOG = (function(){
 		
 		return{
 			criteria_creation:criteria_creation
-		}
+		};
 
 	}());
 	

@@ -12,6 +12,7 @@ WIZARD.components_behaviour = (function(module){
         	var callback = function(value){
         		var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
 	        	DIALOG.browsing.last_root = abs_path;
+	        	abs_path = COMM.synchronous.absolute_path(value);
         		dl.addElement(abs_path);
             };
             DIALOG.browsing.browse("file::pdb", callback);

@@ -226,5 +226,5 @@ function get_parameter_descriptions(){
 			maps_to:'clustering:control:evaluation_scheduler_sleep_time',
 			defaults_to: 30
 		}
-	}
+	};
 }
