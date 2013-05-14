@@ -17,9 +17,11 @@ WIZARD.components_behaviour = (function(){
 	
 	var apply_behaviour = function(action){
 		general_widget_behaviour();
+		
 		switch (action){
 		
 			case MAIN_MENU.RESULTS_ACTION:
+				
 				this.setup_browse_results_folder_button();
 				this.setup_show_results_button();
 				break;

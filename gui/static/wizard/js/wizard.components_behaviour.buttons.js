@@ -16,8 +16,14 @@ WIZARD.components_behaviour = (function(module){
         });
 	};
 	
+	/**
+	 * Uses the results file to load the parameters file that contains the description of the workspace.
+	 * In this way the user only cares about finding the results.json file, and the workspace is defined
+	 * without errors.
+	 */
 	module.setup_show_results_button = function(){
         $("#show_results_button").click(function(){
+        	// Precondition: results.json file exists in the folder
         	var results_path = get_value_of($("#results_folder"))+"/results.json";
         	var results = $.parseJSON(COMM.synchronous.load_external_text_resource(results_path));
         	
@@ -28,6 +34,8 @@ WIZARD.components_behaviour = (function(module){
         			params_file_path = results["files"][i]["path"];
         		}
         	}
+        	
+        	// Use parameters to show results
         	var parameters = $.parseJSON(COMM.synchronous.load_external_text_resource(params_file_path));
         	COMM.synchronous.trigger_results_page(parameters["workspace"]);
         });

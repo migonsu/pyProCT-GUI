@@ -1,4 +1,7 @@
 var MAIN_MENU = (function(){
+		var selected_action = "";
+		
+		// Actions  enumeration
 		var CLUSTERING_ACTION = "clustering";
 		var ADVANCED_ACTION =  "advanced";
 		var RESULTS_ACTION = "results";
@@ -39,14 +42,14 @@ var MAIN_MENU = (function(){
 			}
 			$(".main_menu_button").button();
 			$(".main_menu_button").click(function(){
-				console.log($(this).attr("id"))
+				MAIN_MENU.selected_action = $(this).attr("id");
 				switch_to_wizard($(this).attr("id"));
 			});
 			
 			$("#start_over_button").click(function(){
 				start_over();
 			});
-		}
+		};
 		
 		function switch_to_wizard(action){
 			WIZARD.generate_wizard_course("#steps_wrapper", action);
@@ -73,7 +76,8 @@ var MAIN_MENU = (function(){
 		return {
 			RESULTS_ACTION:RESULTS_ACTION,
 			ADVANCED_ACTION:ADVANCED_ACTION,
-			setup_main_menu:setup_main_menu
-		}
+			setup_main_menu:setup_main_menu,
+			selected_action:selected_action
+		};
 
 }());

@@ -1,10 +1,7 @@
 var STEPS = (function(){
 	
-	var transitionFunctions = {};
-	
 	var courses = {
 			"advanced":[
-			            {id:"main_selection",next:"workspace-1"},
 						{id:"workspace-1",next:"trajectory-1"},
 						{id:"trajectory-1",next:"matrix_creation-1"},
 						{id:"matrix_creation-1",next:{
@@ -32,10 +29,6 @@ var STEPS = (function(){
 	var navigation_html = "navigation.html";
 	
 	var descriptor = {
-		"main_selection":{
-			"title": "What's your goal?",
-			"html": "main_selection.html"
-		},
 		"browse-results-1":{
 			"title": "Choose a results folder:",
 			"html": "browse-results-1.html"
@@ -94,6 +87,6 @@ var STEPS = (function(){
 		courses:courses,
 		descriptor:descriptor,
 		navigation_html:navigation_html
-	}
+	};
 	
 }());

@@ -31,7 +31,6 @@ var COMM = (function(){
 				      dataType: "text",
 				      async: false,
 				      complete: function(jqXHR, textStatus) {
-				          console.log(jqXHR.responseText)
 				          response = $.parseJSON(jqXHR.responseText);
 				      },
 				      
@@ -133,7 +132,6 @@ var COMM = (function(){
 			            });
 					return abs;
 				}
-
 		};
 		
 		var async = {
@@ -258,7 +256,7 @@ var COMM = (function(){
 						dataType: "text",
 						complete: function(jqXHR, textStatus){
 							var my_response_object =  $.parseJSON(jqXHR.responseText);
-							window.location.href = "/serve_file?path="+my_response_object.file_url+"&filename=parameters.json"
+							window.location.href = "/serve_file?path="+my_response_object.file_url+"&filename=parameters.json";
 						},
 						error:function( jqXHR, textStatus, errorThrown ){
 							alert( "Request failed: " + textStatus+". Is the server working?" );
@@ -267,12 +265,10 @@ var COMM = (function(){
 				}     
 		};
 		
-		
-		
 		return {
 			synchronous: sync,
 			asynchronous: async
-		}
+		};
 
 
 }());

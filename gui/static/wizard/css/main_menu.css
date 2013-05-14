@@ -6,17 +6,17 @@
     border-radius: 7px;
     border:1px solid;
     height:400px;
-    width:250px;
-    left:125px;
+    width:500px;
     overflow-y:auto;
     overflow-x: hidden;  
     background-color: #fff;
 }
+
 .main_menu_button_row
 {
 	position:relative;
 	width:180px;
-	left:35px;
+	left:160px;
 	top:40px;
 }
 

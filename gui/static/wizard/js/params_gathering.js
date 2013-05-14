@@ -10,6 +10,12 @@ function create_parameters(selected_algorithms){
 	var parameters = {};
 	var algorithm_type, parameter_parser, algorithm_field, guess_params_checkbox;
 	
+	// Add the action value
+	set_dictionary_entry(
+				parameters, 
+				'global:action:type'.split(":"),
+				MAIN_MENU.selected_action);
+	
 	// Gather all defined parameters
 	for (var id_or_name in parameter_descriptions){
 		description = parameter_descriptions[id_or_name];

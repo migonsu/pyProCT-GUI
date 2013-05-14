@@ -130,7 +130,6 @@ if __name__ == '__main__':
             script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
             script_handler.close()
             self.wfile.write('{"file_url":"'+path+'"}')
-            self.wfile.write("OK")
         
         def show_results_handler(self, data):
             print "SHOWING RESULTS"

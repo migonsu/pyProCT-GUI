@@ -1,10 +1,5 @@
 function get_parameter_descriptions(){
 	return {
-		'action_group':{
-			type:'radio',
-			maps_to:'global:action:type'
-		},
-		
 		'action_parameters':{
 			type:'radio',
 			maps_to:'global:action:parameters',
