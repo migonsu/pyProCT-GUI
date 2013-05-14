@@ -18,31 +18,57 @@ WIZARD.components_behaviour = (function(module){
 	
 	module.setup_show_results_button = function(){
         $("#show_results_button").click(function(){
-        	var parameters = create_parameters([]);
+        	var results_path = get_value_of($("#results_folder"))+"/results.json";
+        	var results = $.parseJSON(COMM.synchronous.load_external_text_resource(results_path));
+        	
+        	// Look for parameters file
+        	var params_file_path = "";
+        	console.log(results["files"])
+        	for (var i =0; i < results["files"].length; i++){
+        		if(results["files"][i]["description"] === "Parameters file"){
+        			params_file_path = results["files"][i]["path"];
+        		}
+        	}
+        	console.log("PARAMS FILE PATH", params_file_path)
+        	var parameters = $.parseJSON(COMM.synchronous.load_external_text_resource(params_file_path));
+        	console.log("PARAMS", parameters)
+        	
         	COMM.synchronous.trigger_results_page(parameters["workspace"]);
         });
+	}
+	
+	module.setup_browse_results_folder_button = function(){
+	    $("#browse_results_folder_button").click(function(){
+	        var callback = function(value){
+	        	console.log("DIALOG.last_root",DIALOG.browsing.last_root)
+	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
+	        	DIALOG.browsing.last_root = abs_path;
+	        	$("#results_folder").val(abs_path);
+	        };
+	    	DIALOG.browsing.browse("folder", callback);
+	    });
 	}
 	
 	module.setup_browse_workspace_button = function(){
 	    $("#browse_project_folder_button").click(function(){
 	        var callback = function(value){
-	        	console.log("DIALOG.last_root",DIALOG.last_root)
-	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
-	        	DIALOG.last_root = abs_path;
+	        	console.log("DIALOG.last_root",DIALOG.browsing.last_root)
+	        	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
+	        	DIALOG.browsing.last_root = abs_path;
 	        	$("#workspace_base").val(abs_path);
 	        };
-	    	DIALOG.browse("folder", callback);
+	    	DIALOG.browsing.browse("folder", callback);
 	    });
 	}
 	
 	module.setup_browse_matrix_button = function(){  
 	    $("#browse_matrix_button").click(function(){
 	            var callback = function(value){
-	            	var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
-		        	DIALOG.last_root = abs_path;
+	            	var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
+		        	DIALOG.browsing.last_root = abs_path;
 	            	$("#matrix_creation_path").val(abs_path);
 	            };
-	            DIALOG.browse("file::npy", callback);
+	            DIALOG.browsing.browse("file::npy", callback);
 	     });
 	}
 	

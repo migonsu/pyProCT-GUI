@@ -1,5 +1,4 @@
 WIZARD.components_behaviour = (function(module){
-	var	dialog_contents_template = COMM.synchronous.load_text_resource("wizard/templates/dialog_contents.template");
 	
 	module.setup_trajectory_list = function (){
 		//******************************
@@ -11,11 +10,11 @@ WIZARD.components_behaviour = (function(module){
         dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
         dl.buttons["Add"].click(function(){
         	var callback = function(value){
-        		var abs_path = COMM.synchronous.absolute_path(DIALOG.last_root); // TODO: Refactorizable 100% !!
-	        	DIALOG.last_root = abs_path;
+        		var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
+	        	DIALOG.browsing.last_root = abs_path;
         		dl.addElement(abs_path);
             };
-            DIALOG.browse("file::pdb", callback);
+            DIALOG.browsing.browse("file::pdb", callback);
         });
         dl.buttons["Remove"].click(function(){
             dl.deleteSelectedElements();
@@ -72,6 +71,8 @@ WIZARD.components_behaviour = (function(module){
         });
 	}
 	
+	var	dialog_contents_template = COMM.synchronous.load_text_resource("wizard/templates/dialog_contents.template");
+	
 	module.setup_criteria_list = function(){
 		//******************************
 		// List of criteria
@@ -79,10 +80,7 @@ WIZARD.components_behaviour = (function(module){
 		$("#criteria_list").dynamiclist({height:155,buttons:["Add Criteria","Remove"]});
         var dl3 = $("#criteria_list").dynamiclist("getListHandler");
         dl3.buttons["Add Criteria"].click(function(){
-            criteria_creation_show_dialog(
-		                			criteria_types, 
-		                			dl3, 
-		                        	dialog_contents_template);
+            DIALOG.criteria.criteria_creation(criteria_types, dl3, dialog_contents_template);
         });
         dl3.buttons["Remove"].click(function(){
             dl3.deleteSelectedElements();

@@ -90,6 +90,29 @@ var COMM = (function(){
 				    return text_resource;
 				},
 				
+				load_external_text_resource: function (resource){
+				    var text_resource = "";
+				    
+				    $.ajax({
+				              url: "/read_external_file",
+				              type: "POST",
+				              dataType: "text",
+				              async: false,
+				              data: JSON.stringify({"path":resource}),
+				              
+				              complete: function(jqXHR, textStatus){
+				                  text_resource = jqXHR.responseText;
+				              },
+				              
+				              error:function( jqXHR, textStatus, errorThrown ){
+				                  alert( "Request failed: " + textStatus+". Is the server working?" );
+				              }
+				            });
+				            
+				    return text_resource;
+				},
+				
+				
 				absolute_path: function (path){
 					var abs = "";
 					console.log("sending",JSON.stringify({"path":path}))

@@ -20,7 +20,7 @@ WIZARD.components_behaviour = (function(){
 		switch (action){
 		
 			case MAIN_MENU.RESULTS_ACTION:
-				this.setup_browse_workspace_button();
+				this.setup_browse_results_folder_button();
 				this.setup_show_results_button();
 				break;
 				

@@ -54,85 +54,174 @@ var DIALOG = (function(){
 		    });
 		}
 	
-	 var last_root = ".";
-	 
-	 var browse = function (target, ok_callback){
-		    var what_we_search = target;
-			var expected_extension = "";
-		    if(target.substring(0,4) == "file"){
-		    	var parts = target.split("::");
-		    	if(parts.length>1){
-		    		target = parts[0];
-		    		expected_extension = parts[1];
-		    		what_we_search = target +" (" +expected_extension+")";
-		    	}
-		    }
-		    // If we have done a last search, then this will be our starting point.
-		    var root = last_root;
-		    
-			$("<div title='Select a "+what_we_search+"' id = 'browse_dialog'>\
-	        <div class = 'fileBrowserHeader'>\
-            <span> Current selection:</span></br>\
-            <div id='selected_file_or_folder' class='fileBrowserSelection'> </div>\
-	        </div> <div id = 'browsing_area' class='fileBrowserWrapper'>\
-	        </div>\
-	        <div style='margin-top:10px;'> Current root:</div></br>\
-			<div id='root' class='fileBrowserSelection'>"+ DIALOG.last_root +"</div>\
-	        </div>")
-		    .dialog({
-		                modal:true, 
-		                autoResize:true,
-		                width:'auto',
-		                close: function( event, ui ){
-		                    $(this).dialog("destroy");
-		                },
-			            buttons: [
-			                        { 
-			                            text: "Ok",
-			                            click: function() { 
-			                            	ok_callback($("#selected_file_or_folder").text());
-			                                $(this).dialog("destroy");
-			                            }
-			                        },
-			                        {
-			                            text: "Cancel",
-			                            click: function() { 
-			                                $(this).dialog("destroy");
-			                            }
-			                        }
-			            ]
-		    });
-		    
-		    $('.ui-dialog button:nth-child(1)').button('disable');
-		    
-		    $("#browsing_area").fileTree({ 
-                    root: last_root,
-                    script: "/browse_folder" 
-                }, 
-                function(url,file_type) {
-					$("#selected_file_or_folder").text(url);
-					// Check extension
-					var extension = url.split('.').pop();
-					if(target == file_type){
-						if(expected_extension=="" || expected_extension == extension){
-							$('.ui-dialog button:nth-child(1)').button('enable');
-							// Change last root
-							DIALOG.last_root = url.substr(0,url.lastIndexOf("/"));
+	 // BROWSING submodule
+	 var browsing = (function(){
+		 var last_root = "/";
+		 
+		 var browse = function (target, ok_callback){
+			    var what_we_search = target;
+				var expected_extension = "";
+			    if(target.substring(0,4) == "file"){
+			    	var parts = target.split("::");
+			    	if(parts.length>1){
+			    		target = parts[0];
+			    		expected_extension = parts[1];
+			    		what_we_search = target +" (" +expected_extension+")";
+			    	}
+			    }
+			    // If we have done a last search, then this will be our starting point.
+			    var root = DIALOG.browsing.last_root;
+			    console.log("ROOT",root)
+				$("<div title='Select a "+what_we_search+"' id = 'browse_dialog'>\
+		        <div class = 'fileBrowserHeader'>\
+	            <span> Current selection:</span></br>\
+	            <div id='selected_file_or_folder' class='fileBrowserSelection'> </div>\
+		        </div> <div id = 'browsing_area' class='fileBrowserWrapper'>\
+		        </div>\
+		        <div style='margin-top:10px;'> Current root:</div></br>\
+				<div id='root' class='fileBrowserSelection'>"+ DIALOG.browsing.last_root +"</div>\
+		        </div>")
+			    .dialog({
+			                modal:true, 
+			                autoResize:true,
+			                width:'auto',
+			                close: function( event, ui ){
+			                    $(this).dialog("destroy");
+			                },
+				            buttons: [
+				                        { 
+				                            text: "Ok",
+				                            click: function() { 
+				                            	ok_callback($("#selected_file_or_folder").text());
+				                                $(this).dialog("destroy");
+				                            }
+				                        },
+				                        {
+				                            text: "Cancel",
+				                            click: function() { 
+				                                $(this).dialog("destroy");
+				                            }
+				                        }
+				            ]
+			    });
+			    
+			    $('.ui-dialog button:nth-child(1)').button('disable');
+			    
+			    $("#browsing_area").fileTree({ 
+	                    root: DIALOG.browsing.last_root,
+	                    script: "/browse_folder" 
+	                }, 
+	                function(url,file_type) {
+						$("#selected_file_or_folder").text(url);
+						// Check extension
+						var extension = url.split('.').pop();
+						if(target == file_type){
+							if(expected_extension=="" || expected_extension == extension){
+								$('.ui-dialog button:nth-child(1)').button('enable');
+								// Change last root
+								DIALOG.browsing.last_root = url.substr(0,url.lastIndexOf("/"));
+							}
 						}
-					}
-					else{
-					    $('.ui-dialog button:nth-child(1)').button('disable');
-					}
-					
-                }   
-		    );
-	 };
-	 
-	return {
+						else{
+						    $('.ui-dialog button:nth-child(1)').button('disable');
+						}
+						
+	                }   
+			    );
+		 };
+		 
+		 return {
+			 browse: browse,
+			 last_root:last_root
+		 }
+	 }());
+	
+	// CRITERIA submodule
+	var criteria = (function(){
+		
+		/*
+		    Prepares and shows the evaluation criteria dialog.
+		*/
+		var criteria_creation =  function (criteria_types, list_handler, template){
+		    $("<div >", {title: "New Criteria",id:'criteria_creation_dialog'})
+		    // Add contents to the dialog
+		    .append(get_eval_dialog_contents(criteria_types,template))
+		    // Set up dialog
+		    .dialog({modal:true, 
+		            autoResize:true,
+		            width:'auto',
+		            create: function( event, ui ) {
+		               $(".dialog_spinner").spinner({places:2,step:0.05});
+		               $(".dialog_spinner").css({width:"35px"});
+		            },
+		            close: function( event, ui ){
+		                 $(this).dialog("destroy"); 
+		            },
+		            buttons: [{ 
+		            			text: "Discard",
+		                        click: function() { 
+		                            $(this).dialog("destroy"); 
+		                        }
+		                      },
+		                      { 
+		                        text: "Ok",
+		                        click: function() { 
+		                            var criteria = criteria_to_string('criteria_creation_dialog', criteria_types);
+		                            if(criteria != ""){
+		                            	list_handler.addElement(criteria);
+		                            }
+		                            $(this).dialog("destroy");
+		                        } 
+		                      }]
+		            });
+		};
+		
+		/*
+		    Creates the contents of the dialog (using handlebars))
+		*/
+		function get_eval_dialog_contents(criteria_list,template){
+		    // Gather data
+		    var data = {criteria:[]};
+		    for (var i = 0;i < criteria_list.length; i++){
+		        var criteria_name = criteria_list[i];
+		        data.criteria.push({name:criteria_name,  initial_value:0});
+		    }
+		    
+		    // Render it
+		    var template = Handlebars.compile(template);
+		    return template(data);
+		}
+	
+		/*
+		    Creates a string from the contents of the dialog that represents one evaluation criteria.
+		*/
+		function criteria_to_string(dialog_to_extract_data, criteria_list){
+		    var string_criteria = "";
+		    for (var i =0; i<criteria_list.length; i++){
+		        var criteria_name = criteria_list[i];
+		        // Get the spinners value, if different than 0, proceed
+		        var weight =  $("#"+criteria_name+"_spinner").val();
+		        if (weight != 0){
+		            // Maximize or minimize?
+		            var min_max = $("#"+criteria_name+"_listbox").val();
+		            string_criteria += min_max + " " + criteria_name + " (weight: "+ weight + ") and "   
+		        }
+		    }
+		    // remove last and return
+		    return string_criteria.substring(0,string_criteria.length-4);
+		}
+		
+		return{
+			criteria_creation:criteria_creation
+		}
+
+	}());
+	
+	return{
 		yes_or_no:yes_or_no,
 		warning: warning,
-		browse: browse,
-		last_root:last_root
+		browsing: browsing,
+		criteria:criteria
 	}
 
 }());

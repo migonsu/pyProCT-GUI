@@ -42,7 +42,8 @@ if __name__ == '__main__':
                     "/do_selection":self.do_selection,
                     "/stop_calculations":self.stop_calculations,
                     "/show_results":self.show_results_handler,
-                    "/normalize_path":self.normalize_path_handler
+                    "/normalize_path":self.normalize_path_handler,
+                    "/read_external_file":self.read_external_file_handler
             }
         
         def get_handlers(self):
@@ -147,6 +148,14 @@ if __name__ == '__main__':
             print "PATH", data["path"].replace("%2F","/")
             print "NORM PATH", os.path.abspath(data["path"].replace("%2F","/"))
             self.wfile.write('{"path":"'+os.path.abspath(data["path"].replace("%2F","/"))+'"}')
+        
+        def read_external_file_handler(self, data):
+            data = convert_to_utf8(json.loads(data))
+            print "DATA", data
+            try:
+                self.wfile.write("".join(open(data["path"],"r").readlines()))
+            except:
+                self.wfile.write('KO')
             
         def do_POST(self):
             fp= self.rfile
