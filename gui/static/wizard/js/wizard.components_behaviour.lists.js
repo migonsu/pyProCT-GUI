@@ -60,8 +60,8 @@ WIZARD.components_behaviour = (function(module){
         var dl4 = $("#query_list").dynamiclist("getListHandler");
         dl4.buttons["Queries"].replaceWith("<select class='dynListButton' id = 'queries_listbox'></select>")
         // Add options to the query listbox
-        for (var i = 0; i < query_types.length; i++){
-            $("#queries_listbox").append("<option>"+query_types[i]+"</option>");
+        for (var i = 0; i < QUERIES.query_types.length; i++){
+            $("#queries_listbox").append("<option>"+QUERIES.query_types[i]+"</option>");
         }
         dl4.buttons["Add"].click(function(){
             dl4.addUniqueElement($("#queries_listbox option:selected").val());
@@ -80,7 +80,7 @@ WIZARD.components_behaviour = (function(module){
 		$("#criteria_list").dynamiclist({height:155,buttons:["Add Criteria","Remove"]});
         var dl3 = $("#criteria_list").dynamiclist("getListHandler");
         dl3.buttons["Add Criteria"].click(function(){
-            DIALOG.criteria.criteria_creation(criteria_types, dl3, dialog_contents_template);
+            DIALOG.criteria.criteria_creation(dl3, dialog_contents_template);
         });
         dl3.buttons["Remove"].click(function(){
             dl3.deleteSelectedElements();

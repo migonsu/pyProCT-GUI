@@ -57,6 +57,7 @@ var DIALOG = (function(){
 	 // BROWSING submodule
 	 var browsing = (function(){
 		 var last_root = "/";
+		 var last_file = "";
 		 
 		 var browse = function (target, ok_callback){
 			    var what_we_search = target;
@@ -120,6 +121,8 @@ var DIALOG = (function(){
 								$('.ui-dialog button:nth-child(1)').button('enable');
 								// Change last root
 								DIALOG.browsing.last_root = url.substr(0,url.lastIndexOf("/"));
+								// Change last file
+								DIALOG.browsing.last_file = url.substr(url.lastIndexOf("/"), url.length-1);
 							}
 						}
 						else{
@@ -132,7 +135,8 @@ var DIALOG = (function(){
 		 
 		 return {
 			 browse: browse,
-			 last_root:last_root
+			 last_root:last_root,
+			 last_file:last_file
 		 }
 	 }());
 	
@@ -142,10 +146,10 @@ var DIALOG = (function(){
 		/*
 		    Prepares and shows the evaluation criteria dialog.
 		*/
-		var criteria_creation =  function (criteria_types, list_handler, template){
+		var criteria_creation =  function (list_handler, template){
 		    $("<div >", {title: "New Criteria",id:'criteria_creation_dialog'})
 		    // Add contents to the dialog
-		    .append(get_eval_dialog_contents(criteria_types,template))
+		    .append(get_eval_dialog_contents(template))
 		    // Set up dialog
 		    .dialog({modal:true, 
 		            autoResize:true,
@@ -166,7 +170,7 @@ var DIALOG = (function(){
 		                      { 
 		                        text: "Ok",
 		                        click: function() { 
-		                            var criteria = criteria_to_string('criteria_creation_dialog', criteria_types);
+		                            var criteria = criteria_to_string('criteria_creation_dialog');
 		                            if(criteria != ""){
 		                            	list_handler.addElement(criteria);
 		                            }
@@ -179,11 +183,11 @@ var DIALOG = (function(){
 		/*
 		    Creates the contents of the dialog (using handlebars))
 		*/
-		function get_eval_dialog_contents(criteria_list,template){
+		function get_eval_dialog_contents(template){
 		    // Gather data
 		    var data = {criteria:[]};
-		    for (var i = 0;i < criteria_list.length; i++){
-		        var criteria_name = criteria_list[i];
+		    for (var i = 0;i < QUERIES.criteria_types.length; i++){
+		        var criteria_name = QUERIES.criteria_types[i];
 		        data.criteria.push({name:criteria_name,  initial_value:0});
 		    }
 		    
@@ -195,10 +199,10 @@ var DIALOG = (function(){
 		/*
 		    Creates a string from the contents of the dialog that represents one evaluation criteria.
 		*/
-		function criteria_to_string(dialog_to_extract_data, criteria_list){
+		function criteria_to_string(dialog_to_extract_data){
 		    var string_criteria = "";
-		    for (var i =0; i<criteria_list.length; i++){
-		        var criteria_name = criteria_list[i];
+		    for (var i =0; i<QUERIES.criteria_types.length; i++){
+		        var criteria_name = QUERIES.criteria_types[i];
 		        // Get the spinners value, if different than 0, proceed
 		        var weight =  $("#"+criteria_name+"_spinner").val();
 		        if (weight != 0){
