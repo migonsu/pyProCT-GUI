@@ -1,0 +1,19 @@
+<div>
+	<table>
+	<tr>
+		<td style="width:20%;background-color:blue;"></td>
+		<td style="width:80%;background-color:red;">
+			{{#clusters}}
+			<div style="float:left;position:relative;">
+				<div id={{id}} class = 'cluster_widget_wrapper'>
+			
+				</div>
+				<div class = 'cluster_widget_label'> ciao </div>
+			</div>
+			{{/clusters}}
+		
+		</td>
+	</tr>
+	</table>
+
+</div>

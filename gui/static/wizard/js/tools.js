@@ -24,12 +24,9 @@ function get_value_of(of_this_control, type){
         	return $(of_this_control).dynamiclist("getItems");
         	
         case "list:criteria":
-        	console.log($(of_this_control).dynamiclist("getItems"));
-        	
         	return parse_criteria($(of_this_control).dynamiclist("getItems"));
         
         case "text":
-        	console.log("TEXT",of_this_control.attr("id"), of_this_control.val(), $(of_this_control).val())
             return $(of_this_control).val();
         
         case "checkbox":
@@ -139,7 +136,7 @@ function parse_list( in_this_control, using_this_conversor){
     }
     
     try{
-        // getting value
+        // Getting value
         list_string = $(in_this_control).val();
         
         // Remove non dot, colon digit or character 
@@ -170,7 +167,6 @@ function parse_list( in_this_control, using_this_conversor){
             // The list is a comma-separated sequence of numbers
             var string_sequence = parts[0].split(",");
             for(var i = 0; i < string_sequence.length; i++){
-            	console.log("*"+string_sequence[i]+"*");
                 var value = Math.abs(conversor(string_sequence[i]));
                 if(!isNaN(value)){
                     sequence.push(value);
@@ -194,8 +190,6 @@ function parse_list( in_this_control, using_this_conversor){
 function has_list_format( string_list ){
 	var list =  /\s*(?:\d+\.*\d*)\s*(?:,{1}\s*(?:\d+\.*\d*)\s*)*\s*$/;
 	var compressed_list = /\s*\d+\.*\d*\s*,{1}\s*\d+\.*\d*\s*:\s*\d+\.*\d*\s*$/;
-	console.log(list.test(string_list)) 
-	console.log(compressed_list.test(string_list))
 	return list.test(string_list) || compressed_list.test(string_list);
 }
 
@@ -227,7 +221,6 @@ function parse_one_criteria(criteria){
     var criteria = {};
     var criterium;
     
-    console.log("parts",criterium_strings);
     for (var i = 0; i < criterium_strings.length; i++){
     	criterium = parse_criterium(criterium_strings[i]);
     	criteria[criterium["query"]] = {
@@ -246,10 +239,8 @@ function parse_one_criteria(criteria){
  *	@returns {Object} Its object representation.
  **/
 function parse_criterium(criterium_string){
-	console.log("criterium sring", criterium_string);
 	var regex = /\s*(Minimize|Maximize)\s{1}(\w*)\s{1}\(weight:\s{1}(\d+\.*\d*)\)\s*/;
 	var parts = regex.exec(criterium_string);
-    console.log("criterium PARTS", parts);
 	var criterium = {
     		"query": "undefined",
     		"action":"undefined",

@@ -24,31 +24,40 @@
             "clustering": {
                 "clusters": [
                     {
-                        "elements": "0:99"
+                        "elements": "0:99",
+                        "centroid": 0
                     },
                     {
-                        "elements": "100:199"
+                        "elements": "100:199",
+                        "centroid": 100
                     },
                     {
-                        "elements": "200:299"
+                        "elements": "200:299",
+                        "centroid": 200
                     },
                     {
-                        "elements": "300:399"
+                        "elements": "300:399",
+                        "centroid": 300
                     },
                     {
-                        "elements": "400:499"
+                        "elements": "400:499",
+                        "centroid": 400
                     },
                     {
-                        "elements": "500:599"
+                        "elements": "500:599",
+                        "centroid": 500
                     },
                     {
-                        "elements": "600:699"
+                        "elements": "600:699",
+                        "centroid": 600
                     },
                     {
-                        "elements": "700:799"
+                        "elements": "700:799",
+                        "centroid": 700
                     },
                     {
-                        "elements": "800:899"
+                        "elements": "800:899",
+                        "centroid": 800
                     }
                 ],
                 "total_number_of_elements": 900,
@@ -75,31 +84,36 @@
             "clustering": {
                 "clusters": [
                     {
-                        "elements": "0:99"
+                        "elements": "0:99, 100, 101:199",
+                        "centroid": 0
                     },
                     {
-                        "elements": "100:199"
+                        "elements": "200:299",
+                        "centroid": 200
                     },
                     {
-                        "elements": "200:299"
+                        "elements": "300:399",
+                        "centroid": 300
                     },
                     {
-                        "elements": "300:399"
+                        "elements": "400:499",
+                        "centroid": 400
                     },
                     {
-                        "elements": "400:499"
+                        "elements": "500:599",
+                        "centroid": 500
                     },
                     {
-                        "elements": "500:599"
+                        "elements": "600:699",
+                        "centroid": 600
                     },
                     {
-                        "elements": "600:699"
+                        "elements": "700:799",
+                        "centroid": 700
                     },
                     {
-                        "elements": "700:799"
-                    },
-                    {
-                        "elements": "800:899"
+                        "elements": "800:899",
+                        "centroid": 800
                     }
                 ],
                 "total_number_of_elements": 900,

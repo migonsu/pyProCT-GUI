@@ -1,18 +1,17 @@
-	
+Handlebars.registerHelper('formatted', function(number) {
+	if(isInt(number)){
+		return ""+number;
+	}
+	else{
+		return number.toFixed(4);
+	}
+});
+
 function process_result_data(data){
 	var all_clusterings = jQuery.extend({}, data["selected"],data["not_selected"]);
 	data['total_number_of_clusterings'] = Object.keys(all_clusterings).length;
 	data['number_of_accepted_clusterings'] = Object.keys(data["selected"]).length;
 	data['number_of_rejected_clusterings'] = Object.keys(data["not_selected"]).length;
-	
-	Handlebars.registerHelper('formatted', function(number) {
-		if(isInt(number)){
-			return ""+number;
-		}
-		else{
-			return number.toFixed(4);
-		}
-	});
 	
 	var tmp_data = {};
 	
@@ -56,6 +55,14 @@ function process_result_data(data){
 		});
 	}
 	
+	process_evaluation_data(data, accepted_ids);
+	
+	process_cluster_data(data);
+	
+	return data;
+}
+
+function process_evaluation_data(data, accepted_ids){
 	data["evaluation_tags"] = [];
 	for (var evaluation_tag in data["selected"][Object.keys(data["selected"])[0]]["evaluation"]){
 		if (evaluation_tag.substr(0,11) !== "Normalized_"){
@@ -94,8 +101,41 @@ function process_result_data(data){
 		
 		data["criteria_table"].push(criteria_val);			
 	}
+}
+
+function parse_elements(elements_string){
+	// Delete spaces
+	var list_string = elements_string.replace(/[\s]+/g, '');
+	console.log(list_string.split(","));
+	var parts = list_string.split(",");
+	var elements = [];
+	for (var i = 0; i<parts.length; i++){
+		console.log("PART",parts[i])
+		if(parts[i].indexOf(":") != -1){
+			var numbers = parts[i].split(":");
+			for(var j = parseInt(numbers[0]); j<= parseInt(numbers[1]); j++){
+				elements.push(j);
+			}
+		}
+		else{
+			elements.push(parseInt(parts[i]));
+		}
+	}
 	
-	return data;
+	return elements;
+}
+
+function process_cluster_data(data){
+	var best_clustering_clusters = data["selected"][data["best_clustering"]]["clustering"]["clusters"];
+	for(var i = 0; i < best_clustering_clusters.length; i++){
+		var cluster_data = {
+			id: "cluster_"+i,
+			centroid: best_clustering_clusters[i]["centroid"],
+			elements: parse_elements(best_clustering_clusters[i]["elements"])
+		};
+		CLUSTERS.clusters.push(cluster_data);
+	}
+	data["clusters"] = CLUSTERS.clusters;
 }
 
 
@@ -103,15 +143,20 @@ function generate_tabs_content(data){
 	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
 	var evaluation_template = COMM.synchronous.load_text_resource("results/templates/evaluation.template");
 	var files_template = COMM.synchronous.load_text_resource("results/templates/files.template");
+	var clusters_template = COMM.synchronous.load_text_resource("results/templates/clusters.template");
 	
 	$("#tabs").tabs();
 	
 	var template = Handlebars.compile(summary_template);
-	$("#summary-tab").html(template(data))
+	$("#summary-tab").html(template(data));
 
 	template = Handlebars.compile(evaluation_template);
-	$("#evaluation-tab").html(template(data))
+	$("#evaluation-tab").html(template(data));
 	
 	template = Handlebars.compile(files_template);
-	$("#files-tab").html(template(data))
+	$("#files-tab").html(template(data));
+	
+	template = Handlebars.compile(clusters_template);
+	$("#clusters-tab").html(template(data));
+	CLUSTERS.create_cluster_widgets();
 }
