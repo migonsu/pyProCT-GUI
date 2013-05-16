@@ -12,6 +12,7 @@
 <!-- JQUERY -->
 <script type="text/javascript" src="wizard/js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/jquery/ui/jquery.ui-contextmenu.js" charset="utf-8"></script>
 
 <!-- HANDLEBARS -->
 <script type="text/javascript" src="wizard/js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
@@ -42,6 +43,19 @@
     		event.preventDefault();
     		window.location.href = "/serve_file?path="+$(this).attr("href");
     	});
+    	
+    	$(document).contextmenu({
+    	    delegate: ".hasmenu",
+    	    menu: [
+    	        {title: "View", cmd: "view", uiIcon: "ui-icon-search" },
+    	        {title: "Save representative", cmd: "save", uiIcon: "ui-icon-disk"},
+    	        ],
+    	    select: function(event, ui) {
+    	        var menuId = ui.item.find(">a").attr("href");
+    	        var cluster_id = $(event.relatedTarget).closest(".cluster_widget_wrapper").attr("id");
+    	    }
+    	});
+    	
 	});
  </script>
 <body>
@@ -62,5 +76,6 @@
   <div id="clusters-tab">
   </div>
 </div>
+
 </body>
 </html>

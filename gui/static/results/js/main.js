@@ -106,11 +106,9 @@ function process_evaluation_data(data, accepted_ids){
 function parse_elements(elements_string){
 	// Delete spaces
 	var list_string = elements_string.replace(/[\s]+/g, '');
-	console.log(list_string.split(","));
 	var parts = list_string.split(",");
 	var elements = [];
 	for (var i = 0; i<parts.length; i++){
-		console.log("PART",parts[i])
 		if(parts[i].indexOf(":") != -1){
 			var numbers = parts[i].split(":");
 			for(var j = parseInt(numbers[0]); j<= parseInt(numbers[1]); j++){
@@ -128,10 +126,13 @@ function parse_elements(elements_string){
 function process_cluster_data(data){
 	var best_clustering_clusters = data["selected"][data["best_clustering"]]["clustering"]["clusters"];
 	for(var i = 0; i < best_clustering_clusters.length; i++){
+		var elements = parse_elements(best_clustering_clusters[i]["elements"]);
+		
 		var cluster_data = {
 			id: "cluster_"+i,
 			centroid: best_clustering_clusters[i]["centroid"],
-			elements: parse_elements(best_clustering_clusters[i]["elements"])
+			elements: elements,
+			number_of_elements: elements.length
 		};
 		CLUSTERS.clusters.push(cluster_data);
 	}
@@ -159,4 +160,5 @@ function generate_tabs_content(data){
 	template = Handlebars.compile(clusters_template);
 	$("#clusters-tab").html(template(data));
 	CLUSTERS.create_cluster_widgets();
+	CLUSTERS.create_main_cluster_widget();
 }
