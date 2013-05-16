@@ -70,6 +70,17 @@ function process_evaluation_data(data, accepted_ids){
 		}
 	}
 	
+	//-----------------
+	var criteria_ids = [];
+	for(var criteria_id in data["scores"]){
+		criteria_ids.push(criteria_id);
+	}
+	criteria_ids.sort();
+	for(var i=0; i <  criteria_ids.length; i++){
+		data["evaluation_tags"].push({tag:criteria_ids[i]});
+	}
+	//-------------------
+	
 	data["evaluations"] = [];
 	for (var clustering_id in data["selected"]){
 		var clustering_evaluation = data["selected"][clustering_id]["evaluation"];
@@ -84,6 +95,11 @@ function process_evaluation_data(data, accepted_ids){
 				eval_data["values"].push({value:value});
 			}
 		}
+		//-----------------
+		for(var i=0; i <  criteria_ids.length; i++){
+			eval_data["values"].push({value:data["scores"][criteria_ids[i]][clustering_id]});
+		}
+		//-----------------
 		data["evaluations"] .push(eval_data);
 	}
 	
