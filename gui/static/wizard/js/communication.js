@@ -78,6 +78,7 @@ var COMM = (function(){
 				              type: "GET",
 				              dataType: "text",
 				              async: false,
+				              cache: false,
 				              
 				              complete: function(jqXHR, textStatus){
 				                  text_resource = jqXHR.responseText;
@@ -99,6 +100,7 @@ var COMM = (function(){
 				              type: "POST",
 				              dataType: "text",
 				              async: false,
+				              cache: false,
 				              data: JSON.stringify({"path":resource}),
 				              
 				              complete: function(jqXHR, textStatus){
@@ -116,7 +118,6 @@ var COMM = (function(){
 				
 				absolute_path: function (path){
 					var abs = "";
-					console.log("sending",JSON.stringify({"path":path}))
 					$.ajax({
 			              url: "/normalize_path",
 			              type: "POST",
@@ -131,8 +132,30 @@ var COMM = (function(){
 			              error:function( jqXHR, textStatus, errorThrown ){
 			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 			              }
-			            });
+			        });
 					return abs;
+				},
+				
+				save_frame: function(frame, workspace_paths){
+					var save_path = "";
+					$.ajax({
+			              url: "/save_frame",
+			              type: "POST",
+			              dataType: "text",
+			              async: false,
+			              data: JSON.stringify({
+			            	  "frame":frame,
+			            	  "paths":workspace_paths
+			              }),
+			              complete: function(jqXHR, textStatus){
+			            	  save_path = $.parseJSON(jqXHR.responseText)["path"];
+			              },
+			              
+			              error:function( jqXHR, textStatus, errorThrown ){
+			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
+			              }
+			        });
+					return save_path;
 				}
 		};
 		

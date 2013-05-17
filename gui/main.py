@@ -20,6 +20,8 @@ from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 from pyproclust.driver.parameters import ProtocolParameters
 import shutil
+from pyproclust.tools.pdbTools import extract_frames_from_trajectory,\
+    get_number_of_frames
 
 if __name__ == '__main__':
     
@@ -43,7 +45,8 @@ if __name__ == '__main__':
                     "/stop_calculations":self.stop_calculations,
                     "/show_results":self.show_results_handler,
                     "/normalize_path":self.normalize_path_handler,
-                    "/read_external_file":self.read_external_file_handler
+                    "/read_external_file":self.read_external_file_handler,
+                    "/save_frame": self.save_frame_handler
             }
         
         def get_handlers(self):
@@ -156,7 +159,26 @@ if __name__ == '__main__':
                 self.wfile.write("".join(open(data["path"],"r").readlines()))
             except:
                 self.wfile.write('KO')
+        
+        def save_frame_handler(self, data):
+            data = convert_to_utf8(json.loads(data))
+            print "DATA", data
+            path = os.path.join(data["paths"]["results"], "representatives.pdb")
             
+#             try:
+            print "PRIM PATH",path
+            file_handler_in = open(path,"r")
+            file_handler_out = open("results/tmp/prototype.pdb","w")
+            extract_frames_from_trajectory(file_handler_in, 
+                                           get_number_of_frames(path), 
+                                           file_handler_out, 
+                                           [data["frame"]])
+            file_handler_in.close()
+            file_handler_out.close()
+            self.wfile.write('{"path":"results/tmp/prototype.pdb"}')
+#             except:
+#                 self.wfile.write('KO')
+        
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))

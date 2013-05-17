@@ -56,6 +56,16 @@
     	    select: function(event, ui) {
     	        var menuId = ui.item.find(">a").attr("href");
     	        var cluster_id = $(event.relatedTarget).closest(".cluster_widget_wrapper").attr("id");
+    	        var number_id = parseInt(cluster_id.split("_")[1]);
+    	        var best_clustering = data["best_clustering"];
+    	        var clusters = data["selected"][best_clustering]["clustering"]["clusters"];
+    	        // Find the cluster with that id
+				/*
+				ATENCION: SUPONGO QUE LOS CLUSTERS ESTAN ORDENADOS
+				*/
+    	        var file = COMM.synchronous.save_frame(number_id/*clusters[number_id]["prototype"]*/, data["workspace"]);
+    	        // Retrieve the file
+    	        window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
     	    }
     	});
 	});

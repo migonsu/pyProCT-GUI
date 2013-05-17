@@ -115,8 +115,6 @@ function generate_tabs_contents(data){
 
 	EVALUATION.create_tab("evaluation-tab",data);
 	
-	//$("#summary_plot").empty().jqplot([traverse_column(data,2)]);
-	
 	template = Handlebars.compile(files_template);
 	$("#files-tab").html(template(data));
 	

@@ -91,10 +91,6 @@ var CLUSTERS = (function(){
 			});
 			
 		});
-		
-//		for (var i  = 0; i< clusters.length; i++){
-//			$("#label_"+clusters[i]["id"]).css({"background-color":"green"});
-//		}
 	};
 	
 	return {
