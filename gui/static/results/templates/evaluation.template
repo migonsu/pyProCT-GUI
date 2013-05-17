@@ -1,3 +1,4 @@
+<div class = "green_square"> <div class="green_square_text"> Best clustering </div> </div>
 <table id = "summary_table" class="fancy_table">
 	<thead>
 		<tr>
@@ -16,28 +17,20 @@
 			{{/values}}
 		</tr>
 		{{/evaluations}}
-	</body>
+	</tbody>
 </table>
-
-<div class = "green_square"> <div class="green_square_text"> Best clustering </div> </div>
-
-<table id="criteria_table" class="fancy_table" style = "width:auto;">
-	<thead>
-		<tr>
-			<th class="small_width""> <b>Criteria</b> </th>
-			{{#criteria_table_headers}}
-			<th class="small_width"> <b>{{id}}</b> </th>
-		    {{/criteria_table_headers}}
-		</tr>
-	</thead>
+<table id = "show_plot_table" class="plot_table">
 	<tbody>
-		{{#criteria_table}}
 		<tr>
-			<td class="details small_width" > {{id}} </td>
-			{{#values}}
-				<td class="small_width"> {{formatted value}} </td>
-			{{/values}}
+			<td > <div class = "button" id ="do_plot_button" >Plot </div> </td>
+			{{#evaluation_tags}}
+			<td > <input type="checkbox" class = "show_checkbox" />  </td>
+			{{/evaluation_tags}}
 		</tr>
-		{{/criteria_table}}
 	</body>
 </table>
+
+<div id="summary_plot_wrapper">
+	<div id="summary_plot"> 
+	</div>
+</div

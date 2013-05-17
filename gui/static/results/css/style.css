@@ -66,19 +66,29 @@ body {
 /* TABLE STYLE      */
 /********************/
 
+.plot_table
+{
+	border: 0px;
+	text-align:center;
+	font-size: 10px;
+	margin-bottom: 20px;
+}
 
+.plot_table td
+{
+	width:100px;
+}
 
 .fancy_table
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	background: #fff;
-	margin: 45px;
+	margin-top: 35px;
 	width: 100%;
 	border-collapse: collapse;
 	text-align: left;
 	table-layout: fixed;
-    width: 1000px;
 }
 
 .fancy_table th
@@ -99,6 +109,7 @@ body {
 	color: #669;
 	padding: 6px 8px;
 	text-align:center;
+	width:100px;
 }
 
 .fancy_table td.details

@@ -55,69 +55,14 @@ function process_result_data(data){
 		});
 	}
 	
-	process_evaluation_data(data, accepted_ids);
+	EVALUATION.process_data(data, accepted_ids);
 	
 	process_cluster_data(data);
 	
 	return data;
 }
 
-function process_evaluation_data(data, accepted_ids){
-	data["evaluation_tags"] = [];
-	for (var evaluation_tag in data["selected"][Object.keys(data["selected"])[0]]["evaluation"]){
-		if (evaluation_tag.substr(0,11) !== "Normalized_"){
-			data["evaluation_tags"].push({tag:evaluation_tag});
-		}
-	}
-	
-	//-----------------
-	var criteria_ids = [];
-	for(var criteria_id in data["scores"]){
-		criteria_ids.push(criteria_id);
-	}
-	criteria_ids.sort();
-	for(var i=0; i <  criteria_ids.length; i++){
-		data["evaluation_tags"].push({tag:criteria_ids[i]});
-	}
-	//-------------------
-	
-	data["evaluations"] = [];
-	for (var clustering_id in data["selected"]){
-		var clustering_evaluation = data["selected"][clustering_id]["evaluation"];
-		var eval_data = {
-			id:clustering_id,
-			values:[],
-			best_clustering : (clustering_id == data["best_clustering"])
-		};
-		for(var evaluation_tag in clustering_evaluation){
-			if (evaluation_tag.substr(0,11) !== "Normalized_"){
-				var value = clustering_evaluation[evaluation_tag];
-				eval_data["values"].push({value:value});
-			}
-		}
-		//-----------------
-		for(var i=0; i <  criteria_ids.length; i++){
-			eval_data["values"].push({value:data["scores"][criteria_ids[i]][clustering_id]});
-		}
-		//-----------------
-		data["evaluations"] .push(eval_data);
-	}
-	
-	data["criteria_table_headers"] = accepted_ids;
-	data["criteria_table"] = [];
-	for(var criteria_id in data["scores"]){
-		var criteria_val = {
-			id : criteria_id,
-			values: []
-		};
-		
-		for(var i =0; i < accepted_ids.length; i++){
-			criteria_val.values.push({value:data["scores"][criteria_id][accepted_ids[i]["id"]]});
-		}
-		
-		data["criteria_table"].push(criteria_val);			
-	}
-}
+
 
 function parse_elements(elements_string){
 	// Delete spaces
@@ -156,9 +101,10 @@ function process_cluster_data(data){
 }
 
 
-function generate_tabs_content(data){
+function generate_tabs_contents(data){
+	
 	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
-	var evaluation_template = COMM.synchronous.load_text_resource("results/templates/evaluation.template");
+	
 	var files_template = COMM.synchronous.load_text_resource("results/templates/files.template");
 	var clusters_template = COMM.synchronous.load_text_resource("results/templates/clusters.template");
 	
@@ -167,8 +113,9 @@ function generate_tabs_content(data){
 	var template = Handlebars.compile(summary_template);
 	$("#summary-tab").html(template(data));
 
-	template = Handlebars.compile(evaluation_template);
-	$("#evaluation-tab").html(template(data));
+	EVALUATION.create_tab("evaluation-tab",data);
+	
+	//$("#summary_plot").empty().jqplot([traverse_column(data,2)]);
 	
 	template = Handlebars.compile(files_template);
 	$("#files-tab").html(template(data));

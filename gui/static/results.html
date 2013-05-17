@@ -8,11 +8,13 @@
 <link rel="stylesheet" type="text/css" href="wizard/css/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/style.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/cluster_widget.css" media="screen">
+<link rel="stylesheet" type="text/css" href="results/css/jquery/jqplot/jquery.jqplot.min.css" media="screen">
 
 <!-- JQUERY -->
 <script type="text/javascript" src="wizard/js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/jquery/ui/jquery.ui-contextmenu.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/jquery/jquery.tablesorter.min.js" charset="utf-8"></script>
 
 <!-- HANDLEBARS -->
 <script type="text/javascript" src="wizard/js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
@@ -24,15 +26,16 @@
 <!-- CUSTOM SCRIPTS -->
 <script type="text/javascript" src="wizard/js/communication.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/evaluation.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/clusters.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/main.js" charset="utf-8"></script>
 
 <script>
-	$(document).ready(function() {
+	$(document).ready(function(){
 		var data = JSON.parse(COMM.synchronous.load_text_resource("results/tmp/data.json"));
 		 
-		generate_tabs_content(process_result_data(data));
+		generate_tabs_contents(process_result_data(data));
     	
 		prepare_list();
     	
@@ -55,15 +58,14 @@
     	        var cluster_id = $(event.relatedTarget).closest(".cluster_widget_wrapper").attr("id");
     	    }
     	});
-    	
 	});
  </script>
 <body>
 
 <div id="tabs">
   <ul>
-    <li><a href="#evaluation-tab">Evaluation</a></li>
     <li><a href="#clusters-tab">Clusters</a></li>
+    <li><a href="#evaluation-tab">Evaluation</a></li>
     <li><a href="#files-tab">Files</a></li>
     <li><a href="#summary-tab">Summary</a></li>
   </ul>
