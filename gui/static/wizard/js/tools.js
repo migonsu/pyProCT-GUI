@@ -43,6 +43,9 @@ function get_value_of(of_this_control, type){
         case "float":
             return parseFloat($(of_this_control).val());
         
+        case "selectmenu":
+        	return $(of_this_control).val();
+        	
         default:
             return $(of_this_control).val();
     }

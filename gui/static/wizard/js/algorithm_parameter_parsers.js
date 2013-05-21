@@ -51,10 +51,11 @@ function parse_dbscan_parameters(my_field){
 
 function parse_kmedoids_parameters(my_field){
     var clustering_size_list = get_value_of(my_field.find("#number_of_clusters"),"list:int");
-    
-    return bind_parameters({
-                             "k": clustering_size_list      
-                            });
+    var seeding_type = get_value_of(my_field.find("#kmedoids_seeding_type"),"selectmenu");
+    return combine_parameters(bind_parameters({
+	                             "k": clustering_size_list,
+	                            }),
+	                            "seeding_type",[seeding_type]);
 }
 
 function parse_spectral_parameters(my_field){

@@ -1,5 +1,5 @@
 {
-    "best_clustering": "clustering_0000",
+    "best_clustering": "clustering_0004",
     "files": [
         {
             "path": "/home/victor/Escritorio/test/results/parameters.json",
@@ -20,9 +20,78 @@
         }
     ],
     "selected": {
-        "clustering_0000": {
+        "clustering_0006": {
             "clustering": {
                 "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 602,
+                        "elements": "602:603, 607:610, 612, 617:618, 621:623, 625:627, 629:630, 635, 637:639, 642:644, 646:649, 652, 654:656, 658:664, 666:669, 671:672, 674:676, 678:680, 689, 692:693, 695:696, 698:699"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:202, 206:207, 209:212, 216, 218, 221:223, 226:227, 231:232, 234:236, 238, 240:242, 245, 247:251, 253, 257, 259:262, 266, 269, 275, 277, 283, 285:286, 289:291, 295:296, 298:299"
+                    }
+                ],
+                "total_number_of_elements": 809,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 10.111111111111114,
+                "Normalized_CythonMirrorCohesion": 0.30968701883493516,
+                "Normalized_CythonNormNCut": 0.908423857512075,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.062130441410935995,
+                "CythonSilhouette": 0.89252605910418326,
+                "Normalized_PCAanalysis": 0.0044601963176405385,
+                "Normalized_CythonSilhouette": 0.9992809368206389,
+                "PCAanalysis": 0.024246302205703823,
+                "CythonNormNCut": 0.45021433390482873
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "EQUIDISTANT",
+                "k": 11
+            }
+        },
+        "clustering_0004": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 301,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 433,
+                        "elements": "400:499, 600:699"
+                    },
                     {
                         "prototype": 95,
                         "elements": "0:99"
@@ -36,22 +105,6 @@
                         "elements": "200:299"
                     },
                     {
-                        "prototype": 350,
-                        "elements": "300:399"
-                    },
-                    {
-                        "prototype": 497,
-                        "elements": "400:499"
-                    },
-                    {
-                        "prototype": 596,
-                        "elements": "500:599"
-                    },
-                    {
-                        "prototype": 602,
-                        "elements": "600:699"
-                    },
-                    {
                         "prototype": 783,
                         "elements": "700:799"
                     },
@@ -61,16 +114,138 @@
                     }
                 ],
                 "total_number_of_elements": 900,
-                "number_of_clusters": 9
+                "number_of_clusters": 7
             },
             "evaluation": {
                 "Noise level": 0.0,
                 "Normalized_CythonMirrorCohesion": 1.0,
+                "Normalized_CythonNormNCut": 0.9772439607719269,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.20062333140302485,
+                "CythonSilhouette": 0.74632408801720695,
+                "Normalized_PCAanalysis": 1.0,
+                "Normalized_CythonSilhouette": 0.8355917748711792,
+                "PCAanalysis": 5.4361513437888789,
+                "CythonNormNCut": 0.4843215369380603
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "EQUIDISTANT",
+                "k": 7
+            }
+        },
+        "clustering_0005": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423427,
+                "Normalized_PCAanalysis": 0.00365298852558696,
+                "Normalized_CythonSilhouette": 0.9999999999999999,
+                "PCAanalysis": 0.019858198482214907,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "EQUIDISTANT",
+                "k": 9
+            }
+        },
+        "clustering_0002": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
                 "Normalized_CythonNormNCut": 1.0,
                 "Number of clusters": 9,
                 "CythonMirrorCohesion": 0.07701822324242233,
                 "CythonSilhouette": 0.89316830354423438,
-                "Normalized_PCAanalysis": 1.0,
+                "Normalized_PCAanalysis": 0.003652988514578977,
                 "Normalized_CythonSilhouette": 1.0,
                 "PCAanalysis": 0.019858198422373845,
                 "CythonNormNCut": 0.4955994167060329
@@ -79,9 +254,139 @@
             "parameters": {
                 "cutoff": 2
             }
+        },
+        "clustering_0001": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 5,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 101,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 218,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 402,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 602,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 703,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 801,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423427,
+                "Normalized_PCAanalysis": 0.003652988522205069,
+                "Normalized_CythonSilhouette": 0.9999999999999999,
+                "PCAanalysis": 0.019858198463830436,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1.5
+            }
         }
     },
-    "not_selected": {},
+    "not_selected": {
+        "clustering_0003": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 206,
+                        "elements": "206, 214, 219, 223, 233, 245, 258:260, 262, 270, 272, 277:278, 286:287, 289, 292, 296:297, 300:399, 500:599, 700:799"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499, 600:699"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:205, 207:213, 215:218, 220:222, 224:232, 234:244, 246:257, 261, 263:269, 271, 273:276, 279:285, 288, 290:291, 293:295, 298:299"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 5
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 5,
+                        "minimum": 7
+                    }
+                }
+            ],
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "EQUIDISTANT",
+                "k": 5
+            }
+        },
+        "clustering_0000": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 7
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1
+            }
+        }
+    },
     "workspace": {
         "tmp": "/home/victor/Escritorio/test/tmp",
         "results": "/home/victor/Escritorio/test/results",
@@ -90,44 +395,52 @@
     },
     "scores": {
         "criteria_0": {
-            "clustering_0000": 1.0
+            "clustering_0006": 0.032580195925443034,
+            "clustering_0004": 1.1547942143843608,
+            "clustering_0005": 0.00365298852558706,
+            "clustering_0002": 0.003652988514578977,
+            "clustering_0001": 0.0036529885222051687
         },
         "criteria_1": {
-            "clustering_0000": 1.0
+            "clustering_0006": 0.15225565734293486,
+            "clustering_0004": 1.133802184025864,
+            "clustering_0005": 0.12687405887288059,
+            "clustering_0002": 0.1268740588618725,
+            "clustering_0001": 0.12687405886949868
         }
     },
     "timing": [
         {
             "name": "Global",
-            "elapsed": 37.30564785003662
+            "elapsed": 187.75105094909668
         },
         {
             "name": "Trajectory Loading",
-            "elapsed": 1.9171948432922363
+            "elapsed": 2.074267864227295
         },
         {
             "name": "Matrix Generation",
-            "elapsed": 0.31623196601867676
+            "elapsed": 0.37006402015686035
         },
         {
             "name": "Matrix Save",
-            "elapsed": 0.0010330677032470703
+            "elapsed": 0.0009708404541015625
         },
         {
             "name": "Clustering Exploration",
-            "elapsed": 5.020273923873901
+            "elapsed": 35.122618198394775
         },
         {
             "name": "Clustering Filtering",
-            "elapsed": 7.915496826171875e-05
+            "elapsed": 0.002218961715698242
         },
         {
             "name": "Evaluation",
-            "elapsed": 30.035558938980103
+            "elapsed": 150.17849493026733
         },
         {
             "name": "Selection",
-            "elapsed": 0.000102996826171875
+            "elapsed": 0.00016498565673828125
         }
     ]
 }
