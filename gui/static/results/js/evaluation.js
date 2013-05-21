@@ -1,7 +1,6 @@
 var EVALUATION = (function(){
-	
-	
-	function get_labels(table_id, columns_array){
+
+	function get_labels(table_id, columns_array, normalize){
 		var heads = $("#"+table_id).find("th");
 		var labels = [];
 		for(var i = 0; i < columns_array.length; i++){
@@ -10,14 +9,11 @@ var EVALUATION = (function(){
 		return labels;
 	}
 	
-	function traverse_columns(table_id, columns_array){
+	function traverse_columns(table_id, columns_array, normalize){
 		var data = [];
 		var x = 0;
-		console.log(columns_array)
 		$("#"+table_id).find("tr").each(function(){
 			var cells = $(this).find("td");
-			console.log(cells)
-			
 			if(cells.length != 0){
 				for(var i = 0; i < columns_array.length; i++){
 					if(typeof data[columns_array[i]] === "undefined"){
@@ -31,10 +27,42 @@ var EVALUATION = (function(){
 		});
 
 		tmp_data  = [];
+		console.log(normalize)
 		for (datum_index in data){
-			tmp_data.push(data[datum_index]);
+			if(normalize[datum_index]){
+				console.log(data[datum_index])
+				tmp_data.push(normalize_data(data[datum_index]));
+			}
+			else{
+				console.log(data[datum_index])
+				tmp_data.push(data[datum_index]);
+			}
 		}
 		return tmp_data;
+	}
+	
+	// normalizes in range (0..1)
+	function normalize_data(data){
+		var max = data[0][1];
+	    var min = data[0][1];
+	    
+	    for(var i = 0; i < data.length; i++){
+	    	max = Math.max(max, data[i][1]);
+	    	min = Math.min(min, data[i][1]);
+	    } 
+
+	    if(max !== min){
+		    for(var i = 0; i < data.length; i++){
+		    	data[i][1] = (data[i][1] - min) / (max - min);
+		    }
+	    }
+	    else{
+	    	for(var i = 0; i < data.length; i++){
+		    	data[i][1] = 1;
+		    }
+	    }
+
+	    return data;
 	}
 	
 	var create_tab = function(tab_id, data){
@@ -54,18 +82,34 @@ var EVALUATION = (function(){
 	};
 	
 	function do_plot(){
-		var cells = $("#show_plot_table").find("td");
+		var cells = $("#show_row").find("td");
+		var norm_cells = $("#normalize_row").find("td");
 		var columns_to_plot = [];
-		for (var i = 0; i< cells.length; i++){
+		var normalize = {};
+		
+		for (var i = 0; i < cells.length; i++){
 			if($(cells[i]).find(".show_checkbox").length > 0){
 				if($(cells[i]).find(".show_checkbox").is(":checked")){
 					columns_to_plot.push(i);
+					normalize[i] = false;
 				}
 			}
 		}
+		
+		for (var i = 0; i < norm_cells.length; i++){
+			if($(norm_cells[i]).find(".normalize_checkbox").length > 0){
+				
+				if($(norm_cells[i]).find(".normalize_checkbox").is(":checked")){
+					normalize[i] = true;
+				}
+			}
+		}
+		
 		if (columns_to_plot.length == 0) return;
 		
-		$("#summary_plot").empty().jqplot(traverse_columns("summary_table",columns_to_plot),
+		$("#summary_plot").empty().jqplot(traverse_columns("summary_table",
+				columns_to_plot,
+				normalize),
 		{
 			animate: true,
 			legend: {

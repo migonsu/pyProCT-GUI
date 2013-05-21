@@ -9,12 +9,17 @@
 <link rel="stylesheet" type="text/css" href="results/css/style.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/cluster_widget.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/jquery/jqplot/jquery.jqplot.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="wizard/css/chemdoodle/ChemDoodleWeb.css"  media="screen">
 
 <!-- JQUERY -->
 <script type="text/javascript" src="wizard/js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/jquery/ui/jquery.ui-contextmenu.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/jquery/jquery.tablesorter.min.js" charset="utf-8"></script>
+
+<!-- CHEMDOODLE -->
+<script type="text/javascript" src="wizard/js/chemdoodle/ChemDoodleWeb-libs.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/chemdoodle/ChemDoodleWeb.js" charset="utf-8"></script>
 
 <!-- HANDLEBARS -->
 <script type="text/javascript" src="wizard/js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
@@ -25,6 +30,7 @@
 
 <!-- CUSTOM SCRIPTS -->
 <script type="text/javascript" src="wizard/js/communication.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/dialogs.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/evaluation.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
@@ -61,11 +67,18 @@
     	        var clusters = data["selected"][best_clustering]["clustering"]["clusters"];
     	        // Find the cluster with that id
 				/*
-				ATENCION: SUPONGO QUE LOS CLUSTERS ESTAN ORDENADOS
+				ATENCION: SUPONGO QUE LOS CLUSTERS ESTAN ORDENADOS, COSA QUE NO TIENE PORQUE SER CIERTA
 				*/
     	        var file = COMM.synchronous.save_frame(number_id/*clusters[number_id]["prototype"]*/, data["workspace"]);
-    	        // Retrieve the file
-    	        window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
+    	        if(menuId === "#save"){
+    	       		// Retrieve the file
+    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
+    	        }
+    	        if(menuId === "#view"){
+    	        	// See the file
+    	        	var molecule = COMM.synchronous.load_text_resource(file);
+    	        	DIALOGS.show_molecule_dialog(molecule);
+    	        }
     	    }
     	});
 	});

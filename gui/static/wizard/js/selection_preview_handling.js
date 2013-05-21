@@ -22,11 +22,11 @@ function create_previewer(
 			  className: 'spinner', // The CSS class to assign to the spinner
 	};
 	
-	$("#"+previewer_canvas_id).wrap("<div id="+previewer_canvas_id+"_context style='position:absolute'/>")
-	$("#"+previewer_canvas_id+"_context").append("<div id="+previewer_canvas_id+"_spinner class = 'selection_preview'/>")
+	$("#"+previewer_canvas_id).wrap("<div id="+previewer_canvas_id+"_context style='position:absolute'/>");
+	$("#"+previewer_canvas_id+"_context").append("<div id="+previewer_canvas_id+"_spinner class = 'selection_preview'/>");
 	$("#"+previewer_canvas_id).css('background-color', '#eeeeee');
 	
-	$("#"+previewer_canvas_id+"_spinner").spin(opts)
+	$("#"+previewer_canvas_id+"_spinner").spin(opts);
 	$("#"+previewer_canvas_id+"_spinner").spin(false);
 	$("#"+previewer_canvas_id+"_spinner").css("z-index",-10);
 
@@ -36,7 +36,7 @@ function create_previewer(
     viewer.specs.backgroundColor = '#eeeeee';
     viewer.specs.atoms_useJMOLColors = true;
     
-    $("#"+previewer_canvas_id+"_spinner").offset($("#"+previewer_canvas_id).offset())
+    $("#"+previewer_canvas_id+"_spinner").offset($("#"+previewer_canvas_id).offset());
 
     // Attach callbacks to active elements
     var button_bindings = {};
@@ -60,17 +60,6 @@ function create_previewer(
 							viewer);
 			}
 	    });
-	    
-	    /*$(input_field_c_id).focusout(function(event) {
-			  event.preventDefault();
-			  console.log("focus triggered")
-			  do_preview(
-					  	"#"+$(this).attr("id"),
-						trajectories_dynamic_list_id, 
-						base_workspace_field_id, 
-						previewer_canvas_id,
-						viewer);
-	    });*/
 	    
 	    $("#"+previewers[i].button_id).click(function(){
 	    	console.log($(this).attr("id"));
@@ -130,7 +119,6 @@ function do_preview(
 			    	  }
 			    	  else{
 				          var molecule = ChemDoodle.readXYZ(molFile, 1);
-				          console.log(molecule)
 					      viewer.loadMolecule(molecule);
 				      }
 			      }

@@ -62,8 +62,6 @@ function process_result_data(data){
 	return data;
 }
 
-
-
 function parse_elements(elements_string){
 	// Delete spaces
 	var list_string = elements_string.replace(/[\s]+/g, '');
@@ -80,7 +78,6 @@ function parse_elements(elements_string){
 			elements.push(parseInt(parts[i]));
 		}
 	}
-	
 	return elements;
 }
 
@@ -99,7 +96,6 @@ function process_cluster_data(data){
 	}
 	data["clusters"] = CLUSTERS.clusters;
 }
-
 
 function generate_tabs_contents(data){
 	

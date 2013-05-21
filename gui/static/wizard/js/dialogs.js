@@ -31,7 +31,7 @@ var DIALOG = (function(){
 	                        }
 	            ]
 	    });
-	}
+	};
 	 
 	 var warning = function (message){
 		    $("<div/>", { 

@@ -19,16 +19,24 @@
 		{{/evaluations}}
 	</tbody>
 </table>
+
 <table id = "show_plot_table" class="plot_table">
 	<tbody>
-		<tr>
+		<tr id='normalize_row'>
+			<td > Normalize </td>
+			{{#evaluation_tags}}
+			<td > <input type="checkbox" class = "normalize_checkbox" />  </td>
+			{{/evaluation_tags}}
+		</tr>
+		<tr id='show_row'>
 			<td > <div class = "button" id ="do_plot_button" >Plot </div> </td>
 			{{#evaluation_tags}}
 			<td > <input type="checkbox" class = "show_checkbox" />  </td>
 			{{/evaluation_tags}}
 		</tr>
-	</body>
+	</tbody>
 </table>
+
 
 <div id="summary_plot_wrapper">
 	<div id="summary_plot"> 

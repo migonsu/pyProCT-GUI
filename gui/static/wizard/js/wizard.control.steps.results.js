@@ -13,7 +13,7 @@ WIZARD.control = (function(module){
 				if(file_check["exists"]){
 					// Check the existence of "results.json"
 					var file_check  = COMM.synchronous.file_exists(file_path+"/results.json");
-					
+					console.log(file_check);
 					if(file_check["exists"]){
 						return true;
 					}

@@ -183,3 +183,12 @@ a.clik_for_details
 	font-size: 10px;
 }
 
+
+/********************/
+/* Model previewer  */
+/********************/
+#previewer_wrapper
+{
+	width:500px;
+	height:500px;
+}

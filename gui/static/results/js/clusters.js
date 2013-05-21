@@ -12,8 +12,10 @@ var CLUSTERS = (function(){
 		
 		$("#main_cluster_pie").jqplot([data], 
 		{
-			seriesColors: [ "#000000","#888888","#111111","#999999","#222222","#AAAAAA","#333333","#BBBBBB","#444444",
-			                "#CCCCCC","#555555","#DDDDDD","#666666","#EEEEEE","#777777"].sort(),
+			seriesColors: [ "#000000","#111111","#222222","#333333","#444444","#555555","#666666",
+			                "#777777","#888888","#999999","#AAAAAA","#BBBBBB","#CCCCCC","#DDDDDD",
+			                "#EEEEEE","#DDDDDD","#CCCCCC","#BBBBBB","#AAAAAA","#999999","#888888",
+			                "#777777","#666666","#555555","#444444","#333333","#222222","#111111"].sort(),
 			seriesDefaults: {
 			        renderer: $.jqplot.PieRenderer,
 			        rendererOptions:
