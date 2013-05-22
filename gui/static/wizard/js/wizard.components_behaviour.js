@@ -11,8 +11,8 @@ WIZARD.components_behaviour = (function(){
                 'text-align' : 'left',
                 'outline' : 'none',
                 'cursor' : 'text'
-        });
-        $(".spinner_widget").spinner();
+          });
+        $(".spinner_widget").spinner({min:0});
 	}
 	
 	var apply_behaviour = function(action){
@@ -78,9 +78,9 @@ WIZARD.components_behaviour = (function(){
 				this.setup_rmsd_previewer();
 				this.setup_distance_previewer();
 				
-				// Others
+				//Loading results
 				//----------------------
-				
+				this.setup_browse_results_folder_button();
 				break;
 				
 			default:

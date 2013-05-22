@@ -127,7 +127,7 @@ WIZARD.control = (function(){
 			    	
 			    	'clustering_loading_method': function($step, action) {
 					    // The branch to go changes to reflect your choice.
-					    var branch = $step.find("[name=clustering_creation_options]:checked").val();
+					    var branch = $step.find("[name=clustering_generation_method]:checked").val();
 					    return branch;
 				    },
 			    	
