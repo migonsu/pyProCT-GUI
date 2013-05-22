@@ -22,15 +22,7 @@ var DIALOGS = (function(){
 	                },
 	                close: function( event, ui ){
 	                    $(this).dialog("destroy");
-	                },
-		            buttons: [
-		                        {
-		                            text: "Ok",
-		                            click: function() { 
-		                                $(this).dialog("destroy");
-		                            }    
-		                        }
-		            ]
+	                }
 	    });
 	};
 	
