@@ -56,33 +56,40 @@ var PARAMETER_DESCRIPTORS = (function (){
 						type:'text',
 						maps_to:'matrix:filename',
 						defaults_to: {"value": "matrix"}
-							
 					},
 					
 					'rmsd_fit_selection':{
 						type:'text',
 						maps_to:'matrix:parameters:fit_selection',
-						defaults_to: {"value":  "name CA"}
+						defaults_to: {"value":  "name CA"},
+						depends_on: {'matrix_creation_options':[{"value":"rmsd"}]}
 					},
 					
 					'rmsd_calc_selection':{
 						type:'text',
-						maps_to:'matrix:parameters:calc_selection'
+						maps_to:'matrix:parameters:calc_selection',
+						defaults_to: {"value":  "name CA"},
+						depends_on: {'matrix_creation_options':[{"value":"rmsd"}]}
 					},
 					
 					'dist_fit_selection':{
 						type:'text',
-						maps_to:'matrix:parameters:dist_fit_selection'
+						maps_to:'matrix:parameters:dist_fit_selection',
+						defaults_to: {"value":  "name CA"},
+						depends_on: {'matrix_creation_options':[{"value":"distance"}]}
 					},
 				
 					'dist_calc_selection':{
 						type:'text',
-						maps_to:'matrix:parameters:body_selection'
+						maps_to:'matrix:parameters:body_selection',
+						defaults_to: {"value":  "name CA"},
+						depends_on: {'matrix_creation_options':[{"value":"distance"}]}
 					},
 					
 					'matrix_creation_path':{
 						type:'text',
-						maps_to:'matrix:parameters:path'
+						maps_to:'matrix:parameters:path',
+						depends_on: {'matrix_creation_options':[{"value":"load"}]}
 					},
 					
 					"matrix_calculator":{
@@ -143,7 +150,13 @@ var PARAMETER_DESCRIPTORS = (function (){
 			//		
 					'gromos_algorithm_default_use':{
 						maps_to:'clustering:algorithms:gromos:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"function":function(){ 
+							if(GLOBAL.selected_action === "advanced"){
+								return false;
+							}
+							else{
+								return true;
+							}}}
 					},
 					
 					'guess_params_gromos':{
@@ -153,7 +166,13 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'hierarchical_algorithm_default_use':{
 						maps_to:'clustering:algorithms:hierarchical:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"function":function(){ 
+							if(GLOBAL.selected_action === "advanced"){
+								return false;
+							}
+							else{
+								return true;
+							}}}
 					},
 					
 					'guess_params_hierarchical':{
@@ -163,7 +182,13 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'kmedoids_algorithm_default_use':{
 						maps_to:'clustering:algorithms:kmedoids:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"function":function(){ 
+							if(GLOBAL.selected_action === "advanced"){
+								return false;
+							}
+							else{
+								return true;
+							}}}
 					},
 					
 					'guess_params_kmedoids':{
@@ -173,7 +198,13 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'spectral_algorithm_default_use':{
 						maps_to:'clustering:algorithms:spectral:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"function":function(){ 
+							if(GLOBAL.selected_action === "advanced"){
+								return false;
+							}
+							else{
+								return true;
+							}}}
 					},
 					
 					'spectral_algorithm_sigma':{
@@ -188,7 +219,13 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'dbscan_algorithm_default_use':{
 						maps_to:'clustering:algorithms:dbscan:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"function":function(){ 
+							if(GLOBAL.selected_action === "advanced"){
+								return false;
+							}
+							else{
+								return true;
+							}}}
 					},
 					
 					'guess_params_dbscan':{
@@ -198,7 +235,7 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'random_algorithm_default_use':{
 						maps_to:'clustering:algorithms:random:use',
-						defaults_to: {"value":  false}
+						defaults_to: {"value":false}
 					},
 					
 					'guess_params_random':{
@@ -234,14 +271,23 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'clustering_loading_path':{
 						type: 'string',
-						depends_on: {'clustering_generation_method':[{"exists":true},{"value":"load"}]},
 						defaults_to: {"function":function(){return GLOBAL.loaded_clustering;}},
 						maps_to: 'clustering:generation:cluster',
+						depends_on: {'clustering_generation_method':[{"exists":true},{"value":"load"}]},
 					},
 					
 					'final_frames':{
 						type: 'int',
-						defaults_to: {"value": 0}
+						defaults_to: {"value": 0},
+						depends_on: {'clustering_generation_method':[{"exists":true}]},
+						maps_to: 'global:action:parameters:final_number_of_frames',
+					},
+					
+					'compression_type':{
+						type: 'selectmenu',
+						defaults_to: {"value": "KMEDOIDS"},
+						depends_on: {'clustering_generation_method':[{"exists":true}]},
+						maps_to: 'global:action:parameters:type',
 					}
 					
 				},

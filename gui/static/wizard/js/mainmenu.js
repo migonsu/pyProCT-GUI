@@ -1,6 +1,4 @@
 var MAIN_MENU = (function(){
-		var selected_action = "";
-		
 		// Actions  enumeration
 		var CLUSTERING_ACTION = "clustering";
 		var ADVANCED_ACTION =  "advanced";
@@ -42,8 +40,8 @@ var MAIN_MENU = (function(){
 			}
 			$(".main_menu_button").button();
 			$(".main_menu_button").click(function(){
-				MAIN_MENU.selected_action = $(this).attr("id");
-				switch_to_wizard(MAIN_MENU.selected_action);
+				GLOBAL.selected_action = $(this).attr("id");
+				switch_to_wizard(GLOBAL.selected_action);
 			});
 			
 			$("#start_over_button").click(function(){
@@ -78,8 +76,7 @@ var MAIN_MENU = (function(){
 			ADVANCED_ACTION:ADVANCED_ACTION,
 			CLUSTERING_ACTION:CLUSTERING_ACTION,
 			COMPRESS_ACTION:COMPRESS_ACTION,
-			setup_main_menu:setup_main_menu,
-			selected_action:selected_action
+			setup_main_menu:setup_main_menu
 		};
 
 }());

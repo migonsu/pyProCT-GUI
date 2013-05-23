@@ -12,6 +12,7 @@ function fulfills_dependencies(field_id, parameter_description){
 				var dependency_value = dependency[dependency_type];
 				
 				switch(dependency_type){
+				
 					case "exists":
 						fulfilled = fulfilled && (field.length > 0) === dependency_value;
 						console.log("exists",fulfilled)
@@ -74,7 +75,7 @@ function create_parameters(selected_algorithms){
 	set_dictionary_entry(
 				parameters,
 				'global:action:type'.split(":"),
-				MAIN_MENU.selected_action);
+				GLOBAL.selected_action);
 	
 	// Gather all defined parameters
 	for (var id_or_name in parameter_descriptions){
@@ -107,16 +108,17 @@ function create_parameters(selected_algorithms){
 	// Now gather algorithm's parameters
 	for(var i = 0; i < GLOBAL.selected_algorithms.length; i++){
 		algorithm_type = ALGORITHM.titles_reverse[GLOBAL.selected_algorithms[i]];
-		set_dictionary_entry(
-				parameters, 
-				["clustering","algorithms",algorithm_type,"use"],
-				true);
-		
 		algorithm_field = find_target_field("algorithm-"+algorithm_type);
 		
 		// If the wizard step is defined...
 		console.log("ALGOF", algorithm_field);
 		if (algorithm_field !== "undefined"){
+			// If the parametrization step exists, we are using this algorithm
+			set_dictionary_entry(
+					parameters,
+					["clustering","algorithms",algorithm_type,"use"],
+					true);
+			
 			// Do we want pyProClust to calculate the parameters itself?
 			parameter_parser = get_algorithm_parameter_parsers(algorithm_type);
 			guess_params_checkbox = algorithm_field.find("#guess_params_"+algorithm_type);
@@ -132,12 +134,13 @@ function create_parameters(selected_algorithms){
 						false);
 			}
 		}
-		else{
+		// Not defined are already setted by the upper loop
+		/*else{
 			set_dictionary_entry(
 					parameters,
 					["clustering","algorithms",algorithm_type,"auto"],
 					true);
-		}
+		}*/
 	}
 	
 	return parameters;
