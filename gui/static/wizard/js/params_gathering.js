@@ -3,11 +3,11 @@ function fulfills_dependencies(field_id, parameter_description){
 	if( typeof parameter_description.depends_on !== "undefined" ){
 		for (var depends_on_this_field in parameter_description.depends_on){
 			var field = find_target_field(depends_on_this_field);
-			console.log(parameter_description.depends_on)
+			console.log(parameter_description.depends_on);
 			for (var i =0; i < parameter_description.depends_on[depends_on_this_field].length; i++){
 				
 				var dependency = parameter_description.depends_on[depends_on_this_field][i];
-				console.log(dependency)
+				console.log("DEPENDENCY",dependency);
 				var dependency_type = Object.keys(dependency)[0];
 				var dependency_value = dependency[dependency_type];
 				
@@ -19,10 +19,10 @@ function fulfills_dependencies(field_id, parameter_description){
 						
 					case "value":
 						console.log(PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field])
-						fulfilled = fulfilled &&  (get_value_of(find_target_field(depends_on_this_field), PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field].type) === dependency_value);
-						console.log("value",
-								fulfilled, 
-								get_value_of(find_target_field(depends_on_this_field), PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field].type))
+						fulfilled = fulfilled &&  
+						(get_value_of(
+								find_target_field(depends_on_this_field), 
+								PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field].type) === dependency_value);
 						break;
 						
 					default:
@@ -30,7 +30,7 @@ function fulfills_dependencies(field_id, parameter_description){
 				}
 			}
 		}
-		console.log("checking ", field_id, fulfilled)
+		console.log("checking ", field_id, fulfilled);
 	}
 	return fulfilled;
 }

@@ -85,7 +85,7 @@ function set_value_of(this_field, value, type){
 }
 
 /**
- * Converts a crieria object (as the one in parameters) to strings. Is the opposite operation of
+ * Converts a criteria object (as the one in parameters) to strings. Is the opposite operation of
  * 'parse_criteria' .
  * 
  * @param {Object} value An object of objects containing all the criteria.

@@ -235,9 +235,16 @@ var PARAMETER_DESCRIPTORS = (function (){
 					'clustering_loading_path':{
 						type: 'string',
 						depends_on: {'clustering_generation_method':[{"exists":true},{"value":"load"}]},
-						defaults_to: {"function":function(){return GLOBAL.loaded_clustering_json;}},
+						defaults_to: {"function":function(){return GLOBAL.loaded_clustering;}},
 						maps_to: 'clustering:generation:cluster',
+					},
+					
+					'final_frames':{
+						type: 'int',
+						defaults_to: {"value": 0}
 					}
+					
 				},
+				
 		};
 }());
