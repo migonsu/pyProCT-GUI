@@ -3,7 +3,7 @@ function fulfills_dependencies(field_id, parameter_description){
 	if( typeof parameter_description.depends_on !== "undefined" ){
 		for (var depends_on_this_field in parameter_description.depends_on){
 			var field = find_target_field(depends_on_this_field);
-			console.log(parameter_description.depends_on);
+			console.log("PARAMETER UNDER CHECK:",field_id, "OVER",parameter_description.depends_on,field);
 			for (var i =0; i < parameter_description.depends_on[depends_on_this_field].length; i++){
 				
 				var dependency = parameter_description.depends_on[depends_on_this_field][i];
@@ -14,7 +14,7 @@ function fulfills_dependencies(field_id, parameter_description){
 				switch(dependency_type){
 				
 					case "exists":
-						fulfilled = fulfilled && (field.length > 0) === dependency_value;
+						fulfilled = fulfilled && (field !== "undefined") &&(field.length > 0) === dependency_value;
 						console.log("exists",fulfilled)
 						break;
 						
@@ -101,17 +101,14 @@ function create_parameters(selected_algorithms){
 					description.maps_to.split(":"), 
 					value);
 		}
-		
-		
 	}
 	
-	// Now gather algorithm's parameters
+	// Now gather algorithm's parameters from algorithm steps (if any)
 	for(var i = 0; i < GLOBAL.selected_algorithms.length; i++){
 		algorithm_type = ALGORITHM.titles_reverse[GLOBAL.selected_algorithms[i]];
 		algorithm_field = find_target_field("algorithm-"+algorithm_type);
 		
 		// If the wizard step is defined...
-		console.log("ALGOF", algorithm_field);
 		if (algorithm_field !== "undefined"){
 			// If the parametrization step exists, we are using this algorithm
 			set_dictionary_entry(
