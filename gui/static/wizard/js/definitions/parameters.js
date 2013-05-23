@@ -1,12 +1,6 @@
 var PARAMETER_DESCRIPTORS = (function (){
 		return{
 			descriptors: {
-					'action_parameters':{
-						type:'radio',
-						maps_to:'global:action:parameters',
-						defaults_to: {"value": {}}
-					},
-					
 					'workspace_base':{
 						type: 'text',
 						maps_to:'workspace:base'
@@ -243,9 +237,9 @@ var PARAMETER_DESCRIPTORS = (function (){
 						defaults_to: {"value":  true}
 					},
 					
-			//		
-			//		CONTROL
-			//		
+//		
+//		CONTROL
+//		
 					'number_of_processors':{
 						maps_to:'clustering:control:number_of_processors',
 						defaults_to: {"value":  4}
@@ -260,9 +254,9 @@ var PARAMETER_DESCRIPTORS = (function (){
 						maps_to:'clustering:control:evaluation_scheduler_sleep_time',
 						defaults_to: {"value":  30}
 					},
-			//		
-			//		CLUSTERING GENERATION
-			//			
+//		
+//		CLUSTERING GENERATION
+//			
 					'clustering_generation_method':{
 						type:'radio',
 						maps_to:'clustering:generation:method',
