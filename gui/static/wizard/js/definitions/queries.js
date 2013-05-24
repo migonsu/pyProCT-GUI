@@ -7,7 +7,8 @@ var QUERIES = (function(){
 	                   "CythonNormNCut", "NormNCut", "MinMaxCut",
 	                   "PCAanalysis", "Details"];
 	
-	var criteria_types = ["MeanClusterSize", "CythonMirrorCohesion", "CythonMinimumMeanSeparation",
+	var criteria_types = ["MeanClusterSize", "CythonMirrorCohesion", "Separation",
+	                      "CythonMinimumMeanSeparation",
 	                      "CythonSilhouette", "RatioCut", "NCut",
 	                      "CythonNormNCut", "MinMaxCut", "PCAanalysis"];
 

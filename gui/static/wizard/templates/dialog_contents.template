@@ -11,8 +11,8 @@
               </td>
               <td>
                 <select class = 'dialog_listbox' id= '{{name}}_listbox'>
-                     <option> Minimize </option>
                      <option> Maximize </option>
+                     <option> Minimize </option>
                 </select>
               </td>
             </tr>
