@@ -1,5 +1,5 @@
 {
-    "best_clustering": "clustering_0004",
+    "best_clustering": "clustering_0024",
     "files": [
         {
             "path": "/home/victor/Escritorio/test/results/parameters.json",
@@ -10,6 +10,11 @@
             "path": "/home/victor/Escritorio/test/matrix/statistics.json",
             "type": "text",
             "description": "Matrix statistics"
+        },
+        {
+            "path": "/home/victor/Escritorio/test/results/representatives.pdb",
+            "type": "pdb",
+            "description": "Cluster central conformations"
         }
     ],
     "trajectories": [
@@ -20,78 +25,9 @@
         }
     ],
     "selected": {
-        "clustering_0006": {
+        "clustering_0024": {
             "clustering": {
                 "clusters": [
-                    {
-                        "prototype": 0,
-                        "elements": "0:99"
-                    },
-                    {
-                        "prototype": 100,
-                        "elements": "100:199"
-                    },
-                    {
-                        "prototype": 300,
-                        "elements": "300:399"
-                    },
-                    {
-                        "prototype": 400,
-                        "elements": "400:499"
-                    },
-                    {
-                        "prototype": 500,
-                        "elements": "500:599"
-                    },
-                    {
-                        "prototype": 700,
-                        "elements": "700:799"
-                    },
-                    {
-                        "prototype": 800,
-                        "elements": "800:899"
-                    },
-                    {
-                        "prototype": 602,
-                        "elements": "602:603, 607:610, 612, 617:618, 621:623, 625:627, 629:630, 635, 637:639, 642:644, 646:649, 652, 654:656, 658:664, 666:669, 671:672, 674:676, 678:680, 689, 692:693, 695:696, 698:699"
-                    },
-                    {
-                        "prototype": 200,
-                        "elements": "200:202, 206:207, 209:212, 216, 218, 221:223, 226:227, 231:232, 234:236, 238, 240:242, 245, 247:251, 253, 257, 259:262, 266, 269, 275, 277, 283, 285:286, 289:291, 295:296, 298:299"
-                    }
-                ],
-                "total_number_of_elements": 809,
-                "number_of_clusters": 9
-            },
-            "evaluation": {
-                "Noise level": 10.111111111111114,
-                "Normalized_CythonMirrorCohesion": 0.30968701883493516,
-                "Normalized_CythonNormNCut": 0.908423857512075,
-                "Number of clusters": 9,
-                "CythonMirrorCohesion": 0.062130441410935995,
-                "CythonSilhouette": 0.89252605910418326,
-                "Normalized_PCAanalysis": 0.0044601963176405385,
-                "Normalized_CythonSilhouette": 0.9992809368206389,
-                "PCAanalysis": 0.024246302205703823,
-                "CythonNormNCut": 0.45021433390482873
-            },
-            "type": "kmedoids",
-            "parameters": {
-                "seeding_type": "EQUIDISTANT",
-                "k": 11
-            }
-        },
-        "clustering_0004": {
-            "clustering": {
-                "clusters": [
-                    {
-                        "prototype": 301,
-                        "elements": "300:399, 500:599"
-                    },
-                    {
-                        "prototype": 433,
-                        "elements": "400:499, 600:699"
-                    },
                     {
                         "prototype": 95,
                         "elements": "0:99"
@@ -105,6 +41,22 @@
                         "elements": "200:299"
                     },
                     {
+                        "prototype": 350,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 497,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 596,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 602,
+                        "elements": "600:699"
+                    },
+                    {
                         "prototype": 783,
                         "elements": "700:799"
                     },
@@ -114,148 +66,1521 @@
                     }
                 ],
                 "total_number_of_elements": 900,
-                "number_of_clusters": 7
-            },
-            "evaluation": {
-                "Noise level": 0.0,
-                "Normalized_CythonMirrorCohesion": 1.0,
-                "Normalized_CythonNormNCut": 0.9772439607719269,
-                "Number of clusters": 7,
-                "CythonMirrorCohesion": 0.20062333140302485,
-                "CythonSilhouette": 0.74632408801720695,
-                "Normalized_PCAanalysis": 1.0,
-                "Normalized_CythonSilhouette": 0.8355917748711792,
-                "PCAanalysis": 5.4361513437888789,
-                "CythonNormNCut": 0.4843215369380603
-            },
-            "type": "kmedoids",
-            "parameters": {
-                "seeding_type": "EQUIDISTANT",
-                "k": 7
-            }
-        },
-        "clustering_0005": {
-            "clustering": {
-                "clusters": [
-                    {
-                        "prototype": 0,
-                        "elements": "0:99"
-                    },
-                    {
-                        "prototype": 100,
-                        "elements": "100:199"
-                    },
-                    {
-                        "prototype": 200,
-                        "elements": "200:299"
-                    },
-                    {
-                        "prototype": 300,
-                        "elements": "300:399"
-                    },
-                    {
-                        "prototype": 400,
-                        "elements": "400:499"
-                    },
-                    {
-                        "prototype": 500,
-                        "elements": "500:599"
-                    },
-                    {
-                        "prototype": 600,
-                        "elements": "600:699"
-                    },
-                    {
-                        "prototype": 700,
-                        "elements": "700:799"
-                    },
-                    {
-                        "prototype": 800,
-                        "elements": "800:899"
-                    }
-                ],
-                "total_number_of_elements": 900,
                 "number_of_clusters": 9
             },
             "evaluation": {
                 "Noise level": 0.0,
-                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
-                "Normalized_CythonNormNCut": 1.0,
-                "Number of clusters": 9,
-                "CythonMirrorCohesion": 0.07701822324242233,
-                "CythonSilhouette": 0.89316830354423427,
-                "Normalized_PCAanalysis": 0.00365298852558696,
-                "Normalized_CythonSilhouette": 0.9999999999999999,
-                "PCAanalysis": 0.019858198482214907,
-                "CythonNormNCut": 0.4955994167060329
-            },
-            "type": "kmedoids",
-            "parameters": {
-                "seeding_type": "EQUIDISTANT",
-                "k": 9
-            }
-        },
-        "clustering_0002": {
-            "clustering": {
-                "clusters": [
-                    {
-                        "prototype": 0,
-                        "elements": "0:99"
-                    },
-                    {
-                        "prototype": 100,
-                        "elements": "100:199"
-                    },
-                    {
-                        "prototype": 200,
-                        "elements": "200:299"
-                    },
-                    {
-                        "prototype": 300,
-                        "elements": "300:399"
-                    },
-                    {
-                        "prototype": 400,
-                        "elements": "400:499"
-                    },
-                    {
-                        "prototype": 500,
-                        "elements": "500:599"
-                    },
-                    {
-                        "prototype": 600,
-                        "elements": "600:699"
-                    },
-                    {
-                        "prototype": 700,
-                        "elements": "700:799"
-                    },
-                    {
-                        "prototype": 800,
-                        "elements": "800:899"
-                    }
-                ],
-                "total_number_of_elements": 900,
-                "number_of_clusters": 9
-            },
-            "evaluation": {
-                "Noise level": 0.0,
-                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
                 "Normalized_CythonNormNCut": 1.0,
                 "Number of clusters": 9,
                 "CythonMirrorCohesion": 0.07701822324242233,
                 "CythonSilhouette": 0.89316830354423438,
-                "Normalized_PCAanalysis": 0.003652988514578977,
-                "Normalized_CythonSilhouette": 1.0,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
                 "PCAanalysis": 0.019858198422373845,
                 "CythonNormNCut": 0.4955994167060329
             },
             "type": "gromos",
             "parameters": {
-                "cutoff": 2
+                "cutoff": 5.0
             }
         },
-        "clustering_0001": {
+        "clustering_0025": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 5.25
+            }
+        },
+        "clustering_0026": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 5.5
+            }
+        },
+        "clustering_0027": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 5.75
+            }
+        },
+        "clustering_0020": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 4.0
+            }
+        },
+        "clustering_0021": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 4.25
+            }
+        },
+        "clustering_0022": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 4.5
+            }
+        },
+        "clustering_0023": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 4.75
+            }
+        },
+        "clustering_0028": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 6.0
+            }
+        },
+        "clustering_0029": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 6.25
+            }
+        },
+        "clustering_0034": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 7.5
+            }
+        },
+        "clustering_0081": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 400,
+                        "elements": "400:499, 600:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    }
+                ],
+                "total_number_of_elements": 800,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 11.111111111111114,
+                "Normalized_CythonMirrorCohesion": 0.3944733338199435,
+                "Normalized_CythonNormNCut": 0.8663240871828688,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.12250709334810489,
+                "CythonSilhouette": 0.79267072883535261,
+                "Normalized_PCAanalysis": 0.3492219732070403,
+                "Normalized_CythonSilhouette": 0.8858547751010091,
+                "PCAanalysis": 3.724022105787252,
+                "CythonNormNCut": 0.42934971228621616
+            },
+            "type": "hierarchical",
+            "parameters": {
+                "cutoff": 1.1547003259848918,
+                "method": "complete"
+            }
+        },
+        "clustering_0033": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 7.25
+            }
+        },
+        "clustering_0032": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 7.0
+            }
+        },
+        "clustering_0031": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 6.75
+            }
+        },
+        "clustering_0037": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 8.25
+            }
+        },
+        "clustering_0030": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 6.5
+            }
+        },
+        "clustering_0055": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 401,
+                        "elements": "400:499, 600:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.6460079348690124,
+                "Normalized_CythonNormNCut": 0.9772439607719269,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.20062333140302485,
+                "CythonSilhouette": 0.74632408801720695,
+                "Normalized_PCAanalysis": 0.5097777201751017,
+                "Normalized_CythonSilhouette": 0.834059759106198,
+                "PCAanalysis": 5.4361513439029912,
+                "CythonNormNCut": 0.4843215369380603
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 12.75
+            }
+        },
+        "clustering_0054": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 433,
+                        "elements": "400:499, 600:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.6460079348690124,
+                "Normalized_CythonNormNCut": 0.9772439607719269,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.20062333140302485,
+                "CythonSilhouette": 0.74632408801720695,
+                "Normalized_PCAanalysis": 0.5097777201751017,
+                "Normalized_CythonSilhouette": 0.834059759106198,
+                "PCAanalysis": 5.4361513439029912,
+                "CythonNormNCut": 0.4843215369380603
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 12.5
+            }
+        },
+        "clustering_0057": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 567,
+                        "elements": "300:399, 500:600, 603:607, 609:617, 619:620, 623:632, 634:635, 638, 640:642, 644:648, 650:651, 653:654, 657:658, 660:661, 663:667, 669, 671:673, 676, 678:681, 684, 686:689, 691:693, 697:699"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499, 601:602, 608, 618, 621:622, 633, 636:637, 639, 643, 649, 652, 655:656, 659, 662, 668, 670, 674:675, 677, 682:683, 685, 690, 694:696"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.732910433563584,
+                "Normalized_CythonNormNCut": 0.9723151411262163,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.22761165128935426,
+                "CythonSilhouette": 0.68109166384818609,
+                "Normalized_PCAanalysis": 0.46124038473162443,
+                "Normalized_CythonSilhouette": 0.7611588024549469,
+                "PCAanalysis": 4.9185604589778951,
+                "CythonNormNCut": 0.4818788167965969
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 13.25
+            }
+        },
+        "clustering_0078": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:302, 304, 308, 311, 316, 318:320, 322:323, 325, 333, 335:337, 339, 343, 346:348, 350:352, 355, 357:358, 361:363, 366, 368:372, 374, 376:379, 381:384, 386:387, 389:391, 393, 399"
+                    }
+                ],
+                "total_number_of_elements": 853,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 5.222222222222214,
+                "Normalized_CythonMirrorCohesion": 0.22269812741909226,
+                "Normalized_CythonNormNCut": 0.9585126823312188,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.06916082265938855,
+                "CythonSilhouette": 0.89480889093245419,
+                "Normalized_PCAanalysis": 0.002066584546414854,
+                "Normalized_CythonSilhouette": 1.0,
+                "PCAanalysis": 0.022037578173136806,
+                "CythonNormNCut": 0.47503832626868703
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "GROMOS",
+                "k": 10,
+                "seeding_max_cutoff": 17.94217933296907
+            }
+        },
+        "clustering_0051": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 11.75
+            }
+        },
+        "clustering_0050": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 11.5
+            }
+        },
+        "clustering_0053": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 433,
+                        "elements": "400:499, 612, 616, 627, 630, 656:657, 661, 668, 688"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:611, 613:615, 617:626, 628:629, 631:655, 658:660, 662:667, 669:687, 689:699"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.45912153684802476,
+                "Normalized_CythonNormNCut": 0.9892837945862386,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.14258414992999136,
+                "CythonSilhouette": 0.80329833384095495,
+                "Normalized_PCAanalysis": 0.2928179142533401,
+                "Normalized_CythonSilhouette": 0.8977317301841528,
+                "PCAanalysis": 3.1225423063612965,
+                "CythonNormNCut": 0.4902884715536707
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 12.25
+            }
+        },
+        "clustering_0052": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 12.0
+            }
+        },
+        "clustering_0059": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 378,
+                        "elements": "300:399, 500:600, 602:607, 609:611, 613:614, 616:617, 619:621, 623:624, 626, 629:634, 636:638, 640:642, 644:651, 653:661, 665:667, 671, 673, 676:678, 680:681, 684, 686:689, 691, 694:695, 697:729, 731:799"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499, 601, 608, 612, 615, 618, 622, 625, 627:628, 635, 639, 643, 652, 662:664, 668:670, 672, 674:675, 679, 682:683, 685, 690, 692:693, 696"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 899,
+                "number_of_clusters": 6
+            },
+            "evaluation": {
+                "Noise level": 0.11111111111110006,
+                "Normalized_CythonMirrorCohesion": 1.0,
+                "Normalized_CythonNormNCut": 0.9494614238502,
+                "Number of clusters": 6,
+                "CythonMirrorCohesion": 0.310558617896395,
+                "CythonSilhouette": 0.60077631924167652,
+                "Normalized_PCAanalysis": 0.4656383335642207,
+                "Normalized_CythonSilhouette": 0.6714018214723203,
+                "PCAanalysis": 4.965459165042418,
+                "CythonNormNCut": 0.47055252784503865
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 13.75
+            }
+        },
+        "clustering_0058": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 500,
+                        "elements": "300:399, 500:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.6899684769270098,
+                "Normalized_CythonNormNCut": 0.9739961911996481,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.21427565658653286,
+                "CythonSilhouette": 0.72119191244050851,
+                "Normalized_PCAanalysis": 0.2814923330721805,
+                "Normalized_CythonSilhouette": 0.8059731186722737,
+                "PCAanalysis": 3.0017689360827853,
+                "CythonNormNCut": 0.4827119442324433
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 13.5
+            }
+        },
+        "clustering_0010": {
             "clustering": {
                 "clusters": [
                     {
@@ -300,13 +1625,13 @@
             },
             "evaluation": {
                 "Noise level": 0.0,
-                "Normalized_CythonMirrorCohesion": 0.3838946482635324,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
                 "Normalized_CythonNormNCut": 1.0,
                 "Number of clusters": 9,
                 "CythonMirrorCohesion": 0.07701822324242233,
                 "CythonSilhouette": 0.89316830354423427,
-                "Normalized_PCAanalysis": 0.003652988522205069,
-                "Normalized_CythonSilhouette": 0.9999999999999999,
+                "Normalized_PCAanalysis": 0.0018622121606364232,
+                "Normalized_CythonSilhouette": 0.9981665499696697,
                 "PCAanalysis": 0.019858198463830436,
                 "CythonNormNCut": 0.4955994167060329
             },
@@ -314,27 +1639,2084 @@
             "parameters": {
                 "cutoff": 1.5
             }
-        }
-    },
-    "not_selected": {
-        "clustering_0003": {
+        },
+        "clustering_0011": {
             "clustering": {
                 "clusters": [
                     {
-                        "prototype": 206,
-                        "elements": "206, 214, 219, 223, 233, 245, 258:260, 262, 270, 272, 277:278, 286:287, 289, 292, 296:297, 300:399, 500:599, 700:799"
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1.75
+            }
+        },
+        "clustering_0036": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 8.0
+            }
+        },
+        "clustering_0035": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 7.75
+            }
+        },
+        "clustering_0012": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 2.0
+            }
+        },
+        "clustering_0015": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 2.75
+            }
+        },
+        "clustering_0014": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 2.5
+            }
+        },
+        "clustering_0017": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 3.25
+            }
+        },
+        "clustering_0016": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 3.0
+            }
+        },
+        "clustering_0019": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 3.75
+            }
+        },
+        "clustering_0018": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 3.5
+            }
+        },
+        "clustering_0039": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 8.75
+            }
+        },
+        "clustering_0038": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 8.5
+            }
+        },
+        "clustering_0013": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 2.25
+            }
+        },
+        "clustering_0004": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:91, 93:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:105, 107:188, 190:199"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:338, 340:375, 377:399"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500, 502:568, 570:599"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:750, 752:772, 774:799"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:426, 428:461, 463:478, 480:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:612, 614:628, 630:687, 689:699"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:812, 814:828, 830:890, 892:899"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:203, 205:215, 217:220, 222:287, 289:299"
+                    }
+                ],
+                "total_number_of_elements": 878,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 2.444444444444443,
+                "Normalized_CythonMirrorCohesion": 0.23566203428420024,
+                "Normalized_CythonNormNCut": 0.9760645673955238,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07318687565795408,
+                "CythonSilhouette": 0.89330356257568067,
+                "Normalized_PCAanalysis": 0.0019397333114508906,
+                "Normalized_CythonSilhouette": 0.9983177096561872,
+                "PCAanalysis": 0.020684866031876019,
+                "CythonNormNCut": 0.48373703026864795
+            },
+            "type": "dbscan",
+            "parameters": {
+                "eps": 1.3194783926010132,
+                "minpts": 4
+            }
+        },
+        "clustering_0056": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
                     },
                     {
                         "prototype": 400,
                         "elements": "400:499, 600:699"
                     },
                     {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
                         "prototype": 100,
-                        "elements": "100:205, 207:213, 215:218, 220:222, 224:232, 234:244, 246:257, 261, 263:269, 271, 273:276, 279:285, 288, 290:291, 293:295, 298:299"
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 7
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.6460079348690124,
+                "Normalized_CythonNormNCut": 0.9772439607719269,
+                "Number of clusters": 7,
+                "CythonMirrorCohesion": 0.20062333140302485,
+                "CythonSilhouette": 0.74632408801720695,
+                "Normalized_PCAanalysis": 0.5097777201727615,
+                "Normalized_CythonSilhouette": 0.834059759106198,
+                "PCAanalysis": 5.436151343878036,
+                "CythonNormNCut": 0.4843215369380603
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 13.0
+            }
+        },
+        "clustering_0077": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
                     },
                     {
                         "prototype": 0,
                         "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469536,
+                "Normalized_PCAanalysis": 0.2010073167625904,
+                "Normalized_CythonSilhouette": 0.9275590550176464,
+                "PCAanalysis": 2.1434953939885024,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "GROMOS",
+                "k": 8,
+                "seeding_max_cutoff": 17.94217933296907
+            }
+        },
+        "clustering_0076": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 6
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.9565442898510912,
+                "Normalized_CythonNormNCut": 0.9534222915172397,
+                "Number of clusters": 6,
+                "CythonMirrorCohesion": 0.29706307261284354,
+                "CythonSilhouette": 0.64887753550476002,
+                "Normalized_PCAanalysis": 0.2771355309888453,
+                "Normalized_CythonSilhouette": 0.7251576756558417,
+                "PCAanalysis": 2.9553090094066898,
+                "CythonNormNCut": 0.47251553155047327
+            },
+            "type": "kmedoids",
+            "parameters": {
+                "seeding_type": "GROMOS",
+                "k": 6,
+                "seeding_max_cutoff": 17.94217933296907
+            }
+        },
+        "clustering_0042": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 9.5
+            }
+        },
+        "clustering_0043": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 9.75
+            }
+        },
+        "clustering_0040": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 9.0
+            }
+        },
+        "clustering_0041": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.2479989889319905,
+                "Normalized_CythonNormNCut": 1.0,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07701822324242233,
+                "CythonSilhouette": 0.89316830354423438,
+                "Normalized_PCAanalysis": 0.0018622121567488114,
+                "Normalized_CythonSilhouette": 0.9981665499696698,
+                "PCAanalysis": 0.019858198422373845,
+                "CythonNormNCut": 0.4955994167060329
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 9.25
+            }
+        },
+        "clustering_0046": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 10.5
+            }
+        },
+        "clustering_0047": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 10.75
+            }
+        },
+        "clustering_0044": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 570,
+                        "elements": "300:302, 304:306, 308, 311:312, 315:319, 321:326, 329:335, 338, 340:341, 343, 346:348, 350, 353:354, 357:359, 361, 364:366, 370:371, 373:374, 376, 378:392, 394:395, 397:398, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 868,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 3.555555555555557,
+                "Normalized_CythonMirrorCohesion": 0.36650485833302604,
+                "Normalized_CythonNormNCut": 0.9619569579735463,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.1138212422562186,
+                "CythonSilhouette": 0.84178469323971039,
+                "Normalized_PCAanalysis": 0.19952399373707222,
+                "Normalized_CythonSilhouette": 0.9407424331272694,
+                "PCAanalysis": 2.1276775813625539,
+                "CythonNormNCut": 0.47674530726799935
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 10.0
+            }
+        },
+        "clustering_0045": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 301,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731675870287,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953939470467,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 10.25
+            }
+        },
+        "clustering_0048": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 11.0
+            }
+        },
+        "clustering_0049": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:399, 500:599"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.4226849022929607,
+                "Normalized_CythonNormNCut": 0.9907529177825071,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.13126843906177463,
+                "CythonSilhouette": 0.82998808929469525,
+                "Normalized_PCAanalysis": 0.20100731677215336,
+                "Normalized_CythonSilhouette": 0.9275590550176462,
+                "PCAanalysis": 2.1434953940904795,
+                "CythonNormNCut": 0.4910165681528107
+            },
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 11.25
+            }
+        },
+        "clustering_0002": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:401, 404:405, 411:412, 415:417, 420, 424:425, 427, 429, 431, 436, 440:447, 449:453, 455:458, 460:461, 465:469, 471:472, 475, 478, 480:482, 485, 488, 490:491, 497:498"
+                    }
+                ],
+                "total_number_of_elements": 853,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 5.222222222222214,
+                "Normalized_CythonMirrorCohesion": 0.22262937738974345,
+                "Normalized_CythonNormNCut": 0.9492917897814614,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.06913947174529365,
+                "CythonSilhouette": 0.89340643757545612,
+                "Normalized_PCAanalysis": 0.0020718511534016555,
+                "Normalized_CythonSilhouette": 0.9984326783392411,
+                "PCAanalysis": 0.022093740048236558,
+                "CythonNormNCut": 0.4704684572995183
+            },
+            "type": "spectral",
+            "parameters": {
+                "k": 10,
+                "use_k_medoids": true
+            }
+        },
+        "clustering_0003": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:91, 93:99"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:375, 377:399"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:105, 107:188, 190:199"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500, 502:568, 570:599"
+                    },
+                    {
+                        "prototype": 400,
+                        "elements": "400:426, 428:461, 463:478, 480:499"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:612, 614:628, 630:687, 689:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:750, 752:772, 774:776, 778:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:812, 814:828, 830:890, 892:899"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:203, 205:215, 217:220, 222:287, 289:299"
+                    }
+                ],
+                "total_number_of_elements": 878,
+                "number_of_clusters": 9
+            },
+            "evaluation": {
+                "Noise level": 2.444444444444443,
+                "Normalized_CythonMirrorCohesion": 0.23565942483447408,
+                "Normalized_CythonNormNCut": 0.9759465409827306,
+                "Number of clusters": 9,
+                "CythonMirrorCohesion": 0.07318606527085365,
+                "CythonSilhouette": 0.89326683696374687,
+                "Normalized_PCAanalysis": 0.0019427399665486154,
+                "Normalized_CythonSilhouette": 0.9982766666890174,
+                "PCAanalysis": 0.020716928304320047,
+                "CythonNormNCut": 0.48367853644731174
+            },
+            "type": "dbscan",
+            "parameters": {
+                "eps": 1.319135308265686,
+                "minpts": 2
+            }
+        },
+        "clustering_0001": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 200,
+                        "elements": "200:299, 400:499"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 500,
+                        "elements": "500:599"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 8
+            },
+            "evaluation": {
+                "Noise level": 0.0,
+                "Normalized_CythonMirrorCohesion": 0.6693712172457875,
+                "Normalized_CythonNormNCut": 0.9819836679932037,
+                "Number of clusters": 8,
+                "CythonMirrorCohesion": 0.20787900008747934,
+                "CythonSilhouette": 0.72251860798072876,
+                "Normalized_PCAanalysis": 1.0,
+                "Normalized_CythonSilhouette": 0.8074557766494846,
+                "PCAanalysis": 10.663768008605295,
+                "CythonNormNCut": 0.4866705330722824
+            },
+            "type": "spectral",
+            "parameters": {
+                "k": 8,
+                "use_k_medoids": true
+            }
+        }
+    },
+    "not_selected": {
+        "clustering_0080": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:899"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "hierarchical",
+            "parameters": {
+                "cutoff": 1.1547004709046826,
+                "method": "complete"
+            }
+        },
+        "clustering_0079": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "300:899"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    }
+                ],
+                "total_number_of_elements": 800,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "hierarchical",
+            "parameters": {
+                "cutoff": 1.1547004588280334,
+                "method": "complete"
+            }
+        },
+        "clustering_0073": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "100:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 17.25
+            }
+        },
+        "clustering_0072": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "100:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 17.0
+            }
+        },
+        "clustering_0071": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 388,
+                        "elements": "100:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 16.75
+            }
+        },
+        "clustering_0070": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 388,
+                        "elements": "100, 105, 111, 114:115, 121, 127, 139, 141, 146, 149, 151, 153, 159, 178, 190:191, 193, 200:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    },
+                    {
+                        "prototype": 101,
+                        "elements": "101:104, 106:110, 112:113, 116:120, 122:126, 128:138, 140, 142:145, 147:148, 150, 152, 154:158, 160:177, 179:189, 192, 194:199"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 16.5
+            }
+        },
+        "clustering_0075": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "100:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 17.75
+            }
+        },
+        "clustering_0074": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "100:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 17.5
+            }
+        },
+        "clustering_0006": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 6
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 0.5
+            }
+        },
+        "clustering_0061": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 602,
+                        "elements": "100:199, 300:699"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 700,
+                        "elements": "700:799"
                     },
                     {
                         "prototype": 800,
@@ -349,17 +3731,165 @@
                     "reason": "TOO_FEW_CLUSTERS",
                     "data": {
                         "current": 5,
-                        "minimum": 7
+                        "minimum": 6
                     }
                 }
             ],
-            "type": "kmedoids",
+            "type": "gromos",
             "parameters": {
-                "seeding_type": "EQUIDISTANT",
-                "k": 5
+                "cutoff": 14.25
+            }
+        },
+        "clustering_0063": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 538,
+                        "elements": "300:899"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 14.75
+            }
+        },
+        "clustering_0068": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "200:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 16.0
+            }
+        },
+        "clustering_0069": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "200:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 16.25
             }
         },
         "clustering_0000": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 0,
+                        "elements": "0:299, 400:599, 700:799"
+                    },
+                    {
+                        "prototype": 300,
+                        "elements": "300:399"
+                    },
+                    {
+                        "prototype": 600,
+                        "elements": "600:699"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "spectral",
+            "parameters": {
+                "k": 6,
+                "use_k_medoids": true
+            }
+        },
+        "clustering_0008": {
             "clustering": {
                 "clusters": [],
                 "total_number_of_elements": 0,
@@ -370,7 +3900,7 @@
                     "reason": "TOO_FEW_CLUSTERS",
                     "data": {
                         "current": 0,
-                        "minimum": 7
+                        "minimum": 6
                     }
                 },
                 {
@@ -383,7 +3913,314 @@
             ],
             "type": "gromos",
             "parameters": {
-                "cutoff": 1
+                "cutoff": 1.0
+            }
+        },
+        "clustering_0009": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 6
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 1.25
+            }
+        },
+        "clustering_0060": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 602,
+                        "elements": "100, 102:103, 105, 107, 109:111, 114:117, 121:123, 125, 127:130, 132:136, 138:143, 145:146, 148:151, 153:155, 158:159, 161:164, 167:173, 176:178, 180:185, 187:188, 190:196, 198, 300:335, 337:343, 345:699"
+                    },
+                    {
+                        "prototype": 336,
+                        "elements": "336, 344, 700:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 872,
+                "number_of_clusters": 5
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 5,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 14.0
+            }
+        },
+        "clustering_0007": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 6
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 0.75
+            }
+        },
+        "clustering_0062": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 593,
+                        "elements": "300:710, 712:729, 731:799, 813, 817, 820, 828, 832, 846:847, 851, 859, 861, 872, 874, 883:884, 886, 890, 897"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 200,
+                        "elements": "200:299"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:812, 814:816, 818:819, 821:827, 829:831, 833:845, 848:850, 852:858, 860, 862:871, 873, 875:882, 885, 887:889, 891:896, 898:899"
+                    }
+                ],
+                "total_number_of_elements": 898,
+                "number_of_clusters": 5
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 5,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 14.5
+            }
+        },
+        "clustering_0005": {
+            "clustering": {
+                "clusters": [],
+                "total_number_of_elements": 0,
+                "number_of_clusters": 0
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 0,
+                        "minimum": 6
+                    }
+                },
+                {
+                    "reason": "TOO_MUCH_NOISE",
+                    "data": {
+                        "current": 100.0,
+                        "maximum": 15
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 0.25
+            }
+        },
+        "clustering_0064": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 500,
+                        "elements": "300:899"
+                    },
+                    {
+                        "prototype": 252,
+                        "elements": "105, 113:114, 121, 141, 149, 157, 175, 178, 193, 200:299"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:104, 106:112, 115:120, 122:140, 142:148, 150:156, 158:174, 176:177, 179:192, 194:199"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 15.0
+            }
+        },
+        "clustering_0065": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 500,
+                        "elements": "300:899"
+                    },
+                    {
+                        "prototype": 114,
+                        "elements": "100:252, 254:299"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    }
+                ],
+                "total_number_of_elements": 899,
+                "number_of_clusters": 3
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 3,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 15.25
+            }
+        },
+        "clustering_0066": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "200:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 15.5
+            }
+        },
+        "clustering_0067": {
+            "clustering": {
+                "clusters": [
+                    {
+                        "prototype": 300,
+                        "elements": "200:799"
+                    },
+                    {
+                        "prototype": 0,
+                        "elements": "0:99"
+                    },
+                    {
+                        "prototype": 100,
+                        "elements": "100:199"
+                    },
+                    {
+                        "prototype": 800,
+                        "elements": "800:899"
+                    }
+                ],
+                "total_number_of_elements": 900,
+                "number_of_clusters": 4
+            },
+            "reasons": [
+                {
+                    "reason": "TOO_FEW_CLUSTERS",
+                    "data": {
+                        "current": 4,
+                        "minimum": 6
+                    }
+                }
+            ],
+            "type": "gromos",
+            "parameters": {
+                "cutoff": 15.75
             }
         }
     },
@@ -395,52 +4232,158 @@
     },
     "scores": {
         "criteria_0": {
-            "clustering_0006": 0.032580195925443034,
-            "clustering_0004": 1.1547942143843608,
-            "clustering_0005": 0.00365298852558706,
-            "clustering_0002": 0.003652988514578977,
-            "clustering_0001": 0.0036529885222051687
+            "clustering_0024": 2.196487682815954,
+            "clustering_0025": 2.196487682815954,
+            "clustering_0026": 2.196487682815954,
+            "clustering_0027": 2.196487682815954,
+            "clustering_0020": 2.196487682815954,
+            "clustering_0021": 2.196487682815954,
+            "clustering_0022": 2.196487682815954,
+            "clustering_0023": 2.196487682815954,
+            "clustering_0028": 2.196487682815954,
+            "clustering_0029": 2.196487682815954,
+            "clustering_0012": 2.196487682815954,
+            "clustering_0081": 1.7079445505387285,
+            "clustering_0015": 2.196487682815954,
+            "clustering_0036": 2.196487682815954,
+            "clustering_0014": 2.196487682815954,
+            "clustering_0011": 2.196487682815954,
+            "clustering_0017": 2.196487682815954,
+            "clustering_0016": 2.196487682815954,
+            "clustering_0055": 1.5340492512520545,
+            "clustering_0054": 1.5340492512520545,
+            "clustering_0057": 1.5154970798156928,
+            "clustering_0078": 2.1854872201529507,
+            "clustering_0051": 1.9310217080784804,
+            "clustering_0050": 1.9310217080784804,
+            "clustering_0053": 1.811925781288269,
+            "clustering_0052": 1.9310217080784804,
+            "clustering_0059": 1.4234617329159276,
+            "clustering_0058": 1.7360823310927602,
+            "clustering_0037": 2.196487682815954,
+            "clustering_0010": 2.1964876828120663,
+            "clustering_0035": 2.196487682815954,
+            "clustering_0034": 2.196487682815954,
+            "clustering_0033": 2.196487682815954,
+            "clustering_0032": 2.196487682815954,
+            "clustering_0031": 2.196487682815954,
+            "clustering_0030": 2.196487682815954,
+            "clustering_0019": 2.196487682815954,
+            "clustering_0018": 2.196487682815954,
+            "clustering_0039": 2.196487682815954,
+            "clustering_0038": 2.196487682815954,
+            "clustering_0013": 2.196487682815954,
+            "clustering_0048": 1.9310217080784804,
+            "clustering_0056": 1.5340492512543948,
+            "clustering_0077": 1.9310217080880434,
+            "clustering_0076": 1.661533064556584,
+            "clustering_0042": 2.196487682815954,
+            "clustering_0043": 2.196487682815954,
+            "clustering_0040": 2.196487682815954,
+            "clustering_0041": 2.196487682815954,
+            "clustering_0046": 1.9310217080784804,
+            "clustering_0047": 1.9310217080784804,
+            "clustering_0044": 1.9357312834695342,
+            "clustering_0045": 1.931021708091931,
+            "clustering_0004": 2.189365575597775,
+            "clustering_0049": 1.9310217080784804,
+            "clustering_0002": 2.1813050962863536,
+            "clustering_0003": 2.1892902223483865,
+            "clustering_0001": 1.0213052993824974
         },
         "criteria_1": {
-            "clustering_0006": 0.15225565734293486,
-            "clustering_0004": 1.133802184025864,
-            "clustering_0005": 0.12687405887288059,
-            "clustering_0002": 0.1268740588618725,
-            "clustering_0001": 0.12687405886949868
+            "clustering_0024": 1.9462708256053851,
+            "clustering_0025": 1.9462708256053851,
+            "clustering_0026": 1.9462708256053851,
+            "clustering_0027": 1.9462708256053851,
+            "clustering_0020": 1.9462708256053851,
+            "clustering_0021": 1.9462708256053851,
+            "clustering_0022": 1.9462708256053851,
+            "clustering_0023": 1.9462708256053851,
+            "clustering_0028": 1.9462708256053851,
+            "clustering_0029": 1.9462708256053851,
+            "clustering_0012": 1.9462708256053851,
+            "clustering_0081": 1.5249889223560427,
+            "clustering_0015": 1.9462708256053851,
+            "clustering_0036": 1.9462708256053851,
+            "clustering_0014": 1.9462708256053851,
+            "clustering_0011": 1.9462708256053851,
+            "clustering_0017": 1.9462708256053851,
+            "clustering_0016": 1.9462708256053851,
+            "clustering_0055": 1.384396070160852,
+            "clustering_0054": 1.384396070160852,
+            "clustering_0057": 1.3915002580576716,
+            "clustering_0078": 1.9383243091705256,
+            "clustering_0051": 1.7246521994788064,
+            "clustering_0050": 1.7246521994788064,
+            "clustering_0053": 1.6161201567222112,
+            "clustering_0052": 1.7246521994788064,
+            "clustering_0059": 1.3664292659986554,
+            "clustering_0058": 1.5986794763710053,
+            "clustering_0037": 1.9462708256053851,
+            "clustering_0010": 1.9462708256014976,
+            "clustering_0035": 1.9462708256053851,
+            "clustering_0034": 1.9462708256053851,
+            "clustering_0033": 1.9462708256053851,
+            "clustering_0032": 1.9462708256053851,
+            "clustering_0031": 1.9462708256053851,
+            "clustering_0030": 1.9462708256053851,
+            "clustering_0019": 1.9462708256053851,
+            "clustering_0018": 1.9462708256053851,
+            "clustering_0039": 1.9462708256053851,
+            "clustering_0038": 1.9462708256053851,
+            "clustering_0013": 1.9462708256053851,
+            "clustering_0048": 1.7246521994788064,
+            "clustering_0056": 1.3843960701631923,
+            "clustering_0077": 1.7246521994883695,
+            "clustering_0076": 1.5896416966577704,
+            "clustering_0042": 1.9462708256053851,
+            "clustering_0043": 1.9462708256053851,
+            "clustering_0040": 1.9462708256053851,
+            "clustering_0041": 1.9462708256053851,
+            "clustering_0046": 1.7246521994788064,
+            "clustering_0047": 1.7246521994788064,
+            "clustering_0044": 1.722566620228703,
+            "clustering_0045": 1.724652199492257,
+            "clustering_0004": 1.9414532980098913,
+            "clustering_0049": 1.7246521994788064,
+            "clustering_0002": 1.936129345974086,
+            "clustering_0003": 1.9414051324498334,
+            "clustering_0001": 0.8780372315680657
         }
     },
     "timing": [
         {
             "name": "Global",
-            "elapsed": 187.75105094909668
+            "elapsed": 2183.356640100479
         },
         {
             "name": "Trajectory Loading",
-            "elapsed": 2.074267864227295
+            "elapsed": 1.9371960163116455
         },
         {
             "name": "Matrix Generation",
-            "elapsed": 0.37006402015686035
+            "elapsed": 0.34496116638183594
         },
         {
             "name": "Matrix Save",
-            "elapsed": 0.0009708404541015625
+            "elapsed": 0.0010387897491455078
         },
         {
             "name": "Clustering Exploration",
-            "elapsed": 35.122618198394775
+            "elapsed": 439.6497149467468
         },
         {
             "name": "Clustering Filtering",
-            "elapsed": 0.002218961715698242
+            "elapsed": 0.010777950286865234
         },
         {
             "name": "Evaluation",
-            "elapsed": 150.17849493026733
+            "elapsed": 1741.4077398777008
         },
         {
             "name": "Selection",
-            "elapsed": 0.00016498565673828125
+            "elapsed": 0.0009679794311523438
         }
     ]
 }

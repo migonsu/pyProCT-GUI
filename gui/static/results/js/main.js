@@ -57,65 +57,32 @@ function process_result_data(data){
 	
 	EVALUATION.process_data(data, accepted_ids);
 	
-	process_cluster_data(data);
+	//process_cluster_data(data);
 	
 	return data;
 }
 
-function parse_elements(elements_string){
-	// Delete spaces
-	var list_string = elements_string.replace(/[\s]+/g, '');
-	var parts = list_string.split(",");
-	var elements = [];
-	for (var i = 0; i<parts.length; i++){
-		if(parts[i].indexOf(":") != -1){
-			var numbers = parts[i].split(":");
-			for(var j = parseInt(numbers[0]); j<= parseInt(numbers[1]); j++){
-				elements.push(j);
-			}
-		}
-		else{
-			elements.push(parseInt(parts[i]));
-		}
-	}
-	return elements;
-}
 
-function process_cluster_data(data){
-	var best_clustering_clusters = data["selected"][data["best_clustering"]]["clustering"]["clusters"];
-	for(var i = 0; i < best_clustering_clusters.length; i++){
-		var elements = parse_elements(best_clustering_clusters[i]["elements"]);
-		
-		var cluster_data = {
-			id: "cluster_"+i,
-			centroid: best_clustering_clusters[i]["centroid"],
-			elements: elements,
-			number_of_elements: elements.length
-		};
-		CLUSTERS.clusters.push(cluster_data);
-	}
-	data["clusters"] = CLUSTERS.clusters;
-}
 
-function generate_tabs_contents(data){
-	
-	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
-	
-	var files_template = COMM.synchronous.load_text_resource("results/templates/files.template");
-	var clusters_template = COMM.synchronous.load_text_resource("results/templates/clusters.template");
+function generate_all_tabs_contents(data){
 	
 	$("#tabs").tabs();
 	
+	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
 	var template = Handlebars.compile(summary_template);
 	$("#summary-tab").html(template(data));
+	$("#expandList").button();
+	$("#collapseList").button();
+	
+	var files_template = COMM.synchronous.load_text_resource("results/templates/files.template");
+	template = Handlebars.compile(files_template);
+	$("#files-tab").html(template(data));
+	$(".file_retrieval").click(function(event){
+		event.preventDefault();
+		window.location.href = "/serve_file?path="+$(this).attr("href");
+	});
 
 	EVALUATION.create_tab("evaluation-tab",data);
 	
-	template = Handlebars.compile(files_template);
-	$("#files-tab").html(template(data));
-	
-	template = Handlebars.compile(clusters_template);
-	$("#clusters-tab").html(template(data));
-	CLUSTERS.create_cluster_widgets();
-	CLUSTERS.create_main_cluster_widget();
+	CLUSTERS.create_tab(data);
 }

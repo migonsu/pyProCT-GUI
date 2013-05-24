@@ -143,6 +143,7 @@ var COMM = (function(){
 			              type: "POST",
 			              dataType: "text",
 			              async: false,
+			              cache: false,
 			              data: JSON.stringify({
 			            	  "frame":frame,
 			            	  "paths":workspace_paths
@@ -254,7 +255,7 @@ var COMM = (function(){
 				       	                                		DIALOG.warning("It was impossible to terminate the calculation process. Please try again.");
 				       	                                	 }
 				       	                                	 $("#spinner_progress").spin(false);
-				       	                                	 $("body").remove("#spinner_progress")
+				       	                                	 $("body").remove("#spinner_progress");
 				       	                                 }
 				       	                            	});
 				       	                            }

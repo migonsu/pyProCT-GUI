@@ -185,10 +185,32 @@ a.clik_for_details
 
 
 /********************/
-/* Model previewer  */
+/* Model previewing */
 /********************/
 #previewer_wrapper
 {
 	width:500px;
 	height:500px;
+}
+
+#previewers_wrapper
+{
+	width:500px;
+	height:480px;
+	overflow-y:scroll;
+}
+
+.small_wrapper
+{
+	position:relative;
+	width:120px;
+	height:120px;
+	float:left;
+	margin: 20px 20px 20px 20px;
+}
+
+.small_wrapper_cluster_id
+{
+	font-size: 10px;
+	text-align:center;
 }

@@ -29,8 +29,8 @@
 .transfer-effect {
    border: 1px dotted black;
    -webkit-border-radius: 175px;
-    -moz-border-radius: 175px;
-    border-radius: 175px;
+   -moz-border-radius: 175px;
+   border-radius: 175px;
 }
 
 /********************/
