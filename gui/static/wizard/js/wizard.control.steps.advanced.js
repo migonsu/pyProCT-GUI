@@ -119,6 +119,15 @@ WIZARD.control = (function(module){
         	else{
         		return true;
         	}
+		},
+		'criteria-1':function(event, state, step, step_id){
+			if (get_value_of($("#evaluation_maximum_clusters"), "int") < get_value_of($("#evaluation_minimum_clusters"), "int") ){
+        		DIALOG.warning ("Minimum is bigger than maximum.");
+        		return false;
+        	}
+        	else{
+        		return true;
+        	}
 		}
 	};
 	

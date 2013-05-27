@@ -99,7 +99,15 @@ WIZARD.control = (function(module){
 				}
 		    	return true;
 			},
-			
+			'criteria-1':function(event, state, step, step_id){
+				if (get_value_of($("#evaluation_maximum_clusters"), "int") < get_value_of($("#evaluation_minimum_clusters"), "int") ){
+	        		DIALOG.warning ("Minimum is bigger than maximum.");
+	        		return false;
+	        	}
+	        	else{
+	        		return true;
+	        	}
+			},
 			"compression-options-1":function(event, state, step, step_id){
 		    	if($("#final_frames").val() === "" ){
 			    	DIALOG.warning ("Final number of frames must be setted.");
