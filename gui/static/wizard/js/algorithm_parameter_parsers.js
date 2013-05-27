@@ -52,9 +52,22 @@ function parse_dbscan_parameters(my_field){
 function parse_kmedoids_parameters(my_field){
     var clustering_size_list = get_value_of(my_field.find("#number_of_clusters"),"list:int");
     var seeding_type = get_value_of(my_field.find("#kmedoids_seeding_type"),"selectmenu");
-    return combine_parameters(bind_parameters({
-	                             "k": clustering_size_list,
-	                            }),
+    var tmp_params = {};
+    if(seeding_type !== "GROMOS"){
+    	tmp_params = bind_parameters({
+            "k": clustering_size_list,
+           });
+    }
+    else{
+    	console.log("GROMOS SEEDING!!!")
+    	var cutoff = get_value_of(my_field.find("#kmedoids_gromos_seeding_cutoff"),"float");
+    	
+    	tmp_params = combine_parameters(bind_parameters({
+            "k": clustering_size_list
+           }),"seeding_max_cutoff",[cutoff]);
+    	console.log(tmp_params);
+    }
+    return combine_parameters(tmp_params,
 	                            "seeding_type",[seeding_type]);
 }
 

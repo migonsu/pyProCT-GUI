@@ -27,10 +27,15 @@ var ALGORITHM_PARAMETERS= (function(){
                             options: ["RANDOM", "EQUIDISTANT", "GROMOS" ]
                         },
                         {
+                            label:"Cutoff (for GROMOS seeding) :",
+                            control_id: "kmedoids_gromos_seeding_cutoff",
+                            control_type: "text",
+                        },
+                        {
                             label:"Number of clusters (list) : ",
                             control_id: "number_of_clusters",
                             control_type: "text"
-                        }
+                        },
             ],
             "dbscan":[
                         {

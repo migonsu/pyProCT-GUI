@@ -96,6 +96,24 @@ WIZARD.components_behaviour = (function(module){
         });
 	};
 	
+	module.setup_kmedoids_method_selector = function(){
+		$("[for='kmedoids_gromos_seeding_cutoff']").hide();
+		$("[name='kmedoids_gromos_seeding_cutoff']").hide();
+		
+        $("[name='kmedoids_seeding_type']").change(function(){
+        	var value = $(this).val();
+        	console.log(value)
+        	if(value == "GROMOS"){
+        		$("[for='kmedoids_gromos_seeding_cutoff']").show();
+        		$("[name='kmedoids_gromos_seeding_cutoff']").show();
+        	}
+        	else{
+        		$("[for='kmedoids_gromos_seeding_cutoff']").hide();
+        		$("[name='kmedoids_gromos_seeding_cutoff']").hide();
+        	}
+        });
+	};
+	
 	return module;
 	
 }(WIZARD.components_behaviour));

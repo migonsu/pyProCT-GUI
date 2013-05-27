@@ -42,6 +42,7 @@ WIZARD.components_behaviour = (function(){
 				
 				// Checkbox (guess params; algorithm steps may be created beforehand)
 				this.setup_guess_params_checkbox();
+				this.setup_kmedoids_method_selector();
 				
 				// Previewers
 				this.setup_rmsd_previewer();

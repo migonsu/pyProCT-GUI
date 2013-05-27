@@ -11,7 +11,7 @@
         {{#properties}}
         <tr><td>
         	<div style="width:200px;">
-            	<label for = '{{control_id}}' style="float:right;">{{label}}</label>
+            	<label for = '{{control_id}}' style="float:right;text-align:right;margin-right:10px;">{{label}}</label>
         	</div>
         </td>
         <td>

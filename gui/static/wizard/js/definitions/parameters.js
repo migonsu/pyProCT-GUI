@@ -241,19 +241,22 @@ var PARAMETER_DESCRIPTORS = (function (){
 					
 					'gromos_max_auto_clusters':{
 						maps_to:'clustering:algorithms:gromos:max',
-						depends_on: {'algorithms_list':[{"list contains":"GROMOS Algorithm"}]},
+						depends_on: {'algorithms_list':[{"list contains":"GROMOS Algorithm"}],
+							 		 'guess_params_gromos':[{"value": true}]},
 						defaults_to: {"value":  25}
 					},
 					
 					'kmedoids_max_auto_clusters':{
 						maps_to:'clustering:algorithms:kmedoids:max',
-						depends_on: {'algorithms_list':[{"list contains":"K-Medoids Algorithm"}]},
+						depends_on: {'algorithms_list':[{"list contains":"K-Medoids Algorithm"}],
+									 'guess_params_kmedoids':[{"value": true}]},
 						defaults_to: {"value":  25}
 					},
 					
 					'spectral_max_auto_clusters':{
 						maps_to:'clustering:algorithms:spectral:max',
-						depends_on: {'algorithms_list':[{"list contains":"Spectral Algorithm"}]},
+						depends_on: {'algorithms_list':[{"list contains":"Spectral Algorithm"}],
+							 		'guess_params_spectral':[{"value": true}]},
 						defaults_to: {"value":  25}
 					},
 					
