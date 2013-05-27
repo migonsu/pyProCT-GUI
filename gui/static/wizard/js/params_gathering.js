@@ -3,31 +3,38 @@ function fulfills_dependencies(field_id, parameter_description){
 	if( typeof parameter_description.depends_on !== "undefined" ){
 		for (var depends_on_this_field in parameter_description.depends_on){
 			var field = find_target_field(depends_on_this_field);
-			console.log("PARAMETER UNDER CHECK:",field_id, "OVER",parameter_description.depends_on,field);
-			for (var i =0; i < parameter_description.depends_on[depends_on_this_field].length; i++){
-				
-				var dependency = parameter_description.depends_on[depends_on_this_field][i];
-				console.log("DEPENDENCY",dependency);
-				var dependency_type = Object.keys(dependency)[0];
-				var dependency_value = dependency[dependency_type];
-				
-				switch(dependency_type){
-				
-					case "exists":
-						fulfilled = fulfilled && (field !== "undefined") &&(field.length > 0) === dependency_value;
-						console.log("exists",fulfilled)
-						break;
+			if (field !== "undefined"){
+				console.log("PARAMETER UNDER CHECK:",field_id, "OVER",parameter_description.depends_on,field);
+				for (var i =0; i < parameter_description.depends_on[depends_on_this_field].length; i++){
+					
+					var dependency = parameter_description.depends_on[depends_on_this_field][i];
+					var dependency_type = Object.keys(dependency)[0];
+					var dependency_value = dependency[dependency_type];
+					
+					switch(dependency_type){
+					
+						case "exists":
+							fulfilled = fulfilled && (field !== "undefined") &&(field.length > 0) === dependency_value;
+							break;
+							
+						case "value":
+							fulfilled = fulfilled &&  
+							(get_value_of(
+									find_target_field(depends_on_this_field), 
+									PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field].type) === dependency_value);
+							break;
 						
-					case "value":
-						console.log(PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field])
-						fulfilled = fulfilled &&  
-						(get_value_of(
-								find_target_field(depends_on_this_field), 
-								PARAMETER_DESCRIPTORS.descriptors[depends_on_this_field].type) === dependency_value);
-						break;
+						// only for lists
+						case "list contains":
+							fulfilled = fulfilled &&  
+							(get_value_of(
+									find_target_field(depends_on_this_field), 
+									"list").indexOf(dependency_value) != -1);
+							break;
 						
-					default:
-						fulfilled = fulfilled &&  false;
+						default:
+							fulfilled = fulfilled &&  false;
+					}
 				}
 			}
 		}

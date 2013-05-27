@@ -145,12 +145,14 @@ var PARAMETER_DESCRIPTORS = (function (){
 					'gromos_algorithm_default_use':{
 						maps_to:'clustering:algorithms:gromos:use',
 						defaults_to: {"function":function(){ 
-							if(GLOBAL.selected_action === "advanced"){
-								return false;
+								if(GLOBAL.selected_action === "advanced"){
+									return false;
+								}
+								else{
+									return true;
+								}
 							}
-							else{
-								return true;
-							}}}
+						}
 					},
 					
 					'guess_params_gromos':{
@@ -235,6 +237,24 @@ var PARAMETER_DESCRIPTORS = (function (){
 					'guess_params_random':{
 						maps_to:'clustering:algorithms:random:auto',
 						defaults_to: {"value":  true}
+					},
+					
+					'gromos_max_auto_clusters':{
+						maps_to:'clustering:algorithms:gromos:max',
+						depends_on: {'algorithms_list':[{"list contains":"GROMOS Algorithm"}]},
+						defaults_to: {"value":  25}
+					},
+					
+					'kmedoids_max_auto_clusters':{
+						maps_to:'clustering:algorithms:kmedoids:max',
+						depends_on: {'algorithms_list':[{"list contains":"K-Medoids Algorithm"}]},
+						defaults_to: {"value":  25}
+					},
+					
+					'spectral_max_auto_clusters':{
+						maps_to:'clustering:algorithms:spectral:max',
+						depends_on: {'algorithms_list':[{"list contains":"Spectral Algorithm"}]},
+						defaults_to: {"value":  25}
 					},
 					
 //		
