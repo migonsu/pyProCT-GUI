@@ -88,23 +88,25 @@ WIZARD.control = (function(module){
         		var a_list_is_incorrect = false;
         		
         		step.find(":text").each(function(){
-        			if(!a_list_is_incorrect){
-            			if($(this).val() == ""){
-            				DIALOG.warning ("List must have at least one element.");
-            				a_list_is_incorrect = true;
-            				return;
-            			}
-            			else{
-            				console.log($(this).val());
-            				if(!has_list_format($(this).val())){
-            					a_list_is_incorrect = true;
-            					DIALOG.warning ("List has not the correct format.");
-            					return;
-            				}
-            			}
-        			}
-        			else{
-        				return false;
+        			if($(this).is(":visible")){
+	        			if(!a_list_is_incorrect){
+	            			if($(this).val() == ""){
+            					DIALOG.warning ("Some mandatory fields are empty.");
+	            				a_list_is_incorrect = true;
+	            				return;
+	            			}
+	            			else{
+	            				console.log($(this).val());
+	            				if(!has_list_format($(this).val())){
+	            					a_list_is_incorrect = true;
+	            					DIALOG.warning ("List has not the correct format.");
+	            					return;
+	            				}
+	            			}
+	        			}
+	        			else{
+	        				return false;
+	        			}
         			}
         		});
         		
