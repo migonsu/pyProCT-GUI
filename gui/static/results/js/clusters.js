@@ -118,18 +118,23 @@ var CLUSTERS = (function(){
     	        ],
     	    select: function(event, ui) {
     	    	var menuId = ui.item.find(">a").attr("href");
-    	    	console.log(menuId)
     	    	if(menuId !== "#view_all"){
 	    	        var cluster_id = $(event.relatedTarget).closest(".cluster_widget_wrapper").attr("id");
-	    	        var number_id = parseInt(cluster_id.split("_")[1]);
+	    	        /*var number_id = parseInt(cluster_id.split("_")[1]);*/
 	    	        var best_clustering = data["best_clustering"];
 	    	        var clusters = data["selected"][best_clustering]["clustering"]["clusters"];
+	    	        var selected_cluster = null;
 	    	        // Find the cluster with that id
-					/*
-					ATENCION: SUPONGO QUE LOS CLUSTERS ESTAN ORDENADOS, COSA QUE NO TIENE PORQUE SER CIERTA
-					*/
-	    	        var file = COMM.synchronous.save_frame(number_id/*clusters[number_id]["prototype"]*/, data["workspace"]);
+	    	        for(var i = 0; i < clusters.length; i++){
+	    	        	if(clusters[i]["id"] === cluster_id){
+	    	        		selected_cluster = clusters[i];
+	    	        		break;
+	    	        	}
+	    	        }
+	    	        // Save the prototype
+	    	        var file = COMM.synchronous.save_frame(selected_cluster["prototype"], data["workspace"]);
 	    	        
+	    	        // And download or visualize it
 	    	        if(menuId === "#save"){
 	    	       		// Retrieve the file
 	    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
@@ -173,8 +178,8 @@ var CLUSTERS = (function(){
 			var elements = parse_elements(best_clustering_clusters[i]["elements"]);
 			
 			var cluster_data = {
-				id: /*best_clustering_clusters[i].id,*/  "cluster_"+i,
-				centroid: best_clustering_clusters[i]["centroid"],
+				id: best_clustering_clusters[i].id,//  "cluster_"+i,
+				centroid: best_clustering_clusters[i]["prototype"],
 				elements: elements,
 				number_of_elements: elements.length
 			};
@@ -190,8 +195,7 @@ var CLUSTERS = (function(){
 		for (var i = 0; i < clusters.length; i++ ){
 			var cluster_proto = clusters[i].centroid;
 			console.log( clusters[i])
-			//TODO: nuevamente asumiendo que los clusters estan ordenados
-			var file = COMM.synchronous.save_frame(i/*cluster_proto*/, data["workspace"]);
+			var file = COMM.synchronous.save_frame(cluster_proto, data["workspace"]);
 			all_molecules.push(COMM.synchronous.load_text_resource(file));
 			all_ids.push(clusters[i].id);
 		}

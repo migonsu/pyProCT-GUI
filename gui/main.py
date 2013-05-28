@@ -20,8 +20,8 @@ from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 from pyproclust.driver.parameters import ProtocolParameters
 import shutil
-from pyproclust.tools.pdbTools import extract_frames_from_trajectory,\
-    get_number_of_frames
+from pyproclust.tools.pdbTools import extract_frames_from_trajectory_sequentially,\
+    get_number_of_frames, grab_existing_frame_from_trajectory
 
 if __name__ == '__main__':
     
@@ -169,10 +169,7 @@ if __name__ == '__main__':
             print "PRIM PATH",path
             file_handler_in = open(path,"r")
             file_handler_out = open("results/tmp/prototype.pdb","w")
-            extract_frames_from_trajectory(file_handler_in, 
-                                           get_number_of_frames(path), 
-                                           file_handler_out, 
-                                           [data["frame"]])
+            grab_existing_frame_from_trajectory(file_handler_in, file_handler_out, data["frame"])
             file_handler_in.close()
             file_handler_out.close()
             self.wfile.write('{"path":"results/tmp/prototype.pdb"}')
