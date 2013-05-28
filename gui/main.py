@@ -20,8 +20,7 @@ from pyproclust.tools.commonTools import convert_to_utf8
 from pyproclust.tools.scriptTools import create_directory
 from pyproclust.driver.parameters import ProtocolParameters
 import shutil
-from pyproclust.tools.pdbTools import extract_frames_from_trajectory_sequentially,\
-    get_number_of_frames, grab_existing_frame_from_trajectory
+from pyproclust.tools.pdbTools import grab_existing_frame_from_trajectory
 
 if __name__ == '__main__':
     
