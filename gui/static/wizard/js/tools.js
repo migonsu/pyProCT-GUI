@@ -252,11 +252,11 @@ function parse_criterium(criterium_string){
     
     criterium["action"] = "undefined";
     
-    if(parts[1] == "Minimize"){
+    if(parts[1] == "Maximize"){
         criterium["action"] = ">";
     }
     
-    if(parts[1] == "Maximize"){
+    if(parts[1] == "Minimize"){
         criterium["action"] = "<";
     }
     criterium["query"] = parts[2];
