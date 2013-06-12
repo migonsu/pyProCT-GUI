@@ -1,5 +1,5 @@
 {
-    "best_clustering": "clustering_0001",
+    "best_clustering": "clustering_0000",
     "files": [
         {
             "path": "/home/victor/Escritorio/test/results/parameters.json",
@@ -34,47 +34,47 @@
             "clustering": {
                 "clusters": [
                     {
-                        "prototype": 0,
+                        "prototype": 95,
                         "elements": "0:99",
                         "id": "cluster_0"
                     },
                     {
-                        "prototype": 100,
+                        "prototype": 181,
                         "elements": "100:199",
                         "id": "cluster_1"
                     },
                     {
-                        "prototype": 200,
+                        "prototype": 243,
                         "elements": "200:299",
                         "id": "cluster_2"
                     },
                     {
-                        "prototype": 300,
+                        "prototype": 350,
                         "elements": "300:399",
                         "id": "cluster_3"
                     },
                     {
-                        "prototype": 400,
+                        "prototype": 497,
                         "elements": "400:499",
                         "id": "cluster_4"
                     },
                     {
-                        "prototype": 500,
+                        "prototype": 596,
                         "elements": "500:599",
                         "id": "cluster_5"
                     },
                     {
-                        "prototype": 600,
+                        "prototype": 602,
                         "elements": "600:699",
                         "id": "cluster_6"
                     },
                     {
-                        "prototype": 700,
+                        "prototype": 783,
                         "elements": "700:799",
                         "id": "cluster_7"
                     },
                     {
-                        "prototype": 800,
+                        "prototype": 859,
                         "elements": "800:899",
                         "id": "cluster_8"
                     }
@@ -83,6 +83,7 @@
                 "number_of_clusters": 9
             },
             "evaluation": {
+                "Separation": 621.4390772712231,
                 "Noise level": 0.0,
                 "Normalized_CythonMirrorCohesion": 0.5867230828133618,
                 "Normalized_CythonNormNCut": 1.0,
@@ -103,42 +104,42 @@
             "clustering": {
                 "clusters": [
                     {
-                        "prototype": 301,
+                        "prototype": 300,
                         "elements": "300:399, 500:599",
                         "id": "cluster_0"
                     },
                     {
-                        "prototype": 95,
+                        "prototype": 0,
                         "elements": "0:99",
                         "id": "cluster_1"
                     },
                     {
-                        "prototype": 181,
+                        "prototype": 100,
                         "elements": "100:199",
                         "id": "cluster_2"
                     },
                     {
-                        "prototype": 243,
+                        "prototype": 200,
                         "elements": "200:299",
                         "id": "cluster_3"
                     },
                     {
-                        "prototype": 497,
+                        "prototype": 400,
                         "elements": "400:499",
                         "id": "cluster_4"
                     },
                     {
-                        "prototype": 602,
+                        "prototype": 600,
                         "elements": "600:699",
                         "id": "cluster_5"
                     },
                     {
-                        "prototype": 783,
+                        "prototype": 700,
                         "elements": "700:799",
                         "id": "cluster_6"
                     },
                     {
-                        "prototype": 859,
+                        "prototype": 800,
                         "elements": "800:899",
                         "id": "cluster_7"
                     }
@@ -147,6 +148,7 @@
                 "number_of_clusters": 8
             },
             "evaluation": {
+                "Separation": 1059.1693006032706,
                 "Noise level": 0.0,
                 "Normalized_CythonMirrorCohesion": 1.0,
                 "Normalized_CythonNormNCut": 0.9907529177825071,
@@ -173,46 +175,46 @@
     },
     "scores": {
         "criteria_0": {
-            "clustering_0000": 0.00926439985694488,
-            "clustering_0001": 1.0664375939116901
+            "clustering_0000": 2.190735600143055,
+            "clustering_0001": 1.13356240608831
         },
         "criteria_1": {
-            "clustering_0000": 0.09191978329427253,
-            "clustering_0001": 1.0575144586630312
+            "clustering_0000": 2.0080802167057277,
+            "clustering_0001": 1.042485541336969
         }
     },
     "timing": [
         {
             "name": "Global",
-            "elapsed": 73.3439109325409
+            "elapsed": 72.54438900947571
         },
         {
             "name": "Trajectory Loading",
-            "elapsed": 2.857578992843628
+            "elapsed": 2.0401229858398438
         },
         {
             "name": "Matrix Generation",
-            "elapsed": 0.3141510486602783
+            "elapsed": 0.3696310520172119
         },
         {
             "name": "Matrix Save",
-            "elapsed": 0.001032114028930664
+            "elapsed": 0.0010290145874023438
         },
         {
             "name": "Clustering Exploration",
-            "elapsed": 10.07290005683899
+            "elapsed": 10.04256010055542
         },
         {
             "name": "Clustering Filtering",
-            "elapsed": 0.0009260177612304688
+            "elapsed": 0.0008111000061035156
         },
         {
             "name": "Evaluation",
-            "elapsed": 60.08911395072937
+            "elapsed": 60.062374114990234
         },
         {
             "name": "Selection",
-            "elapsed": 0.00011706352233886719
+            "elapsed": 0.00011205673217773438
         }
     ]
 }
