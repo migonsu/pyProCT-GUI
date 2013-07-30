@@ -12,7 +12,7 @@ var QUERIES = (function(){
 	var criteria_types = ["MeanClusterSize", "CythonMirrorCohesion", 
 	                      "Separation", "GaussianSeparation",
 	                      "CythonMinimumMeanSeparation", 
-	                      "Calinski-Harabasz", "Dunn",, "Davies-Bouldin",
+	                      "Calinski-Harabasz", "Dunn","Davies-Bouldin",
 	                      "CythonSilhouette", "RatioCut", "NCut",
 	                      "CythonNormNCut", "MinMaxCut", "PCAanalysis" ];
 
