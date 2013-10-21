@@ -268,15 +268,12 @@ var PARAMETER_DESCRIPTORS = (function (){
 						defaults_to: {"value":  4}
 					},
 					
-					'algorithm_scheduler_sleep_time':{
-						maps_to:'clustering:control:algorithm_scheduler_sleep_time',
-						defaults_to: {"value":  5}
+					'scheduler_type':{
+						type: 'string',
+						maps_to:'clustering:control:scheduler_type',
+						defaults_to: {"value":  "Process/Parallel"}
 					},
 					
-					'evaluation_scheduler_sleep_time':{
-						maps_to:'clustering:control:evaluation_scheduler_sleep_time',
-						defaults_to: {"value":  30}
-					},
 //		
 //		CLUSTERING GENERATION
 //			
