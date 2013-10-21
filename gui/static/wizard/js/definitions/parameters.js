@@ -264,8 +264,8 @@ var PARAMETER_DESCRIPTORS = (function (){
 //		CONTROL
 //		
 					'number_of_processors':{
-						maps_to:'clustering:control:number_of_processors',
-						defaults_to: {"value":  4}
+						maps_to:'clustering:control:number_of_processes',
+						defaults_to: {"value":  6}
 					},
 					
 					'scheduler_type':{
