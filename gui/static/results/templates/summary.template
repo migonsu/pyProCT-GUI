@@ -56,7 +56,7 @@
 		<li>- {{id}} of type {{type}} with parameteres: {{parameters}}. Reasons: </li>  
 			<ul>
 			{{#reasons}}
-			<li>&emsp;&emsp;{{reason}} ({{#with data}} value:{{current}} {{#if maximum}}Maximum: {{maximum}}{{/if}} {{#if minimum}}Minimum: {{minimum}}{{/if}} {{/with}})</li>
+			<li>&emsp;&emsp;{{reason}} ({{#with data}} {{#if current}}value:{{current}}{{/if}} {{#if maximum}}Maximum: {{maximum}}{{/if}} {{#if minimum}}Minimum: {{minimum}}{{/if}} {{#if id}}ID: {{id}}{{/if}} {{/with}})</li>
 			{{/reasons}}
 			</ul> 
 		{{/rejected}}
