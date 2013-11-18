@@ -1,6 +1,9 @@
 var DIALOG = (function(){
 	
-	
+	/**
+	 * Creates a 'yes or no' type dialog (that is, a dialog that can be only answered with a yes or a no. If
+	 * yes is pressed, then 'ok_function_callback' is executed.
+	 */
 	 var yes_or_no = function(dialog_title, message, ok_function_callback){
     
 	    $("<div/>", { 
@@ -32,7 +35,9 @@ var DIALOG = (function(){
 	            ]
 	    });
 	};
-	 
+	 /**
+	  * Shows a general warning message.
+	  */
 	 var warning = function (message){
 		    $("<div/>", { 
 		    	id: 'warning_dialog',
