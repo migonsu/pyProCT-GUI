@@ -58,7 +58,16 @@ var DIALOG = (function(){
 		                }]
 		    });
 		}
-	
+	/**
+	 * Loads a help file and shows it using a dialog.
+	 */
+	 var help = function(markdown){
+		 var markdown  = COMM.synchronous.load_text_resource("wizard/wizard.steps/help/help.txt");
+		 console.log(markdown);
+		 
+	 }
+	 
+	 
 	 // BROWSING submodule
 	 var browsing = (function(){
 		 var last_root = "/";
@@ -227,10 +236,15 @@ var DIALOG = (function(){
 	}());
 	
 	return{
+		// functions
 		yes_or_no:yes_or_no,
 		warning: warning,
+		help:help,
+		
+		// submodules
 		browsing: browsing,
 		criteria:criteria
+		
 	}
 
 }());

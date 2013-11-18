@@ -19,6 +19,7 @@ var WIZARD = (function(){
 		var step_descritor = null;
 		var next_branch_descriptor = null;
 		var step_id = "";
+			
 		for(var i = 0; i < branch_descriptor.length; i++){
 			step_id = branch_descriptor[i]["id"];
 			step_descriptor = STEPS.descriptor[step_id];
@@ -43,6 +44,9 @@ var WIZARD = (function(){
 	var generate_wizard_course = function(holder_selector, option){
 		create_branch_course(holder_selector, STEPS.courses[option]);
 		insert_navigation(holder_selector);
+
+		// Update the current step to the first step
+		GLOBAL.current_step = STEPS.courses[option][0].id
 	};
 	
 	return {

@@ -3,6 +3,7 @@ WIZARD.control = (function(){
 	function forward_move_common(action, event, state){
 		var step = $(state.step[0]);
         var step_id = state.step[0].id;
+        GLOBAL.current_step = step_id;
         
         console.log("FORWD COMMON:",step_id)
         var transition_function = WIZARD.control.functions[action][step_id];
@@ -147,11 +148,19 @@ WIZARD.control = (function(){
     	   		'id':"#start_over_button",
     	   		'class':"start_over_button",
     	   		'click':function(){
-			    	     	   console.log("caca");
 			    	    	   MAIN_MENU.start_over();
 			    			}
-    		   }));
-       $("#navigation").append($("<div/>",{'id':"#help_button",'class':"help_button"}));
+    		   }
+       ));
+       $("#navigation").append($("<div/>",
+    		   {
+		    	   'id':"#help_button",
+		    	   'class':"help_button",
+		    	   'click':function(){
+		    		   DIALOG.help(GLOBAL.current_step);
+		    	   }
+    		   }
+       ));
        
        
 	};
