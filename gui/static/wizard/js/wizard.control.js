@@ -140,6 +140,20 @@ WIZARD.control = (function(){
 			    }
     	   });
        }
+       
+       // Now add the help and start over buttons
+       $("#navigation").append($("<div/>",
+    		   {
+    	   		'id':"#start_over_button",
+    	   		'class':"start_over_button",
+    	   		'click':function(){
+			    	     	   console.log("caca");
+			    	    	   MAIN_MENU.start_over();
+			    			}
+    		   }));
+       $("#navigation").append($("<div/>",{'id':"#help_button",'class':"help_button"}));
+       
+       
 	};
 	
 	return {
