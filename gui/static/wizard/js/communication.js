@@ -67,13 +67,21 @@ var COMM = (function(){
 				 *   until the contents have been loaded.
 				 *
 				 *   @param {string} resource path to the resource to be loaded.
+				 *   
+				 *   @param {string} do_not_warn_if_error If the resource load fails, it does not show
+				 *   the error dialog.
 				 *
-				 *   @returns {string} The contents of the resource.    
+				 *   @returns {string} The contents of the resource or an empty string if it was impossible
+				 *   to load it.    
 				 **/
-				load_text_resource: function (resource){
+				load_text_resource: function (resource, do_not_warn_if_error){
+					if(do_not_warn_if_error === undefined){
+						do_not_warn_if_error = false;
+					}
 				    var text_resource = "";
-				    
-				    $.ajax({
+				    var error = false;
+
+					$.ajax({
 				              url: resource,
 				              type: "GET",
 				              dataType: "text",
@@ -85,10 +93,17 @@ var COMM = (function(){
 				              },
 				              
 				              error:function( jqXHR, textStatus, errorThrown ){
-				            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
+				            	  if (!do_not_warn_if_error){
+				            		  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?");
+				            	  }
+				            	  error = true;
 				              }
 				            });
-				            
+				    
+					if (error){
+				    	text_resource = "";
+				    }
+				    
 				    return text_resource;
 				},
 				

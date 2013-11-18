@@ -61,9 +61,36 @@ var DIALOG = (function(){
 	/**
 	 * Loads a help file and shows it using a dialog.
 	 */
-	 var help = function(markdown){
-		 var markdown  = COMM.synchronous.load_text_resource("wizard/wizard.steps/help/help.txt");
-		 console.log(markdown);
+	 var help = function(step_id){
+		 var markdown_file = "wizard/wizard.steps/help/"+step_id+".md";
+		 var not_found_markdown_file = "wizard/wizard.steps/help/not_found.md";
+
+		 var markdown_txt  = COMM.synchronous.load_text_resource(markdown_file, true);
+		
+		 if(markdown_txt === ""){ // Help file for this step not found
+			 markdown_txt = COMM.synchronous.load_text_resource(not_found_markdown_file, true);
+		 }
+		 
+		 var help_html = markdown.toHTML( markdown_txt );
+		 
+		 $("<div/>", { 
+		    	id: 'help_dialog',
+		    	title: 'Help',
+		    	html: help_html})
+		    .dialog({
+		                modal:true, 
+		                autoResize:false,
+		                width: '600px',
+		                close: function( event, ui ){
+		                    $(this).dialog("destroy");
+		                },
+		                buttons: [{ 
+		                            text: "Ok",
+		                            click: function() { 
+		                            	$(this).dialog("destroy")
+		                            }
+		                }]
+		    });
 		 
 	 }
 	 
