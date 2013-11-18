@@ -39,6 +39,9 @@ var MAIN_MENU = (function(){
 		 * Adds the buttons to the main menu and sets up some properties and events.
 		 **/
 		var setup_main_menu = function(container_selector){
+			$(".main_menu_window").show();
+            $(".wizard_window").hide();
+            
 			for (var i = 0 ; i < buttons.length; i++){
 				var button_descriptor = buttons[i];
 				$(container_selector).append("<div id='"+button_descriptor.id+"' class='main_menu_button' style = 'text-align:center;'>"+button_descriptor.text+"</div></br>");
