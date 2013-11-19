@@ -65,9 +65,7 @@ function process_result_data(data){
 
 
 function generate_all_tabs_contents(data){
-	
-	$("#tabs").tabs();
-	
+
 	var summary_template = COMM.synchronous.load_text_resource("results/templates/summary.template");
 	var template = Handlebars.compile(summary_template);
 	$("#summary-tab").html(template(data));
@@ -85,4 +83,10 @@ function generate_all_tabs_contents(data){
 	EVALUATION.create_tab("evaluation-tab",data);
 	
 	CLUSTERS.create_tab(data);
+	
+	DISPLACEMENTS.create_tab(data);
+	
+	$("#tabs").tabs();
+	
+	
 }

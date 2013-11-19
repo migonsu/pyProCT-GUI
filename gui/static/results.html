@@ -5,37 +5,40 @@
 <title>Insert title here</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="wizard/css/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="wizard/css/libs/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="results/css/jquery/jqplot/jquery.jqplot.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="wizard/css/libs/chemdoodle/ChemDoodleWeb.css"  media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/style.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/cluster_widget.css" media="screen">
-<link rel="stylesheet" type="text/css" href="results/css/jquery/jqplot/jquery.jqplot.min.css" media="screen">
-<link rel="stylesheet" type="text/css" href="wizard/css/chemdoodle/ChemDoodleWeb.css"  media="screen">
 
 <!-- JQUERY -->
-<script type="text/javascript" src="wizard/js/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="wizard/js/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/jquery/jquery-1.9.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/jquery/ui/jquery-ui-1.10.0.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/jquery/center/jquery.center.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/jquery/ui/jquery.ui-contextmenu.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/jquery/jquery.tablesorter.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="wizard/js/jquery/center/jquery.center.js" charset="utf-8"></script>
 
 <!-- CHEMDOODLE -->
-<script type="text/javascript" src="wizard/js/chemdoodle/ChemDoodleWeb-libs.js" charset="utf-8"></script>
-<script type="text/javascript" src="wizard/js/chemdoodle/ChemDoodleWeb.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/chemdoodle/ChemDoodleWeb-libs.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/chemdoodle/ChemDoodleWeb.js" charset="utf-8"></script>
 
 <!-- HANDLEBARS -->
-<script type="text/javascript" src="wizard/js/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="wizard/js/libs/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
 
 <!-- PLOTTING SCRIPTS -->
 <script type="text/javascript" src="results/js/jquery/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="results/js/jquery/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="results/js/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="results/js/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
 
 <!-- CUSTOM SCRIPTS -->
 <script type="text/javascript" src="wizard/js/communication.js" charset="utf-8"></script>
-<script type="text/javascript" src="results/js/dialogs.js" charset="utf-8"></script>
 <script type="text/javascript" src="wizard/js/tools.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/dialogs.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/evaluation.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/clusters.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/displacements.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/main.js" charset="utf-8"></script>
 
 <script>
@@ -45,19 +48,20 @@
 		generate_all_tabs_contents(process_result_data(data));
     	
 		prepare_list();
-    	
 	});
  </script>
 <body>
 
 <div id="tabs">
   <ul>
-    <li><a href="#clusters-tab">Clusters</a></li>
+    <li id ="clusters_tab"><a href="#clusters-tab">Clusters</a></li>
     <li><a href="#evaluation-tab">Evaluation</a></li>
     <li><a href="#files-tab">Files</a></li>
     <li><a href="#summary-tab">Summary</a></li>
   </ul>
   <div id="summary-tab">
+  </div>
+  <div id="displacements-tab">
   </div>
   <div id="evaluation-tab">
   </div>
