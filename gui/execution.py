@@ -8,29 +8,13 @@ import traceback
 from pyproclust.driver.driver import Driver
 from gui.exceptionThread import ThreadWithExc
 
-def undefined_action(status, action, value):
+def set_status(status, action , value = None):
     status["status"] = action
-    status["value"] = False
-
-def cluster_search_action(status, action, value):
-    probe = ""
-    if len(value["Idle"]) != 0:
-        probe = value["Idle"][0]
-    
-    if len(value["Running"]) != 0:
-        probe = value["Running"][0]
-    
-    if len(value["Ended"]) != 0:
-        probe = value["Ended"][0]
-    
-    if "Evaluation" in probe:
-        status["status"] = action[1]
+    if value is None:
+        status["value"] = False
     else:
-        status["status"] = action[0]
+        status["value"] = value
         
-    total = len(value["Ended"])+len(value["Idle"])+len(value["Running"])
-    status["value"] = (len(value["Ended"]) / float(total))*100
-
 class StatusListener(threading.Thread):
     
     def __init__(self,data_source, status):
@@ -38,6 +22,7 @@ class StatusListener(threading.Thread):
         self._stop = threading.Event()
         self.data_source = data_source
         self.status = status
+        self.step ="initializing"
         
     def stop(self):
         self._stop.set()
@@ -47,22 +32,47 @@ class StatusListener(threading.Thread):
         return self._stop.isSet()
     
     def run(self):
+        """
+        Main function of the listener object in the Executor thread (this is actually a separated thread).
+        It parses pyProCT notifications and changes the shared status object. Access to shared elements is
+        not protected.
+        Status object must contain two values:
+        "status" -> Description of the current status.
+        "value" -> A value associated with the current status (for instance completion value).
+        """
         global ongoing_clustering
-        observable_actions = {
-                              "Matrix calculation": {"label": "Initializing (Matrix Calculation) ...",
-                                                     "function":undefined_action},
-                              "Process List":{"label": ["Performing clustering exploration...",
-                                                        "Evaluating ..."],
-                                              "function": cluster_search_action},
-                              
-                              }
+
+        scheduler_status = {"message":"","total":0, "done":0}
+
         while not self.stopped():
             self.data_source.data_change_event.wait()
             print self.data_source.data
             action = self.data_source.data.contents["action"]
             value = self.data_source.data.contents["message"]
-            if action in observable_actions:
-                observable_actions[action]["function"](self.status, observable_actions[action]["label"], value)
+            
+            if action == "Matrix calculation":
+                set_status(self.status, "Matrix Calculation ...")
+            elif action ==  "Exploration Started":
+                self.step ="clustering"
+                set_status(self.status, "Generating parameters for exploration ...")
+            elif action == "Scheduler Starts":
+                if self.step == "clustering":
+                    # First is clustering, second is evaluation. This is somewhat hardcoded behaviour... sorry!!
+                    scheduler_status["message"] = "Clustering exploration ..."
+                    self.step = "evaluation"
+                else:
+                    scheduler_status["message"] = "Evaluating clusterings ..."
+                scheduler_status["total"] = value['number_of_tasks']
+                scheduler_status["done"] = 0
+                set_status(self.status, scheduler_status["message"], 0)
+            elif action == "Task Ended":
+                scheduler_status["done"] =  value["finished"]
+                set_status(self.status, scheduler_status["message"], scheduler_status["done"])
+            elif action == "Filter":
+                #Next is to evaluate clusterings
+                self.step ="evaluation" # redundancies help when messages are lost
+                set_status(self.status, "Filtering generated clusterings ...")
+            
             self.data_source.data_change_event.clear()
             if self.data_source.data.contents["action"] == "SHUTDOWN":
                 break

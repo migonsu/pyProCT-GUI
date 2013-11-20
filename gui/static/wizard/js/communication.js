@@ -177,7 +177,13 @@ var COMM = (function(){
 		
 		var async = {
 				run_pyproclust:	function (parameters){
-					
+					/*
+					 * Calls the run handler on the server so that it creates an executor thread.
+					 * This executor thread changes status depending on the message it gets from
+					 * pyProCT (from the observer). Executor status must have the form {status:"",value:""}
+					 * where status is the actual action being performed.
+					 * 
+					 */
 					function start_monitoring_run( progress_dialog, parameters){
 						$.ajax({
 							url: "/run_update_status",
