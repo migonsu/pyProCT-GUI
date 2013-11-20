@@ -1,7 +1,7 @@
 <div>
 	<table>
 		<tr >
-			<td >
+			<td style="width:95%;">
 				<div id="main_cluster_plot" class='main_cluster_plot' ></div>
 			</td>
 		</tr>

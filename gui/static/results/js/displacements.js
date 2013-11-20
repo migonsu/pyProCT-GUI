@@ -31,20 +31,25 @@ var DISPLACEMENTS = (function(){
 				     },
 					axes: {
 						xaxis: {
-						  label: "Residue Number",
-						  pad: 0
+							label: "Residue Number",
+							pad: 0
 						},
 						yaxis: {
-						  label: "Mean CA Displacement",
-						  pad: 0
-						}
-				      },
-				      series:[ 
-				              {
-				                lineWidth:1, 
-				                markerOptions: { size: 3 }
-				              }
-				      ]
+							label: "Mean CA Displacement",
+							pad: 0
+							}
+						},
+						cursor:{ 
+							show: true,
+							zoom:true, 
+							showTooltip:true
+						},
+						series:[ 
+						       {
+						    	   lineWidth:1, 
+						    	   markerOptions: { size: 3 }
+						       }
+						]
 				};
 			
 			for(var cluster_id in data["ca_displacements"]){
