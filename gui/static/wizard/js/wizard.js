@@ -46,7 +46,7 @@ var WIZARD = (function(){
 		insert_navigation(holder_selector);
 
 		// Update the current step to the first step
-		GLOBAL.current_step = STEPS.courses[option][0].id
+		GLOBAL.current_step = STEPS.courses[option][0].id;
 	};
 	
 	return {

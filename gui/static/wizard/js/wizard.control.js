@@ -3,9 +3,8 @@ WIZARD.control = (function(){
 	function forward_move_common(action, event, state){
 		var step = $(state.step[0]);
         var step_id = state.step[0].id;
-        GLOBAL.current_step = step_id;
+        console.log("FORWD COMMON:",step_id);
         
-        console.log("FORWD COMMON:",step_id)
         var transition_function = WIZARD.control.functions[action][step_id];
         if(typeof transition_function !== "undefined"){
         	var val = transition_function(event, state, step, step_id);
@@ -43,6 +42,7 @@ WIZARD.control = (function(){
 			    
 			    afterForward:function(event, state) {
 			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
 			        
 			        // detect an algorithm transition
 			    	if(step_id.indexOf("algorithm-")!=-1){
@@ -55,6 +55,7 @@ WIZARD.control = (function(){
 			    
 			    afterBackward:function(event, state) {
 			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
 			        
 			        // detect an algorithm transition
 			    	if(step_id.indexOf("algorithm-")!=-1){
@@ -85,7 +86,18 @@ WIZARD.control = (function(){
 		        
 		        onForwardMove: function(event, state) {	
 		        	return forward_move_common(action, event, state);
+			    },
+			    
+			    afterBackward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
+			    },
+			    
+			    afterForward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
 			    }
+			    
     	   });
        }
        
@@ -100,6 +112,16 @@ WIZARD.control = (function(){
 		        
 		        onForwardMove: function(event, state) {	
 		        	return forward_move_common(action, event, state);
+			    },
+			    
+			    afterBackward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
+			    },
+			    
+			    afterForward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
 			    },
 			    
 			    transitions: {
@@ -122,6 +144,16 @@ WIZARD.control = (function(){
 		        
 		        onForwardMove: function(event, state) {	
 		        	return forward_move_common(action, event, state);
+			    },
+			    
+			    afterBackward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
+			    },
+			    
+			    afterForward:function(event, state) {
+			        var step_id = state.step[0].id;
+			        GLOBAL.current_step = step_id;
 			    },
 			    
 			    transitions: {

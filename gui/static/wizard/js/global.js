@@ -7,7 +7,7 @@ var GLOBAL = (function(){
 	return {
 		selected_algorithms: selected_algorithms,
 		loaded_clustering: loaded_clustering,
-		selected_action: selected_action
+		selected_action: selected_action,
 	};
 	
 }());

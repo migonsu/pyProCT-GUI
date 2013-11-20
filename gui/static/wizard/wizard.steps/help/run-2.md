@@ -1,2 +1,2 @@
-<div class="button_widget final_button" id="show_results_button">
-	Show Results</div>
+##Showing Results
+Press the *Show Results* button to visually show the results of your pyProCT job. 

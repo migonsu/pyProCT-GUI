@@ -1,5 +1,4 @@
-<div class="button_widget final_button" id="script_button">
-	Download Script</div>
-<br>
-<div class="button_widget final_button" id="run_button">Run
-	Locally</div>
+##Run screen
+* Press the *Run Locally* button in order to execute an instance of pyProCT into your computer (locally).
+
+* Press *Download Script*  to download a "*json*" script that you can use to execute pyProCT later (using a remote computer, for instance). 
