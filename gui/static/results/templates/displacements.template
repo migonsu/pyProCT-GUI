@@ -1,5 +1,10 @@
 <div>
 	<table>
+		<tr>
+			<td>
+				<input type="checkbox" name="show_all_clusters" id="show_all_clusters" value="show_all_clusters"> Superpose all clusters
+			</td>
+		</tr>
 		<tr >
 			<td style="width:95%;">
 				<div id="main_cluster_plot" class='main_cluster_plot' ></div>
