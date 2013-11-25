@@ -1,9 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
+
 
 <link rel="stylesheet" type="text/css" href="wizard/css/libs/smoothness/jquery-ui-1.10.2.custom.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="results/css/jquery/jqplot/jquery.jqplot.min.css" media="screen">
@@ -49,16 +46,20 @@
 
 <script>
 	$(document).ready(function(){
-		render();
-		/* var data = JSON.parse(COMM.synchronous.load_text_resource("results/tmp/data.json"));
-		 
+		var data = JSON.parse(COMM.synchronous.load_text_resource("results/tmp/data.json"));
+
 		generate_all_tabs_contents(process_result_data(data));
-    	
-		prep are_list();*/
+
+		//prepare_list();
 	});
  </script>
-<body>
 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
 <div id="tabs">
   <ul>
     <li id ="clusters_tab"><a href="#clusters-tab">Clusters</a></li>
@@ -69,6 +70,8 @@
   <div id="summary-tab">
   </div>
   <div id="displacements-tab">
+  </div>
+  <div id="distances-tab">
   </div>
   <div id="evaluation-tab">
   </div>
