@@ -25,6 +25,9 @@
 <!-- HANDLEBARS -->
 <script type="text/javascript" src="wizard/js/libs/handlebars/handlebars-1.0.rc.1.min.js" charset="utf-8"></script>
 
+<!-- THREEJS -->
+<script type="text/javascript" src="results/js/threejs/three.min.js" charset="utf-8"></script>
+
 <!-- PLOTTING SCRIPTS -->
 <script type="text/javascript" src="results/js/jquery/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="results/js/jquery/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
@@ -41,15 +44,17 @@
 <script type="text/javascript" src="results/js/expand_list.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/clusters.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/displacements.js" charset="utf-8"></script>
+<script type="text/javascript" src="results/js/distances.js" charset="utf-8"></script>
 <script type="text/javascript" src="results/js/main.js" charset="utf-8"></script>
 
 <script>
 	$(document).ready(function(){
-		var data = JSON.parse(COMM.synchronous.load_text_resource("results/tmp/data.json"));
+		render();
+		/* var data = JSON.parse(COMM.synchronous.load_text_resource("results/tmp/data.json"));
 		 
 		generate_all_tabs_contents(process_result_data(data));
     	
-		prepare_list();
+		prep are_list();*/
 	});
  </script>
 <body>
