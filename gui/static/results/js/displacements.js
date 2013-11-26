@@ -1,5 +1,5 @@
 var DISPLACEMENTS = (function(){
-	
+
 	var create_tab = function(data){
 		var all_files = data["files"];
 		var displacements_path = "";
@@ -9,27 +9,26 @@ var DISPLACEMENTS = (function(){
 		var main_plot;
 		var all_series = [];
 		var series_labels = [];
-		
+
 		//Look for the CA distance file
 		for(var i = 0; i< all_files.length; i++){
 			if (all_files[i]["description"] == "Alpha Carbon mean square displacements"){
 				displacements_path = all_files[i]["path"];
 			}
 		}
-		
+
 		if(displacements_path !== ""){
 			// Add the tab
 			$("<li><a href='#displacements-tab'>Displacements</a></li>").insertAfter("#clusters_tab");
-			
+
 			// handle data
-			data["handle_ca_distances"] = true;
 			data["ca_displacements"] = JSON.parse(COMM.synchronous.load_external_text_resource(displacements_path));
-			
+
 			// Add contents
 			var displacements_template = COMM.synchronous.load_text_resource("results/templates/displacements.template");
 			template = Handlebars.compile(displacements_template);
 			$("#displacements-tab").html(template(data));
-			
+
 			// Add plots
 			plot_cluster_options = {
 				axesDefaults: {
@@ -45,18 +44,18 @@ var DISPLACEMENTS = (function(){
 						pad: 0
 						}
 					},
-					cursor:{ 
+					cursor:{
 						show: true,
-						zoom:true, 
+						zoom:true,
 						showTooltip:true
 					},
 					seriesDefaults:{
-						 lineWidth:1, 
+						 lineWidth:1,
 				    	 markerOptions: { size: 2 }
 					},
-					series:[ 
+					series:[
 					       {
-					    	   lineWidth:2, 
+					    	   lineWidth:2,
 					    	   markerOptions: { size: 3 }
 					       }
 					]
@@ -64,14 +63,14 @@ var DISPLACEMENTS = (function(){
 			// To ensure that global is the first one
 			all_series = [data["ca_displacements"]["global"]];
 			series_labels = ["global"];
-			var cluster_ids = []; 
+			var cluster_ids = [];
 			for(var cluster_id in data["ca_displacements"]){
 				if(cluster_id !== "global"){
 					cluster_ids.push(cluster_id);
 				}
 			}
 			cluster_ids.sort();
-			
+
 			for(var i  = 0; i < cluster_ids.length; i++){
 				all_series.push(data["ca_displacements"][cluster_id]);
 				series_labels.push(cluster_id);
@@ -101,9 +100,9 @@ var DISPLACEMENTS = (function(){
 		}
 		else{
 			console.log("displacements NOT found");
-			data["handle_ca_distances"] = false;
+			$("#displacements-tab").css({display:"none"});
 		}
-		
+
 		$("#show_all_clusters").click(function(){
 			if($(this).is(":checked")){
 				main_plot.data = all_series;
@@ -115,8 +114,8 @@ var DISPLACEMENTS = (function(){
 			}
 		});
 	};
-	
-	
+
+
 	return {
 				create_tab:create_tab
 			};

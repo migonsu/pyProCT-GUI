@@ -92,14 +92,14 @@ body {
 }
 
 .fancy_table th
-{       
+{
 	font-size: 10px;
 	font-weight: normal;
 	color: #888;
 	padding: 10px 8px;
 	border-bottom: 2px solid #777777;
 	text-align:center;
-	
+
 }
 
 
@@ -129,7 +129,7 @@ body {
 	background: #C2F5AE;
 }
 
-.fancy_table tr.best_clustering td 
+.fancy_table tr.best_clustering td
 {
 	border-bottom: 1px solid #ccc;
 	color: #75B35D;
@@ -213,4 +213,16 @@ a.clik_for_details
 {
 	font-size: 10px;
 	text-align:center;
+}
+
+
+/***********************/
+/* Centers (distances) */
+/***********************/
+.cluster_legend{
+	width:30px;
+	height:30px;
+	-webkit-border-radius: 175px;
+	-moz-border-radius: 175px;
+	border-radius: 175px;
 }
