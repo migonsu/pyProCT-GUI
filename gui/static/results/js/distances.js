@@ -19,7 +19,7 @@ var DISTANCES = (function(){
 			// Add the tab
 			$("<li><a href='#distances-tab'>Selection Centers</a></li>").insertAfter("#clusters_tab");
 
-			// Comoile template
+			// Compile template
 			var evaluation_template = COMM.synchronous.load_text_resource("results/templates/distances.template");
 			template = Handlebars.compile(evaluation_template);
 
@@ -27,7 +27,7 @@ var DISTANCES = (function(){
 			// handle data
 			cluster_centers_data = JSON.parse(COMM.synchronous.load_external_text_resource(centers_path));
 
-			// Add contetns
+			// Add contents
 			$("#distances-tab").html(template(extract_template_data(cluster_centers_data)));
 
 			// Render!
@@ -62,28 +62,67 @@ var DISTANCES = (function(){
 		}
 	}
 
-	function set_up_camera(bounding_box, rendering_canvas) {
-		var xs = [];
-		var ys = [];
-		var zs = [];
-		for (var i =0; i< bounding_box.length; i++){
-			xs.push(bounding_box[i][0]);
-			ys.push(bounding_box[i][1]);
-			zs.push(bounding_box[i][2]);
+	function plot_clustering(data, scene){
+
+		// Add all points to a geometry (with its colors)
+		var pointGeo = new THREE.Geometry();
+		clusters = data.points;
+		for (var cluster_id in clusters){
+			plot_cluster(clusters[cluster_id].color, clusters[cluster_id].prototype, clusters[cluster_id].centers, pointGeo);
 		}
 
-		var max_y = Math.max.apply(Math,ys);
-		var min_y = Math.min.apply(Math,ys);
-		var max_z = Math.max.apply(Math,zs);
-		var min_z = Math.min.apply(Math,zs);
-		var max_x = Math.max.apply(Math,xs);
-		var min_x = Math.min.apply(Math,xs);
+		// Create the scatter plot object
+		var scatterPlot = new THREE.Object3D();
+
+		var plotMaterial = new THREE.ParticleBasicMaterial({
+			vertexColors: true,
+			size: 1.5
+		});
+
+		var points = new THREE.ParticleSystem(pointGeo, plotMaterial);
+		scatterPlot.add(points);
+		scene.add(scatterPlot);
+	}
+
+	function plot_backbone_trace(data, scene){
+		// from https://github.com/mrdoob/three.js/wiki/Drawing-lines
+		if(data["backbone_trace"].length>0){
+			var geometry = new THREE.Geometry();
+			for (var i =0; i< data["backbone_trace"].length;i++){
+				var point = data["backbone_trace"][i];
+			    geometry.vertices.push(new THREE.Vector3(point[0],point[1],point[2]));
+			}
+
+			var material = new THREE.LineBasicMaterial({
+		        color: 0x0000ff
+		    });
+
+		    var line = new THREE.Line(geometry, material);
+			scene.add(line);
+	    }
+	}
+
+	function set_up_camera(bounding_box, bounding_box_center, bounding_box_corner, rendering_canvas) {
 
 		var camera = new THREE.PerspectiveCamera(45,rendering_canvas.clientWidth/rendering_canvas.clientHeight, 0.1, 1000);
-// 		camera.position.set(max_x-min_x,max_y,max_z-min_z);
-		camera.position.set(0,max_y,0);
 
-		camera.lookAt(new THREE.Vector3(max_x-min_x,0,max_z-min_z));
+		// Look at the center and position camera in one wall of the bounding box (ej, z-y plane)
+		var center = new THREE.Vector3(bounding_box_center[0],
+										bounding_box_center[1],
+										bounding_box_center[2]);
+
+
+		var camera_pos = new THREE.Vector3(
+			bounding_box_corner[0],
+			bounding_box_corner[1],
+			bounding_box_corner[2]
+		);
+
+		console.log("center",center);
+		console.log("camera",camera_pos);
+
+		camera.position.set(camera_pos.x,camera_pos.y,camera_pos.z);
+		camera.lookAt(center);
 
 		return camera;
 	}
@@ -94,7 +133,6 @@ var DISTANCES = (function(){
 	}
 
 	function render_scene(rendering_canvas, cluster_centers_data){
-
 		// Based on http://fhtr.org/BasicsOfThreeJS/#37
 		var renderer = new THREE.WebGLRenderer({
 												antialias: true,
@@ -113,27 +151,17 @@ var DISTANCES = (function(){
 		}
 
 		// Create scene and camera
-		var camera = set_up_camera(cluster_centers_data["bounding_box"], rendering_canvas);
+		var camera = set_up_camera(	cluster_centers_data["bounding_box"],
+									cluster_centers_data["bounding_box_center"],
+									cluster_centers_data["bounding_box_corner"],
+									rendering_canvas);
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.addEventListener( 'change', render );
 
 		var scene = new THREE.Scene();
-		// Create the scatter plot object
-		var scatterPlot = new THREE.Object3D();
-		scene.add(scatterPlot);
 
-		var mat = new THREE.ParticleBasicMaterial({
-			vertexColors: true,
-			size: 1.5
-		});
-
-		var pointGeo = new THREE.Geometry();
-		clusters = cluster_centers_data.points;
-		for (var cluster_id in clusters){
-			plot_cluster(clusters[cluster_id].color, clusters[cluster_id].prototype, clusters[cluster_id].centers, pointGeo);
-		}
-		var points = new THREE.ParticleSystem(pointGeo, mat);
-		scatterPlot.add(points);
+		plot_clustering(cluster_centers_data, scene);
+		plot_backbone_trace(cluster_centers_data, scene)
 
 		render();
 	}

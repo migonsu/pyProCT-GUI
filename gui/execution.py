@@ -5,7 +5,7 @@ Created on 08/05/2013
 '''
 import threading
 import traceback
-from pyproclust.driver.driver import Driver
+from pyproct.driver.driver import Driver
 from gui.exceptionThread import ThreadWithExc
 
 def set_status(status, action , value = None):

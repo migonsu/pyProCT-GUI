@@ -99,7 +99,6 @@ var DISPLACEMENTS = (function(){
 			main_plot = $.jqplot("main_cluster_plot",[data["ca_displacements"]["global"]], plot_main_options);
 		}
 		else{
-			console.log("displacements NOT found");
 			$("#displacements-tab").css({display:"none"});
 		}
 

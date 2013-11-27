@@ -15,12 +15,12 @@ import SimpleHTTPServer
 from gui.execution import ExecutionThread
 from gui.browsing import browsing_connector
 from gui.pdbSelection import get_pdb_selection
-from pyproclust.driver.observer.observer import Observer
-from pyproclust.tools.commonTools import convert_to_utf8
-from pyproclust.tools.scriptTools import create_directory
-from pyproclust.driver.parameters import ProtocolParameters
+from pyproct.driver.observer.observer import Observer
+from pyproct.tools.commonTools import convert_to_utf8
+from pyproct.tools.scriptTools import create_directory
+from pyproct.driver.parameters import ProtocolParameters
 import shutil
-from pyproclust.tools.pdbTools import grab_existing_frame_from_trajectory
+from pyproct.tools.pdbTools import grab_existing_frame_from_trajectory
 
 if __name__ == '__main__':
     
