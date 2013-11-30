@@ -6,20 +6,20 @@ Created on 21/01/2013
 
 import json
 import time
+import shutil
 import hashlib
 import os.path
 import urlparse
 import webbrowser
 import SocketServer
 import SimpleHTTPServer
-from gui.execution import ExecutionThread
-from gui.browsing import browsing_connector
-from gui.pdbSelection import get_pdb_selection
+from pyproctgui.gui.execution import ExecutionThread
+from pyproctgui.gui.browsing import browsing_connector
+from pyproctgui.gui.pdbSelection import get_pdb_selection
 from pyproct.driver.observer.observer import Observer
 from pyproct.tools.commonTools import convert_to_utf8
 from pyproct.tools.scriptTools import create_directory
 from pyproct.driver.parameters import ProtocolParameters
-import shutil
 from pyproct.tools.pdbTools import grab_existing_frame_from_trajectory
 
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     
     class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         """
-        Very simple implementation of a Request handler which only accepts POST requests.
+        Very simple implementation of a Request handler that accepts both GET and POST requests.
         """
         
         def post_handlers(self):

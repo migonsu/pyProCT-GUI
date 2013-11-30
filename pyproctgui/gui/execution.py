@@ -6,7 +6,7 @@ Created on 08/05/2013
 import threading
 import traceback
 from pyproct.driver.driver import Driver
-from gui.exceptionThread import ThreadWithExc
+from pyproctgui.gui.exceptionThread import ThreadWithExc
 
 def set_status(status, action , value = None):
     status["status"] = action
