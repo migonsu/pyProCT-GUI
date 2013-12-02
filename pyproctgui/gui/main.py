@@ -23,15 +23,15 @@ from pyproct.driver.parameters import ProtocolParameters
 from pyproct.tools.pdbTools import grab_existing_frame_from_trajectory
 
 if __name__ == '__main__':
-    
+
     executor = None
     ongoing_clustering = False
-    
+
     class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         """
         Very simple implementation of a Request handler that accepts both GET and POST requests.
         """
-        
+
         def post_handlers(self):
             return {
                     "/run": self.run_handler,
@@ -47,17 +47,17 @@ if __name__ == '__main__':
                     "/read_external_file":self.read_external_file_handler,
                     "/save_frame": self.save_frame_handler
             }
-        
+
         def get_handlers(self):
             return {
                     "/serve_file": self.serve_file_handler,
             }
-        
-        
+
+
         #############
         ##  POST
         #############
-        
+
         def do_selection(self,data):
             data = convert_to_utf8(json.loads(data))
             print data
@@ -65,17 +65,17 @@ if __name__ == '__main__':
 
         def browse_folder(self, data):
             chunks = data.split("=")
-            print "Browsing", chunks[1]
+            print "Browsing", chunks[1], data
             print browsing_connector(chunks[1])
             self.wfile.write(browsing_connector(chunks[1]))
-        
+
         def file_exists_handler(self, data):
             data = convert_to_utf8(json.loads(data))
             print data
             self.wfile.write(json.dumps({"exists":os.path.exists(data['location']),
                                          "isfile":os.path.isfile(data['location']),
                                          "isdir":os.path.isdir(data['location'])}))
-        
+
         def create_directory(self,data):
             data = convert_to_utf8(json.loads(data))
             print data
@@ -84,7 +84,7 @@ if __name__ == '__main__':
                 self.wfile.write(json.dumps({"done":success}))
             except:
                 self.wfile.write(json.dumps({"done":False}))
-           
+
         def run_handler(self, data):
             json_script = convert_to_utf8(json.loads(data))
             print json_script
@@ -93,25 +93,25 @@ if __name__ == '__main__':
                 parameters = ProtocolParameters(json_script)
             except ValueError:
                 self.wfile.write(json.dumps({"exit_status":"Malformed json script."}))
-            
+
             observer = Observer()
-            
-            global executor 
+
+            global executor
             global ongoing_clustering
-            
+
             if ongoing_clustering == False:
                 executor = ExecutionThread(observer, parameters)
                 executor.start()
                 self.wfile.write("OK")
             else:
                 self.wfile.write("KO")
-            
+
         def run_update_status(self, data):
             global executor
             self.wfile.write(json.dumps(executor.status))
-        
+
         def stop_calculations(self, data):
-            global executor 
+            global executor
             global ongoing_clustering
             if ongoing_clustering == True:
                 executor.raiseExc(Exception)
@@ -131,7 +131,7 @@ if __name__ == '__main__':
             script_handler.write(json.dumps(data, sort_keys=False, indent=4, separators=(',', ': ')))
             script_handler.close()
             self.wfile.write('{"file_url":"'+path+'"}')
-        
+
         def show_results_handler(self, data):
             try:
                 data = convert_to_utf8(json.loads(data))
@@ -143,14 +143,14 @@ if __name__ == '__main__':
                 self.wfile.write("OK")
             except IOError:
                 self.wfile.write("KO")
-            
+
         def normalize_path_handler(self, data):
             data = convert_to_utf8(json.loads(data))
             print "DATA", data
             print "PATH", data["path"].replace("%2F","/")
             print "NORM PATH", os.path.abspath(data["path"].replace("%2F","/"))
             self.wfile.write('{"path":"'+os.path.abspath(data["path"].replace("%2F","/"))+'"}')
-        
+
         def read_external_file_handler(self, data):
             data = convert_to_utf8(json.loads(data))
             print "DATA", data
@@ -158,12 +158,12 @@ if __name__ == '__main__':
                 self.wfile.write("".join(open(data["path"],"r").readlines()))
             except:
                 self.wfile.write('KO')
-        
+
         def save_frame_handler(self, data):
             data = convert_to_utf8(json.loads(data))
             print "DATA", data
             path = os.path.join(data["paths"]["results"], "representatives.pdb")
-            
+
 #             try:
             print "PRIM PATH",path
             file_handler_in = open(path,"r")
@@ -174,18 +174,18 @@ if __name__ == '__main__':
             self.wfile.write('{"path":"results/tmp/prototype.pdb"}')
 #             except:
 #                 self.wfile.write('KO')
-        
+
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))
             handle = self.post_handlers()[self.path]
             print "PATH (POST) ", self.path
             handle(data)
-        
+
         #############
         ##  GET
         #############
-        
+
         def serve_file_handler(self, query):
             path = query["path"][0]
             if "filename" in query.keys():
@@ -201,7 +201,7 @@ if __name__ == '__main__':
             lines = open(path,"r").readlines()
             for l in lines:
                 self.wfile.write(l)
-                
+
         def do_GET(self):
             parsedParams = urlparse.urlparse(self.path)
             queryParsed = urlparse.parse_qs(parsedParams.query)
@@ -211,9 +211,9 @@ if __name__ == '__main__':
                 handler(queryParsed)
             else:
                 SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self);
-            
+
     os.system("pwd")
-    os.chdir("./static") 
+    os.chdir("./static")
     IP = "127.0.0.1"
     PORT = 8000
     Handler = ServerHandler
