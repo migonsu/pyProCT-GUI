@@ -206,10 +206,12 @@ var PARAMETER_DESCRIPTORS = (function (){
 							}}}
 					},
 
+					/*
+					// If no explicitly written it is guessed
 					'spectral_algorithm_sigma':{
 						maps_to:'clustering:algorithms:spectral:sigma',
 						defaults_to: {"value":  1.0}
-					},
+					},*/
 
 					'guess_params_spectral':{
 						maps_to:'clustering:algorithms:spectral:auto',

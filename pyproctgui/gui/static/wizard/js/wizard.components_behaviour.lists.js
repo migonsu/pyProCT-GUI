@@ -1,5 +1,5 @@
 WIZARD.components_behaviour = (function(module){
-	
+
 	module.setup_trajectory_list = function (){
 		//******************************
 	 	// List of trajectories
@@ -7,7 +7,7 @@ WIZARD.components_behaviour = (function(module){
         $("#trajectory_list").dynamiclist({height:150,buttons:["Add","Remove"]});
         var dl = $("#trajectory_list").dynamiclist("getListHandler");
         //dl.addElement('/home/victor/Desktop/test/1M94.pdb');
-        dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
+        //dl.addElement('/home/victor/Escritorio/test/ubi_9_clusters.pdb');
         dl.buttons["Add"].click(function(){
         	var callback = function(value){
         		var abs_path = COMM.synchronous.absolute_path(DIALOG.browsing.last_root); // TODO: Refactorizable 100% !!
@@ -21,7 +21,7 @@ WIZARD.components_behaviour = (function(module){
             dl.deleteSelectedElements();
         });
 	}
-	
+
 	module.setup_algorithms_list = function (){
 		//******************************
 	 	// List of algorithms
@@ -52,7 +52,7 @@ WIZARD.components_behaviour = (function(module){
             dl2.deleteSelectedElements();
         });
 	}
-	
+
 	module.setup_queries_list = function(){
 		//******************************
 		// List of queries
@@ -71,9 +71,9 @@ WIZARD.components_behaviour = (function(module){
             dl4.deleteSelectedElements();
         });
 	}
-	
+
 	var	dialog_contents_template = COMM.synchronous.load_text_resource("wizard/templates/dialog_contents.template");
-	
+
 	module.setup_criteria_list = function(){
 		//******************************
 		// List of criteria
@@ -87,7 +87,7 @@ WIZARD.components_behaviour = (function(module){
             dl3.deleteSelectedElements();
         });
 	}
-	
+
 	return module;
-	
+
 }(WIZARD.components_behaviour));

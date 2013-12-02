@@ -20,4 +20,7 @@ setup(
     long_description = open('README.rst').read(),
     #dependencies (pyproct, prody, )
     #entrypoints for script
+    install_requires=[
+        "pyProCT>=1.0.0"
+      ],
 )
