@@ -3,7 +3,7 @@ Created on 29/11/2013
 
 @author: victor
 '''
-from distutils.core import setup
+from setuptools import setup
 import os
 
 def read(fname):
@@ -20,11 +20,12 @@ setup(
               'pyproctgui',
               'pyproctgui.gui'
     ],
+    package_data={'pyproctgui.gui': ['pyproct/gui/static/*']},
     license = 'LICENSE.txt',
     long_description = read('README.rst'),
     #dependencies (pyproct, prody, )
     #entrypoints for script
     install_requires=[
         "pyProCT>=1.0.0"
-      ],
+    ]
 )
