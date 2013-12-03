@@ -13,6 +13,7 @@ import urlparse
 import webbrowser
 import SocketServer
 import SimpleHTTPServer
+import pyproctgui.gui
 from pyproctgui.gui.execution import ExecutionThread
 from pyproctgui.gui.browsing import browsing_connector
 from pyproctgui.gui.pdbSelection import get_pdb_selection
@@ -213,7 +214,7 @@ if __name__ == '__main__':
                 SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self);
 
     os.system("pwd")
-    os.chdir("./static")
+    os.chdir(os.path.join(pyproctgui.gui.__path__[0],"static"))
     IP = "127.0.0.1"
     PORT = 8000
     Handler = ServerHandler
