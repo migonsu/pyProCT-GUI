@@ -1,0 +1,7 @@
+Installing the static folder with setuptools is a mess. It looks like in order to work without
+problems, it needs to have all the folder specified (otherwise it thinks that, for instance, the wizard
+folder is a file).
+Use:
+ls -R --format="single-column" pyproctgui/ | grep ":"
+
+In order to get an initial list. It can be easily formatted as python list with some regex replacements :)
