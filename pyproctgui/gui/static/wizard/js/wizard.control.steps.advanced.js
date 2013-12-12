@@ -1,13 +1,14 @@
 WIZARD.control = (function(module){
-	
+
 	if (typeof module.functions === "undefined"){
 		module.functions = {};
 	}
-	
+
 	module.functions[MAIN_MENU.ADVANCED_ACTION] = {
 		'workspace-1':function(event, state, step, step_id){
 			var file_path = step.find("#workspace_base").val();
-			
+			GLOBAL.workspace_path = file_path;
+
 			if(file_path!=""){
 				var file_check  = COMM.synchronous.file_exists(file_path);
 
@@ -27,7 +28,7 @@ WIZARD.control = (function(module){
 			else{
 				DIALOG.warning("The field cannot be empty.");
 			}
-			
+
 			return false;
 		},
 	    'trajectory-1':function(event, state, step, step_id){
@@ -40,22 +41,22 @@ WIZARD.control = (function(module){
         	}
 		},
 	    "rmsd-1":function(event, state, step, step_id){
-	    	if($("#rmsd_fit_selection").val() == "" || 
-    				(!step.find("#usesamefitandcalc").is(':checked') && 
+	    	if($("#rmsd_fit_selection").val() == "" ||
+    				(!step.find("#usesamefitandcalc").is(':checked') &&
     						$("#rmsd_calc_selection").val() == "")){
 	        	DIALOG.warning ("Fields cannot be empty.");
-				return false;			            		
+				return false;
         	}
     		if (step.find("#usesamefitandcalc").is(':checked')){
     			$("#rmsd_calc_selection").val($("#rmsd_fit_selection").val());
     		}
-			return true;	
+			return true;
 		},
 	    "distance-1":function(event, state, step, step_id){
-	    	if($("#dist_fit_selection").val() == "" || 
+	    	if($("#dist_fit_selection").val() == "" ||
 					$("#dist_calc_selection").val() == ""){
 		    	DIALOG.warning ("Fields cannot be empty.");
-				return false;			            		
+				return false;
 			}
 	    	return true;
 		},
@@ -86,7 +87,7 @@ WIZARD.control = (function(module){
         	}
         	else{
         		var a_list_is_incorrect = false;
-        		
+
         		step.find(":text").each(function(){
         			if($(this).is(":visible")){
 	        			if(!a_list_is_incorrect){
@@ -109,7 +110,7 @@ WIZARD.control = (function(module){
 	        			}
         			}
         		});
-        		
+
         		return ! a_list_is_incorrect;
         	}
 		},
@@ -132,13 +133,13 @@ WIZARD.control = (function(module){
         	}
 		}
 	};
-	
+
 	module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-hierarchical'] = module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-gromos'];
 	module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-random'] = module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-gromos'];
 	module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-spectral'] = module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-gromos'];
 	module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-dbscan'] = module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-gromos'];
 	module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-kmedoids'] = module.functions[MAIN_MENU.ADVANCED_ACTION]['algorithm-gromos'];
-	
+
 	return module;
-	
+
 }(WIZARD.control));

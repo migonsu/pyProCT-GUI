@@ -1,36 +1,36 @@
 var DIALOG = (function(){
-	
+
 	/**
 	 * Creates a 'yes or no' type dialog (that is, a dialog that can be only answered with a yes or a no. If
 	 * yes is pressed, then 'ok_function_callback' is executed.
 	 */
 	 var yes_or_no = function(dialog_title, message, ok_function_callback){
-    
-	    $("<div/>", { 
+
+	    $("<div/>", {
 	    	id:'yes_or_no_dialog',
 	    	title: dialog_title,
 	    	html:message})
 	    .dialog(
 	            {
-	                modal:true, 
+	                modal:true,
 	                autoResize:true,
 	                width:'auto',
 	                close: function( event, ui ){
 	                    $(this).dialog("destroy");
 	            },
 	            buttons: [
-	                        { 
+	                        {
 	                            text: "Yes",
-	                            click: function() { 
+	                            click: function() {
 	                            	ok_function_callback();
 	                                $(this).dialog("destroy");
 	                            }
 	                        },
 	                        {
 	                            text: "No",
-	                            click: function() { 
+	                            click: function() {
 	                                $(this).dialog("destroy");
-	                            }    
+	                            }
 	                        }
 	            ]
 	    });
@@ -39,20 +39,20 @@ var DIALOG = (function(){
 	  * Shows a general warning message.
 	  */
 	 var warning = function (message){
-		    $("<div/>", { 
+		    $("<div/>", {
 		    	id: 'warning_dialog',
 		    	title: 'Warning',
 		    	html: message})
 		    .dialog({
-		                modal:true, 
+		                modal:true,
 		                autoResize:true,
 		                width:'auto',
 		                close: function( event, ui ){
 		                    $(this).dialog("destroy");
 		                },
-		                buttons: [{ 
+		                buttons: [{
 		                            text: "Ok",
-		                            click: function() { 
+		                            click: function() {
 		                            	$(this).dialog("destroy")
 		                            }
 		                }]
@@ -66,40 +66,40 @@ var DIALOG = (function(){
 		 var not_found_markdown_file = "wizard/wizard.steps/help/not_found.md";
 
 		 var markdown_txt  = COMM.synchronous.load_text_resource(markdown_file, true);
-		
+
 		 if(markdown_txt === ""){ // Help file for this step not found
 			 markdown_txt = COMM.synchronous.load_text_resource(not_found_markdown_file, true);
 		 }
-		 
+
 		 var help_html = markdown.toHTML( markdown_txt );
-		 
-		 $("<div/>", { 
+
+		 $("<div/>", {
 		    	id: 'help_dialog',
 		    	title: 'Help',
 		    	html: help_html})
 		    .dialog({
-		                modal:true, 
+		                modal:true,
 		                autoResize:false,
 		                width: '600px',
 		                close: function( event, ui ){
 		                    $(this).dialog("destroy");
 		                },
-		                buttons: [{ 
+		                buttons: [{
 		                            text: "Ok",
-		                            click: function() { 
+		                            click: function() {
 		                            	$(this).dialog("destroy")
 		                            }
 		                }]
 		    });
-		 
+
 	 }
-	 
-	 
+
+
 	 // BROWSING submodule
 	 var browsing = (function(){
 		 var last_root = "/";
 		 var last_file = "";
-		 
+
 		 var browse = function (target, ok_callback){
 			    var what_we_search = target;
 				var expected_extension = "";
@@ -112,7 +112,13 @@ var DIALOG = (function(){
 			    	}
 			    }
 			    // If we have done a last search, then this will be our starting point.
-			    var root = DIALOG.browsing.last_root;
+			    var root = "";
+			    if (DIALOG.browsing.last_root!="/"){
+			    	root = DIALOG.browsing.last_root;
+			    }
+			    else{
+			    	root = GLOBAL.workspace_path;
+			    }
 			    console.log("ROOT",root)
 				$("<div title='Select a "+what_we_search+"' id = 'browse_dialog'>\
 		        <div class = 'fileBrowserHeader'>\
@@ -121,38 +127,38 @@ var DIALOG = (function(){
 		        </div> <div id = 'browsing_area' class='fileBrowserWrapper'>\
 		        </div>\
 		        <div style='margin-top:10px;'> Current root:</div></br>\
-				<div id='root' class='fileBrowserSelection'>"+ DIALOG.browsing.last_root +"</div>\
+				<div id='root' class='fileBrowserSelection'>"+ root +"</div>\
 		        </div>")
 			    .dialog({
-			                modal:true, 
+			                modal:true,
 			                autoResize:true,
 			                width:'auto',
 			                close: function( event, ui ){
 			                    $(this).dialog("destroy");
 			                },
 				            buttons: [
-				                        { 
+				                        {
 				                            text: "Ok",
-				                            click: function() { 
+				                            click: function() {
 				                            	ok_callback($("#selected_file_or_folder").text());
 				                                $(this).dialog("destroy");
 				                            }
 				                        },
 				                        {
 				                            text: "Cancel",
-				                            click: function() { 
+				                            click: function() {
 				                                $(this).dialog("destroy");
 				                            }
 				                        }
 				            ]
 			    });
-			    
+
 			    $('.ui-dialog button:nth-child(1)').button('disable');
-			    
-			    $("#browsing_area").fileTree({ 
-	                    root: DIALOG.browsing.last_root,
-	                    script: "/browse_folder" 
-	                }, 
+
+			    $("#browsing_area").fileTree({
+	                    root: root,
+	                    script: "/browse_folder"
+	                },
 	                function(url,file_type) {
 						$("#selected_file_or_folder").text(url);
 						// Check extension
@@ -169,21 +175,21 @@ var DIALOG = (function(){
 						else{
 						    $('.ui-dialog button:nth-child(1)').button('disable');
 						}
-						
-	                }   
+
+	                }
 			    );
 		 };
-		 
+
 		 return {
 			 browse: browse,
 			 last_root:last_root,
 			 last_file:last_file
 		 }
 	 }());
-	
+
 	// CRITERIA submodule
 	var criteria = (function(){
-		
+
 		/*
 		    Prepares and shows the evaluation criteria dialog.
 		*/
@@ -192,7 +198,7 @@ var DIALOG = (function(){
 		    // Add contents to the dialog
 		    .append(get_eval_dialog_contents(template))
 		    // Set up dialog
-		    .dialog({modal:true, 
+		    .dialog({modal:true,
 		            autoResize:true,
 		            width:'auto',
 		            create: function( event, ui ) {
@@ -200,27 +206,27 @@ var DIALOG = (function(){
 		               $(".dialog_spinner").css({width:"35px"});
 		            },
 		            close: function( event, ui ){
-		                 $(this).dialog("destroy"); 
+		                 $(this).dialog("destroy");
 		            },
-		            buttons: [{ 
+		            buttons: [{
 		            			text: "Discard",
-		                        click: function() { 
-		                            $(this).dialog("destroy"); 
+		                        click: function() {
+		                            $(this).dialog("destroy");
 		                        }
 		                      },
-		                      { 
+		                      {
 		                        text: "Ok",
-		                        click: function() { 
+		                        click: function() {
 		                            var criteria = criteria_to_string('criteria_creation_dialog');
 		                            if(criteria != ""){
 		                            	list_handler.addElement(criteria);
 		                            }
 		                            $(this).dialog("destroy");
-		                        } 
+		                        }
 		                      }]
 		            });
 		};
-		
+
 		/*
 		    Creates the contents of the dialog (using handlebars))
 		*/
@@ -231,12 +237,12 @@ var DIALOG = (function(){
 		        var criteria_name = QUERIES.criteria_types[i];
 		        data.criteria.push({name:criteria_name,  initial_value:0});
 		    }
-		    
+
 		    // Render it
 		    var template = Handlebars.compile(template_contents);
 		    return template(data);
 		}
-	
+
 		/*
 		    Creates a string from the contents of the dialog that represents one evaluation criteria.
 		*/
@@ -255,23 +261,23 @@ var DIALOG = (function(){
 		    // remove last and return
 		    return string_criteria.substring(0,string_criteria.length-4);
 		}
-		
+
 		return{
 			criteria_creation:criteria_creation
 		};
 
 	}());
-	
+
 	return{
 		// functions
 		yes_or_no:yes_or_no,
 		warning: warning,
 		help:help,
-		
+
 		// submodules
 		browsing: browsing,
 		criteria:criteria
-		
+
 	}
 
 }());

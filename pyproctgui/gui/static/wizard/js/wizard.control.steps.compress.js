@@ -1,9 +1,9 @@
 WIZARD.control = (function(module){
-	
+
 	if (typeof module.functions === "undefined"){
 		module.functions = {};
 	}
-	
+
 	module.functions[MAIN_MENU.COMPRESS_ACTION] = {
 			'browse-results-1':function(event, state, step, step_id){
 				var file_path = step.find("#results_folder").val();
@@ -36,10 +36,11 @@ WIZARD.control = (function(module){
 					return false;
 				}
 			},
-			
+
 			'workspace-1':function(event, state, step, step_id){
-				var file_path = step.find("#workspace_base")
-				.val();
+				var file_path = step.find("#workspace_base").val();
+				GLOBAL.workspace_path = file_path;
+
 				if(file_path!=""){
 					var file_check  = COMM.synchronous.file_exists(file_path);
 
@@ -59,10 +60,10 @@ WIZARD.control = (function(module){
 				else{
 					DIALOG.warning("The field cannot be empty.");
 				}
-				
+
 				return false;
 			},
-			
+
 		    'trajectory-1':function(event, state, step, step_id){
 		    	// At this point we can set the algorithms (all but random)
 		    	GLOBAL.selected_algorithms = $.grep(ALGORITHM.types, function(value){
@@ -77,25 +78,25 @@ WIZARD.control = (function(module){
 	        		return false;
 	        	}
 			},
-			
+
 		    "rmsd-1":function(event, state, step, step_id){
-		    	if($("#rmsd_fit_selection").val() == "" || 
-	    				(!step.find("#usesamefitandcalc").is(':checked') && 
+		    	if($("#rmsd_fit_selection").val() == "" ||
+	    				(!step.find("#usesamefitandcalc").is(':checked') &&
 	    						$("#rmsd_calc_selection").val() == "")){
 		        	DIALOG.warning ("Fields cannot be empty.");
-					return false;			            		
+					return false;
 	        	}
 	    		if (step.find("#usesamefitandcalc").is(':checked')){
 	    			$("#rmsd_calc_selection").val($("#rmsd_fit_selection").val());
 	    		}
-				return true;	
+				return true;
 			},
-			
+
 		    "distance-1":function(event, state, step, step_id){
-		    	if($("#dist_fit_selection").val() == "" || 
+		    	if($("#dist_fit_selection").val() == "" ||
 						$("#dist_calc_selection").val() == ""){
 			    	DIALOG.warning ("Fields cannot be empty.");
-					return false;			            		
+					return false;
 				}
 		    	return true;
 			},
@@ -111,12 +112,12 @@ WIZARD.control = (function(module){
 			"compression-options-1":function(event, state, step, step_id){
 		    	if($("#final_frames").val() === "" ){
 			    	DIALOG.warning ("Final number of frames must be setted.");
-					return false;			            		
+					return false;
 				}
 		    	return true;
 			}
 	};
-	
+
 	return module;
-	
+
 }(WIZARD.control));
