@@ -14,23 +14,23 @@ def set_status(status, action , value = None):
         status["value"] = False
     else:
         status["value"] = value
-        
+
 class StatusListener(threading.Thread):
-    
+
     def __init__(self,data_source, status):
         super(StatusListener, self).__init__()
         self._stop = threading.Event()
         self.data_source = data_source
         self.status = status
         self.step ="initializing"
-        
+
     def stop(self):
         self._stop.set()
         self.data_source.notify("Main","Stop","Finished")
 
     def stopped(self):
         return self._stop.isSet()
-    
+
     def run(self):
         """
         Main function of the listener object in the Executor thread (this is actually a separated thread).
@@ -46,10 +46,11 @@ class StatusListener(threading.Thread):
 
         while not self.stopped():
             self.data_source.data_change_event.wait()
-            print self.data_source.data
-            action = self.data_source.data.contents["action"]
-            value = self.data_source.data.contents["message"]
-            
+            data = self.data_source.get_data()
+
+            action = data.contents["action"]
+            value = data.contents["message"]
+
             if action == "Matrix calculation":
                 set_status(self.status, "Matrix Calculation ...")
             elif action ==  "Exploration Started":
@@ -72,13 +73,13 @@ class StatusListener(threading.Thread):
                 #Next is to evaluate clusterings
                 self.step ="evaluation" # redundancies help when messages are lost
                 set_status(self.status, "Filtering generated clusterings ...")
-            
+
             self.data_source.data_change_event.clear()
             if self.data_source.data.contents["action"] == "SHUTDOWN":
                 break
         self.status["status"] = "Ended"
         print "statusListener ended"
-        
+
 class ExecutionThread(ThreadWithExc):
     def __init__(self, observer, parameters):
         super(ExecutionThread, self).__init__()
@@ -87,7 +88,7 @@ class ExecutionThread(ThreadWithExc):
         self.status = {"status":"Initializing...","value":False}
         self.driver = None
         self.driver_process = None
-        
+
     def run(self):
         global ongoing_clustering
         ongoing_clustering = True
