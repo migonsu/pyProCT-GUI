@@ -24,13 +24,13 @@ def browsing_connector(root_folder):
                     folders.append((f,ff))
                 # If it is a file
                 else:
-                    files.append((f,ff))
                     e = os.path.splitext(f)[1][1:] # get .ext and remove dot
+                    files.append((e,f,ff))
 
         for f,ff in sorted(folders):
             r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ff,f))
 
-        for f,ff in sorted(files):
+        for e,f,ff in sorted(files):
             r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ff,f))
 
         r.append('</ul>')
