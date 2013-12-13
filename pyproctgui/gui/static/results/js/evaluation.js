@@ -8,7 +8,7 @@ var EVALUATION = (function(){
 		}
 		return labels;
 	}
-	
+
 	function traverse_columns(table_id, columns_array, normalize){
 		var data = [];
 		var x = 0;
@@ -21,7 +21,7 @@ var EVALUATION = (function(){
 					}
 					data[columns_array[i]].push([x, parseFloat($(cells[columns_array[i]]).text())]);
 				}
-				
+
 				x = x+1;
 			}
 		});
@@ -40,16 +40,16 @@ var EVALUATION = (function(){
 		}
 		return tmp_data;
 	}
-	
+
 	// normalizes in range (0..1)
 	function normalize_data(data){
 		var max = data[0][1];
 	    var min = data[0][1];
-	    
+
 	    for(var i = 0; i < data.length; i++){
 	    	max = Math.max(max, data[i][1]);
 	    	min = Math.min(min, data[i][1]);
-	    } 
+	    }
 
 	    if(max !== min){
 		    for(var i = 0; i < data.length; i++){
@@ -64,29 +64,29 @@ var EVALUATION = (function(){
 
 	    return data;
 	}
-	
+
 	var create_tab = function(tab_id, data){
 		var evaluation_template = COMM.synchronous.load_text_resource("results/templates/evaluation.template");
 		template = Handlebars.compile(evaluation_template);
 		$("#"+tab_id).html(template(data));
-		
+
 		// Prepare show plot table
 		$("#show_plot_table").css({width:$("#summary_table").css("width")});
 		$(".button").button();
-		
+
 		// Add table sorting capability
 		$("#summary_table").tablesorter({sortList: [[0,0]]});
 		$("#do_plot_button").click(function(){
 			do_plot();
 		});
 	};
-	
+
 	function do_plot(){
 		var cells = $("#show_row").find("td");
 		var norm_cells = $("#normalize_row").find("td");
 		var columns_to_plot = [];
 		var normalize = {};
-		
+
 		for (var i = 0; i < cells.length; i++){
 			if($(cells[i]).find(".show_checkbox").length > 0){
 				if($(cells[i]).find(".show_checkbox").is(":checked")){
@@ -95,18 +95,18 @@ var EVALUATION = (function(){
 				}
 			}
 		}
-		
+
 		for (var i = 0; i < norm_cells.length; i++){
 			if($(norm_cells[i]).find(".normalize_checkbox").length > 0){
-				
+
 				if($(norm_cells[i]).find(".normalize_checkbox").is(":checked")){
 					normalize[i] = true;
 				}
 			}
 		}
-		
+
 		if (columns_to_plot.length == 0) return;
-		
+
 		$("#summary_plot").empty().jqplot(traverse_columns("summary_table",
 				columns_to_plot,
 				normalize),
@@ -119,9 +119,13 @@ var EVALUATION = (function(){
 	            placement: "outsideGrid",
 		        location: 'ne',
 		    },
+		    highlighter: {
+		        show: true,
+		        sizeAdjust: 7.5
+		    }
 		});
 	}
-	
+
 	var process_data = function(data, accepted_ids){
 		data["evaluation_tags"] = [];
 		for (var evaluation_tag in data["selected"][Object.keys(data["selected"])[0]]["evaluation"]){
@@ -129,7 +133,7 @@ var EVALUATION = (function(){
 				data["evaluation_tags"].push({tag:evaluation_tag});
 			}
 		}
-		
+
 		//-----------------
 		var criteria_ids = [];
 		for(var criteria_id in data["scores"]){
@@ -140,7 +144,7 @@ var EVALUATION = (function(){
 			data["evaluation_tags"].push({tag:criteria_ids[i]});
 		}
 		//-------------------
-		
+
 		data["evaluations"] = [];
 		for (var clustering_id in data["selected"]){
 			var clustering_evaluation = data["selected"][clustering_id]["evaluation"];
@@ -168,5 +172,5 @@ var EVALUATION = (function(){
 		process_data:process_data,
 		create_tab:create_tab
 	};
-	
+
 }());
