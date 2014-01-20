@@ -1,16 +1,16 @@
 var CLUSTERS = (function(){
 	var clusters = [];
 	var MAX_DIAMETER = 150;
-	
-	
+
+
 	var create_main_cluster_widget = function(){
 		var data = [];
-		
+
 		for (var i  = 0; i< clusters.length; i++){
 			data.push([clusters[i]["id"],clusters[i]["elements"].length]);
 		}
-		
-		$("#main_cluster_pie").jqplot([data], 
+
+		$("#main_cluster_pie").jqplot([data],
 		{
 			seriesColors: [ "#000000","#111111","#222222","#333333","#444444","#555555","#666666",
 			                "#777777","#888888","#999999","#AAAAAA","#BBBBBB","#CCCCCC","#DDDDDD",
@@ -24,7 +24,7 @@ var CLUSTERS = (function(){
 			          showDataLabels: false,
 			          diameter:200,
 			          showDataLabels: true,
-			          
+
 			        }
 		    },
 		    grid: {
@@ -34,20 +34,20 @@ var CLUSTERS = (function(){
 		    }
 		});
 		$("#main_cluster_pie").find(".jqplot-data-label").css({"color":"#ffffff"});
-		
-		$("#main_cluster_pie").bind('jqplotDataClick', 
+
+		$("#main_cluster_pie").bind('jqplotDataClick',
 	        function (event, seriesIndex, pointIndex, data) {
 				var clustering_id = data[0];
 				$("#"+clustering_id).effect( "pulsate",{times:5});
 				//$(event.target).effect( "transfer", { className:"transfer-effect",to: $("#"+clustering_id) }, 3000 );
 	        }
 	    );
-		
+
 	};
-	
+
 	var create_cluster_widgets = function(){
 		var max_number_elements = 0;
-		
+
 		for (var i  = 0; i< clusters.length; i++){
 			if(clusters[i]["elements"].length > max_number_elements){
 				max_number_elements = clusters[i]["elements"].length;
@@ -62,7 +62,7 @@ var CLUSTERS = (function(){
 				float:"left",
 				"margin-bottom":50
 			});
-			
+
 			var cluster_descriptor = null;
 			for (var i  = 0; i< clusters.length; i++){
 				if (clusters[i]["id"] === $(this).attr("id")){
@@ -70,10 +70,10 @@ var CLUSTERS = (function(){
 					break;
 				}
 			}
-			
+
 			var data = [["elements",100]];
-			
-			$(this).jqplot([data], 
+
+			$(this).jqplot([data],
 			{
 				seriesColors: [ "#bbbbcf"],
 				captureRightClick:true,
@@ -89,32 +89,33 @@ var CLUSTERS = (function(){
 			    	shadow:false,
 			    	background: '#ffffff',
 			    }
-			    
+
 			});
-			
+
 		});
 	};
-	
+
 	var create_tab = function(data){
 		// Process data
 		process_cluster_data(data);
-		
+
 		// Templating stuff
 		var clusters_template = COMM.synchronous.load_text_resource("results/templates/clusters.template");
 		template = Handlebars.compile(clusters_template);
 		$("#clusters-tab").html(template(data));
-		
+
 		// Fill with cluster widgets
 		create_cluster_widgets();
 		create_main_cluster_widget();
-		
+
 		// Prepare contextual menus
 		$(document).contextmenu({
     	    delegate: ".hasmenu",
     	    menu: [
-    	        {title: "View", cmd: "view", uiIcon: "ui-icon-search" },
+    	        {title: "View representative", cmd: "view", uiIcon: "ui-icon-search" },
     	        {title: "View all", cmd: "view_all", uiIcon: "ui-icon-search" },
     	        {title: "Save representative", cmd: "save", uiIcon: "ui-icon-disk"},
+    	        {title: "Save all from cluster", cmd: "save_all", uiIcon: "ui-icon-disk"},
     	        ],
     	    select: function(event, ui) {
     	    	var menuId = ui.item.find(">a").attr("href");
@@ -133,17 +134,22 @@ var CLUSTERS = (function(){
 	    	        }
 	    	        // Save the prototype
 	    	        var file = COMM.synchronous.save_frame(selected_cluster["prototype"], data["workspace"]);
-	    	        
+
 	    	        // And download or visualize it
 	    	        if(menuId === "#save"){
 	    	       		// Retrieve the file
 	    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
 	    	        }
-	    	        
+
 	    	        if(menuId === "#view"){
 	    	        	// See the file
 	    	        	var molecule = COMM.synchronous.load_text_resource(file);
 	    	        	DIALOGS.show_molecule_dialog(molecule);
+	    	        }
+
+	    	        if(menuId === "#save_all"){
+	    	        	// Retrieve the file
+	    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_all.pdb";
 	    	        }
     	    	}
     	    	else{
@@ -152,7 +158,7 @@ var CLUSTERS = (function(){
     	    }
     	});
 	};
-	
+
 	function parse_elements(elements_string){
 		// Delete spaces
 		var list_string = elements_string.replace(/[\s]+/g, '');
@@ -176,7 +182,7 @@ var CLUSTERS = (function(){
 		var best_clustering_clusters = data["selected"][data["best_clustering"]]["clustering"]["clusters"];
 		for(var i = 0; i < best_clustering_clusters.length; i++){
 			var elements = parse_elements(best_clustering_clusters[i]["elements"]);
-			
+
 			var cluster_data = {
 				id: best_clustering_clusters[i].id,//  "cluster_"+i,
 				centroid: best_clustering_clusters[i]["prototype"],
@@ -187,11 +193,11 @@ var CLUSTERS = (function(){
 		}
 		data["clusters"] = CLUSTERS.clusters;
 	}
-	
+
 	function preview_all_conformations(data){
 		var all_molecules = [];
 		var all_ids = [];
-		
+
 		for (var i = 0; i < clusters.length; i++ ){
 			var cluster_proto = clusters[i].centroid;
 			console.log( clusters[i])
@@ -199,11 +205,11 @@ var CLUSTERS = (function(){
 			all_molecules.push(COMM.synchronous.load_text_resource(file));
 			all_ids.push(clusters[i].id);
 		}
-		
+
 		DIALOGS.show_all_molecules_dialog(all_molecules, all_ids, "#spinner_preview");
-		
+
 	}
-	
+
 	return {
 		clusters:clusters,
 		create_cluster_widgets:create_cluster_widgets,

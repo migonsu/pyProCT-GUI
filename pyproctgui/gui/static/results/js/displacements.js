@@ -86,10 +86,12 @@ var DISPLACEMENTS = (function(){
 			                         		     "#7F180D","#93AA00","#593315","#F13A13","#232C16"];
 			plot_main_options["legend"]= {
 		            show: true,
+		            placement:"outsideGrid",
 		            renderer: $.jqplot.EnhancedLegendRenderer,
 		            labels: series_labels,
 		            location: "ne",
 		            rendererOptions: {
+			            numberRows: 3,
 		                seriesToggle: 'normal',
 		                seriesToggleReplot: {
 		                	resetAxes: true
