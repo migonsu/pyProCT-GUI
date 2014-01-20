@@ -1,6 +1,6 @@
 var COMM = (function(){
 		var sync = {
-				
+
 				file_exists : function(location){
 					var response = undefined;
 					$.ajax({
@@ -9,11 +9,11 @@ var COMM = (function(){
 					      data: JSON.stringify({'location':location}),
 					      dataType: "text",
 					      async: false,
-					      
+
 					      complete: function(jqXHR, textStatus) {
 					          response =  $.parseJSON(jqXHR.responseText);
 					      },
-					      
+
 					      error:function( jqXHR, textStatus, errorThrown ){
 					    	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 					          response = {'exists':false,'isfile':false};
@@ -21,7 +21,7 @@ var COMM = (function(){
 					    });
 					return response;
 				},
-				
+
 				create_folder : function(location){
 					var response = undefined;
 				    $.ajax({
@@ -33,7 +33,7 @@ var COMM = (function(){
 				      complete: function(jqXHR, textStatus) {
 				          response = $.parseJSON(jqXHR.responseText);
 				      },
-				      
+
 				      error:function( jqXHR, textStatus, errorThrown ){
 				    	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				          response = {'done':false};
@@ -42,7 +42,7 @@ var COMM = (function(){
 				    console.log(response)
 				    return response;
 				},
-				
+
 				trigger_results_page: function (parameters, dialog_id){
 					$.ajax({
 			     		url: "/show_results",
@@ -61,18 +61,18 @@ var COMM = (function(){
 			     		}
 			        });
 				},
-				
+
 				/**
 				 *   Loads a system resource, returning its contents. The function does not finish
 				 *   until the contents have been loaded.
 				 *
 				 *   @param {string} resource path to the resource to be loaded.
-				 *   
+				 *
 				 *   @param {string} do_not_warn_if_error If the resource load fails, it does not show
 				 *   the error dialog.
 				 *
 				 *   @returns {string} The contents of the resource or an empty string if it was impossible
-				 *   to load it.    
+				 *   to load it.
 				 **/
 				load_text_resource: function (resource, do_not_warn_if_error){
 					if(do_not_warn_if_error === undefined){
@@ -87,11 +87,11 @@ var COMM = (function(){
 				              dataType: "text",
 				              async: false,
 				              cache: false,
-				              
+
 				              complete: function(jqXHR, textStatus){
 				                  text_resource = jqXHR.responseText;
 				              },
-				              
+
 				              error:function( jqXHR, textStatus, errorThrown ){
 				            	  if (!do_not_warn_if_error){
 				            		  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?");
@@ -99,17 +99,17 @@ var COMM = (function(){
 				            	  error = true;
 				              }
 				            });
-				    
+
 					if (error){
 				    	text_resource = "";
 				    }
-				    
+
 				    return text_resource;
 				},
-				
+
 				load_external_text_resource: function (resource){
 				    var text_resource = "";
-				    
+
 				    $.ajax({
 				              url: "/read_external_file",
 				              type: "POST",
@@ -117,20 +117,20 @@ var COMM = (function(){
 				              async: false,
 				              cache: false,
 				              data: JSON.stringify({"path":resource}),
-				              
+
 				              complete: function(jqXHR, textStatus){
 				                  text_resource = jqXHR.responseText;
 				              },
-				              
+
 				              error:function( jqXHR, textStatus, errorThrown ){
 				            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				              }
 				            });
-				            
+
 				    return text_resource;
 				},
-				
-				
+
+
 				absolute_path: function (path){
 					var abs = "";
 					$.ajax({
@@ -139,18 +139,18 @@ var COMM = (function(){
 			              dataType: "text",
 			              async: false,
 			              data: JSON.stringify({'path':path}),
-			              
+
 			              complete: function(jqXHR, textStatus){
 			                  abs = $.parseJSON(jqXHR.responseText)["path"];
 			              },
-			              
+
 			              error:function( jqXHR, textStatus, errorThrown ){
 			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 			              }
 			        });
 					return abs;
 				},
-				
+
 				save_frame: function(frame, workspace_paths){
 					var save_path = "";
 					$.ajax({
@@ -166,7 +166,30 @@ var COMM = (function(){
 			              complete: function(jqXHR, textStatus){
 			            	  save_path = $.parseJSON(jqXHR.responseText)["path"];
 			              },
-			              
+
+			              error:function( jqXHR, textStatus, errorThrown ){
+			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
+			              }
+			        });
+					return save_path;
+				},
+
+				save_cluster: function(elements, workspace_paths){
+					var save_path = "";
+					$.ajax({
+			              url: "/save_cluster",
+			              type: "POST",
+			              dataType: "text",
+			              async: false,
+			              cache: false,
+			              data: JSON.stringify({
+			            	  "paths":workspace_paths,
+			            	  "elements":elements
+			              }),
+			              complete: function(jqXHR, textStatus){
+			            	  save_path = $.parseJSON(jqXHR.responseText)["path"];
+			              },
+
 			              error:function( jqXHR, textStatus, errorThrown ){
 			            	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 			              }
@@ -174,7 +197,7 @@ var COMM = (function(){
 					return save_path;
 				}
 		};
-		
+
 		var async = {
 				run_pyproclust:	function (parameters){
 					/*
@@ -182,7 +205,7 @@ var COMM = (function(){
 					 * This executor thread changes status depending on the message it gets from
 					 * pyProCT (from the observer). Executor status must have the form {status:"",value:""}
 					 * where status is the actual action being performed.
-					 * 
+					 *
 					 */
 					function start_monitoring_run( progress_dialog, parameters){
 						$.ajax({
@@ -214,19 +237,19 @@ var COMM = (function(){
 							    		3000);
 							    }
 							},
-							
+
 							error:function( jqXHR, textStatus, errorThrown ){
 								DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 							}
 						});
 					};
-					
+
 				    $.ajax({
 				          url: "/run",
 				          type: "POST",
 				          data: JSON.stringify(parameters),
 				          dataType: "text",
-				          
+
 				          complete: function(jqXHR, textStatus){
 				        	  var progress_dialog = $("<div title='Progress' id = 'progress_dialog'>" +
 				        	  		"<span id='status_label'>Initializing... </span></br>"+
@@ -237,11 +260,11 @@ var COMM = (function(){
 				                       autoResize:true,
 				                       width:'auto',
 					       	           buttons: [
-				       	                        { 
+				       	                        {
 				       	                            text: "Cancel",
 				       	                            click: function() {
 				       	                            	$("body").append("<div id='spinner_progress'>");
-				       	                            	
+
 				       	                            	var opts = {
 															  lines: 9, // The number of lines to draw
 															  length: 13, // The length of each line
@@ -258,7 +281,7 @@ var COMM = (function(){
 															  hwaccel: false, // Whether to use hardware acceleration
 															  className: 'spinner', // The CSS class to assign to the spinner
 				       	                            	};
-				       	                            	
+
 				       	                            	$("#spinner_progress").spin(opts);
 				       	                            	$("#spinner_progress").center();
 				       	                            	$.ajax({
@@ -287,13 +310,13 @@ var COMM = (function(){
 				        	  $( ".ui-dialog-titlebar-close").remove();
 				        	  setTimeout(function(){start_monitoring_run(progress_dialog, parameters);},5000);
 				          },
-				          
+
 				          error:function( jqXHR, textStatus, errorThrown ){
 				        	  DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 				          }
 				        });
 				},
-				
+
 				download_script: function (parameters){
 					console.log("saving");
 					$.ajax({
@@ -309,9 +332,9 @@ var COMM = (function(){
 							DIALOG.warning( "Request failed: " + textStatus+". Is the server working?" );
 						}
 					});
-				}     
+				}
 		};
-		
+
 		return {
 			synchronous: sync,
 			asynchronous: async

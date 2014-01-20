@@ -115,7 +115,7 @@ var CLUSTERS = (function(){
     	        {title: "View representative", cmd: "view", uiIcon: "ui-icon-search" },
     	        {title: "View all", cmd: "view_all", uiIcon: "ui-icon-search" },
     	        {title: "Save representative", cmd: "save", uiIcon: "ui-icon-disk"},
-    	        {title: "Save all from cluster", cmd: "save_all", uiIcon: "ui-icon-disk"},
+    	        {title: "Save all from cluster", cmd: "save_all", uiIcon: "ui-icon-disk"}
     	        ],
     	    select: function(event, ui) {
     	    	var menuId = ui.item.find(">a").attr("href");
@@ -132,22 +132,29 @@ var CLUSTERS = (function(){
 	    	        		break;
 	    	        	}
 	    	        }
-	    	        // Save the prototype
-	    	        var file = COMM.synchronous.save_frame(selected_cluster["prototype"], data["workspace"]);
+	    	        if(menuId === "#save" || menuId === "#view"  ){
+		    	        // Save the prototype
+		    	        var file = COMM.synchronous.save_frame(selected_cluster["prototype"], data["workspace"]);
 
-	    	        // And download or visualize it
-	    	        if(menuId === "#save"){
-	    	       		// Retrieve the file
-	    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
-	    	        }
+		    	        // And download or visualize it
+		    	        if(menuId === "#save"){
+		    	       		// Retrieve the file
+		    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_proto.pdb";
+		    	        }
 
-	    	        if(menuId === "#view"){
-	    	        	// See the file
-	    	        	var molecule = COMM.synchronous.load_text_resource(file);
-	    	        	DIALOGS.show_molecule_dialog(molecule);
-	    	        }
+		    	        if(menuId === "#view"){
+		    	        	// See the file
+		    	        	var molecule = COMM.synchronous.load_text_resource(file);
+		    	        	DIALOGS.show_molecule_dialog(molecule);
+		    	        }
+
+		    	    }
 
 	    	        if(menuId === "#save_all"){
+	    	        	// Save all cluster elements
+		    	        // TODO: parse elements is redundant (it was first parsed at the begining, but this function does not use it)
+		    	        var file = COMM.synchronous.save_cluster(parse_elements(selected_cluster["elements"]), data["workspace"]);
+
 	    	        	// Retrieve the file
 	    	        	window.location.href = "/serve_file?path="+file+"&filename="+cluster_id+"_all.pdb";
 	    	        }

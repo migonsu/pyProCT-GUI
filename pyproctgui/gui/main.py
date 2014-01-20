@@ -21,7 +21,8 @@ from pyproct.driver.observer.observer import Observer
 from pyproct.tools.commonTools import convert_to_utf8
 from pyproct.tools.scriptTools import create_directory
 from pyproct.driver.parameters import ProtocolParameters
-from pyproct.tools.pdbTools import grab_existing_frame_from_trajectory
+from pyproct.tools.pdbTools import grab_existing_frame_from_trajectory,\
+    extract_frames_from_trajectory_sequentially, get_number_of_frames
 
 if __name__ == '__main__':
 
@@ -46,7 +47,8 @@ if __name__ == '__main__':
                     "/show_results":self.show_results_handler,
                     "/normalize_path":self.normalize_path_handler,
                     "/read_external_file":self.read_external_file_handler,
-                    "/save_frame": self.save_frame_handler
+                    "/save_frame": self.save_frame_handler,
+                    "/save_cluster": self.save_cluster_handler
             }
 
         def get_handlers(self):
@@ -176,6 +178,26 @@ if __name__ == '__main__':
 #             except:
 #                 self.wfile.write('KO')
 
+        def save_cluster_handler(self, data):
+            data = convert_to_utf8(json.loads(data))
+            print "DATA", data
+            path = os.path.join(data["paths"]["tmp"], "tmp_merged_trajectory.pdb")
+
+#             try:
+            print "PRIM PATH",path
+            file_handler_in = open(path,"r")
+            file_handler_out = open("results/tmp/cluster.pdb","w")
+            extract_frames_from_trajectory_sequentially(file_handler_in,
+                                                        get_number_of_frames(path),
+                                                        file_handler_out,
+                                                        data["elements"],
+                                                        keep_header=True,
+                                                        write_frame_number_instead_of_correlative_model_number=True)
+            file_handler_in.close()
+            file_handler_out.close()
+            self.wfile.write('{"path":"results/tmp/cluster.pdb"}')
+
+
         def do_POST(self):
             fp= self.rfile
             data = fp.read(int(self.headers['Content-Length']))
@@ -202,6 +224,7 @@ if __name__ == '__main__':
             lines = open(path,"r").readlines()
             for l in lines:
                 self.wfile.write(l)
+
 
         def do_GET(self):
             parsedParams = urlparse.urlparse(self.path)
