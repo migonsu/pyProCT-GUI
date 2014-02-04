@@ -4,7 +4,7 @@
 		<tr>
 			<th><b>Clustering</b></th>
 			{{#evaluation_tags}}
-			<th><b>{{tag}}</b></th>
+			<th><b>{{tag}}</b> <img src="results/img/triangles_big.png" height="10" width="10" ></th>
 		    {{/evaluation_tags}}
 		</tr>
 	</thead>

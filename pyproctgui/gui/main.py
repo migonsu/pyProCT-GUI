@@ -164,11 +164,11 @@ if __name__ == '__main__':
 
         def save_frame_handler(self, data):
             data = convert_to_utf8(json.loads(data))
-            print "DATA", data
+#             print "DATA", data
             path = os.path.join(data["paths"]["results"], "representatives.pdb")
 
 #             try:
-            print "PRIM PATH",path
+#             print "PRIM PATH",path
             file_handler_in = open(path,"r")
             file_handler_out = open("results/tmp/prototype.pdb","w")
             grab_existing_frame_from_trajectory(file_handler_in, file_handler_out, data["frame"])
@@ -180,11 +180,11 @@ if __name__ == '__main__':
 
         def save_cluster_handler(self, data):
             data = convert_to_utf8(json.loads(data))
-            print "DATA", data
+#             print "DATA", data
             path = os.path.join(data["paths"]["tmp"], "tmp_merged_trajectory.pdb")
 
 #             try:
-            print "PRIM PATH",path
+#             print "PRIM PATH",path
             file_handler_in = open(path,"r")
             file_handler_out = open("results/tmp/cluster.pdb","w")
             extract_frames_from_trajectory_sequentially(file_handler_in,
@@ -208,7 +208,6 @@ if __name__ == '__main__':
         #############
         ##  GET
         #############
-
         def serve_file_handler(self, query):
             path = query["path"][0]
             if "filename" in query.keys():
