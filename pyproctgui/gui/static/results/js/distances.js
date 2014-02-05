@@ -5,7 +5,7 @@ var DISTANCES = (function(){
 
 	var cluster_points = {};
 
-	var renderer,scene,camera;
+	var scatterPlot, renderer, scene, camera;
 	var hidden = new THREE.ParticleBasicMaterial({
 			vertexColors: true,
 			size: 1.5
@@ -85,7 +85,7 @@ var DISTANCES = (function(){
 	function plot_clustering(data, scene){
 
 		// Create the scatter plot object
-		var scatterPlot = new THREE.Object3D();
+		scatterPlot = new THREE.Object3D();
 
 		// Material for the scatter plot
 		var plotMaterial = new THREE.ParticleBasicMaterial({
@@ -101,10 +101,13 @@ var DISTANCES = (function(){
 			scatterPlot.add(particles);
 			cluster_points[cluster_id] = particles;
 		}
-		scene.add(scatterPlot);
+		//scene.add(scatterPlot);
+		return scatterPlot;
 	}
 
 	function plot_backbone_trace(data, scene){
+		var trace = new THREE.Object3D();
+
 		// from https://github.com/mrdoob/three.js/wiki/Drawing-lines
 		if(data["backbone_trace"].length>0){
 			var geometry = new THREE.Geometry();
@@ -118,8 +121,11 @@ var DISTANCES = (function(){
 		    });
 
 		    var line = new THREE.Line(geometry, material);
-			scene.add(line);
+			//scene.add(line)
+			trace.add(line);
+
 	    }
+	    return trace;
 	}
 
 	function set_up_camera(bounding_box, bounding_box_center, bounding_box_corner, rendering_canvas) {
@@ -141,8 +147,16 @@ var DISTANCES = (function(){
 		console.log("center",center);
 		console.log("camera",camera_pos);
 
-		camera.position.set(camera_pos.x,camera_pos.y,camera_pos.z);
-		camera.lookAt(center);
+		var cameraAngle = 0;
+		var orbitRange = 100;
+		var orbitSpeed = 2 * Math.PI/180;
+		var desiredAngle = 90 * Math.PI/180
+
+		camera.position.set(orbitRange,0,0);//camera_pos.x,camera_pos.y,camera_pos.z);
+		camera.lookAt(scatterPlot.position);//center);
+
+		controls = new THREE.OrbitControls(camera, renderer.domElement);
+		controls.addEventListener( 'change', render );
 
 		return camera;
 	}
@@ -171,19 +185,22 @@ var DISTANCES = (function(){
 		renderer.clear();
 
 
+		var parent = new THREE.Object3D();
+		parent.add(plot_clustering(cluster_centers_data, scene));
+		parent.add(plot_backbone_trace(cluster_centers_data, scene));
+
+		// center parent
+		parent.position.x = 0;
+		parent.position.y = 0;
+		parent.position.z = 0;
+
 		// Create scene and camera
 		camera = set_up_camera(	cluster_centers_data["bounding_box"],
 									cluster_centers_data["bounding_box_center"],
 									cluster_centers_data["bounding_box_corner"],
 									rendering_canvas);
-		controls = new THREE.OrbitControls(camera, renderer.domElement);
-		controls.addEventListener( 'change', render );
-
 		scene = new THREE.Scene();
-
-		plot_clustering(cluster_centers_data, scene);
-		plot_backbone_trace(cluster_centers_data, scene)
-
+		scene.add(parent);
 		render();
 	}
 
