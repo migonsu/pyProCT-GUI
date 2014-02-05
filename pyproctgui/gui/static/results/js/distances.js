@@ -46,14 +46,15 @@ var DISTANCES = (function(){
 			var color = cluster_centers_data.points[cluster_id].color;
 			template_data.clusters.push({
 				id: cluster_id,
-				color: rgbToHex(color[0], color[1], color[2])
+				color: rgbToHex(color[0], color[1], color[2]),
+				percent: cluster_centers_data.percents == undefined?  0 : cluster_centers_data.percents[cluster_id]
 			});
 		}
 		return template_data;
 	}
 
 	function plot_cluster(color, prototype, points, geometry){
-		var color = new THREE.Color().setRGB(color[0],color[1],color[2])
+		var color = new THREE.Color().setRGB(color[0],color[1],color[2]);
 		for (var i=0; i < points.length; i++) {
 			geometry.vertices.push(new THREE.Vertex(new THREE.Vector3(	points[i][0],
 																		points[i][1],

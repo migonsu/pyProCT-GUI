@@ -14,11 +14,13 @@
 					<td>
 						{{id}}
 					</td>
+					<td>
+						({{percent}}%)
+					</td>
 				</tr>
 				{{/clusters}}
 			</table>
 		</td>
 	</tr>
 	</table>
-
 </div>
