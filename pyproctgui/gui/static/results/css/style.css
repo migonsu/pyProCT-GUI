@@ -226,3 +226,7 @@ a.clik_for_details
 	-moz-border-radius: 175px;
 	border-radius: 175px;
 }
+
+.view_cluster_legend{
+	opacity:0.4;
+}

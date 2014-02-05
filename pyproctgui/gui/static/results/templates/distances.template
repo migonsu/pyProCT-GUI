@@ -9,7 +9,7 @@
 				{{#clusters}}
 				<tr>
 					<td>
-						<div class="cluster_legend" style = "background-color: {{color}};"> </div>
+						<div id = "{{id}}" class="cluster_legend" style = "background-color: {{color}};"> </div>
 					</td>
 					<td>
 						{{id}}
