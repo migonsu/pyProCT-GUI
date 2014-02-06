@@ -8,6 +8,7 @@ Handlebars.registerHelper('formatted', function(number) {
 });
 
 function process_result_data(data){
+	console.log(data)
 	var all_clusterings = jQuery.extend({}, data["selected"],data["not_selected"]);
 	data['total_number_of_clusterings'] = Object.keys(all_clusterings).length;
 	data['number_of_accepted_clusterings'] = Object.keys(data["selected"]).length;
@@ -57,12 +58,8 @@ function process_result_data(data){
 
 	EVALUATION.process_data(data, accepted_ids);
 
-	//process_cluster_data(data);
-
 	return data;
 }
-
-
 
 function generate_all_tabs_contents(data){
 

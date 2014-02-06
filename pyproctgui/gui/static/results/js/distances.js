@@ -17,6 +17,7 @@ var DISTANCES = (function(){
 		var cluster_centers_data;
 
 		//Look for the centers distance file
+		console.log(all_files)
 		for(var i = 0; i< all_files.length; i++){
 			if (all_files[i].description == "Centers of the selection used to calculate distances"){
 				centers_path = all_files[i].path;
