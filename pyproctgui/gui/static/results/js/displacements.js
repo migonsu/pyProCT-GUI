@@ -40,7 +40,7 @@ var DISPLACEMENTS = (function(){
 						pad: 0
 					},
 					yaxis: {
-						label: "Mean CA Displacement",
+						label: "Rmsf",
 						pad: 0
 						}
 					},

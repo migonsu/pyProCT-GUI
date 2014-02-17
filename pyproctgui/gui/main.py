@@ -138,9 +138,10 @@ if __name__ == '__main__':
         def show_results_handler(self, data):
             try:
                 data = convert_to_utf8(json.loads(data))
-                print data
+                print "show_results_handler", data
                 create_directory("results/tmp")
-                results_path = os.path.join(data["base"],data["results"],"results.json")
+                results = data["results"] if "results" in data else "results"
+                results_path = os.path.join(data["base"],results,"results.json")
                 shutil.copyfile(results_path,os.path.join("results","tmp","data.json"))
                 webbrowser.open("http://"+IP+":"+str(PORT)+"/results.html", new = 0, autoraise=True)
                 self.wfile.write("OK")
