@@ -10917,7 +10917,6 @@ ChemDoodle.RESIDUE = function() {
             if (!a) return e;
             a = a.split("\n");
             for (var f = parseInt(d(a[0])), j = 0; j < f; j++) {
-            	console.log(a[j + 2])
                 var l = a[j + 2].split(/\s+/g);
                 // If the first guy is empty (format differences), then we remove it.
                 if (l[0]==""){
