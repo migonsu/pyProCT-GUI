@@ -1,5 +1,5 @@
 var STEPS = (function(){
-	
+
 	var courses = {
 			"clustering":[
 			              {id:"workspace-1", next:"trajectory-1"},
@@ -15,7 +15,7 @@ var STEPS = (function(){
 			              {id:"criteria-1",next:"run-1"},
 			              {id:"run-1",next:""}
 			],
-			
+
 			"advanced":[
 						{id:"workspace-1",next:"trajectory-1"},
 						{id:"trajectory-1",next:"matrix_creation-1"},
@@ -34,12 +34,12 @@ var STEPS = (function(){
 						{id:"criteria-2",next:"run-1"},
 						{id:"run-1",next:""}
 			],
-			
+
 			"compress":[
 						{id:"clustering-loading-method-1",next:{
 								id:"clustering_loading_method",
 								branches:{
-									"load":[{id:"browse-results-1",next:"compression-options-1"}],
+									"load":[{id:"workspace-1",next:"browse-results-1"}, {id:"browse-results-1",next:"compression-options-1"}],
 									"generate":[{id:"workspace-1", next:"trajectory-1"},
 									              {id:"trajectory-1", next:"matrix_creation-2"},
 									              {id:"matrix_creation-2",next:{
@@ -56,9 +56,9 @@ var STEPS = (function(){
 						},
 						{id:"compression-options-1",next:"run-1"},
 						{id:"run-1",next:""}
-						
+
 			],
-			
+
 			"results":[
 			           {id:"browse-results-1",next:"run-2"},
 			           {id:"run-2",next:""}
@@ -66,7 +66,7 @@ var STEPS = (function(){
 	};
 
 	var navigation_html = "navigation.html";
-	
+
 	var descriptor = {
 		"browse-results-1":{
 			"title": "Choose a results folder",
@@ -139,5 +139,5 @@ var STEPS = (function(){
 		descriptor:descriptor,
 		navigation_html:navigation_html
 	};
-	
+
 }());
