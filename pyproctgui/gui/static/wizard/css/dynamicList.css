@@ -9,7 +9,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     overflow-y: auto;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 .dynListButton
@@ -29,7 +29,7 @@
 
 .dynListSelected
 {
-    background-color:#eee;
+    background-color:#aaa;
 }
 
 

@@ -13,12 +13,17 @@ WIZARD.control = (function(module){
 					if(file_check["exists"]){
 						// Check the existence of "results.json"
 						var file_check  = COMM.synchronous.file_exists(file_path+"/results.json");
-						console.log(file_check);
+
 						if(file_check["exists"]){
 							// Load result clustering
 							var results =  $.parseJSON(COMM.synchronous.load_external_text_resource(file_path+"/results.json"));
-							console.log("RESULTS", results);
 							GLOBAL.loaded_clustering = results["selected"][results["best_clustering"]];
+
+							var trajs = [];
+							for(var i = 0; i< results["trajectories"].length; i++){
+								trajs.push(results["trajectories"][i]["source"]);
+							}
+							GLOBAL.loaded_files = trajs;
 							return true;
 						}
 						else{

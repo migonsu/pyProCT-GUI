@@ -23,24 +23,26 @@ WIZARD.components_behaviour = (function(module){
 	 */
 	module.setup_show_results_button = function(){
         $("#show_results_button").click(function(){
+        console.log("clicked")
         	// Precondition: results.json file exists in the folder
         	var results_path = get_value_of($("#results_folder"))+"/results.json";
         	var results = $.parseJSON(COMM.synchronous.load_external_text_resource(results_path));
+			console.log("results", results["files"]);
 
-        	// Look for parameters file
-        	var params_file_path = "";
-        	for (var i =0; i < results["files"].length; i++){
-        		if(results["files"][i]["description"] === "Parameters file"){
-        			params_file_path = results["files"][i]["path"];
-        		}
-        	}
+         	// Look for parameters file
+         	var params_file_path = "";
+         	for (var i =0; i < results["files"].length; i++){
+         		if(results["files"][i]["description"] === "Parameters file"){
+         			params_file_path = results["files"][i]["path"];
+         			console.log("params", params_file_path);
+         		}
+         	}
 
-        	// Use parameters to show results
-        	var parameters = $.parseJSON(COMM.synchronous.load_external_text_resource(params_file_path));
-        	COMM.synchronous.trigger_results_page(parameters["global"]["workspace"]);
+         	// Use parameters to show results
+         	var parameters = $.parseJSON(COMM.synchronous.load_external_text_resource(params_file_path));
+         	COMM.synchronous.trigger_results_page(parameters["global"]["workspace"]);
         });
 	};
-
 
 	function browsing_common(type, input_id){
 		var callback = function(value){

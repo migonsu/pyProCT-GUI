@@ -223,7 +223,7 @@ var COMM = (function(){
 							    			"Results",
 							    			"Do you want to check the results?",
 							    			function(){
-							    				COMM.synchronous.trigger_results_page(parameters["workspace"]);
+							    				COMM.synchronous.trigger_results_page(parameters["global"]["workspace"]);
 							    			}
 							    	);
 							    }

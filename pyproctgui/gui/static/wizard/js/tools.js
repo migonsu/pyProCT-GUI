@@ -5,47 +5,47 @@
  *
  *   @param {string} type A hint of the control type.
  *
- *   @returns {string/float/int/list/object} The value of the control.    
+ *   @returns {string/float/int/list/object} The value of the control.
  **/
 function get_value_of(of_this_control, type){
-    
+
     if (type == undefined){
         type = $(of_this_control).attr("type");
     }
-    
+
     switch(type){
         case "list:float":
             return parse_list( of_this_control, parseFloat);
-        
+
         case "list:int":
             return parse_list( of_this_control, parseInt);
-            
+
         case "list":
         	return $(of_this_control).dynamiclist("getItems");
-        	
+
         case "list:criteria":
         	return parse_criteria($(of_this_control).dynamiclist("getItems"));
-        
+
         case "text":
             return $(of_this_control).val();
-        
+
         case "checkbox":
             return $(of_this_control).is(":checked");
-        
+
         case "radio":
         	var name = $(of_this_control).attr('name');
         	var radiobutton = $($.find("[name='"+name+"']:checked"));
             return radiobutton.attr('value');
-        
+
         case "int":
             return parseInt($(of_this_control).val());
-        
+
         case "float":
             return parseFloat($(of_this_control).val());
-        
+
         case "selectmenu":
         	return $(of_this_control).val();
-        	
+
         default:
             return $(of_this_control).val();
     }
@@ -53,7 +53,7 @@ function get_value_of(of_this_control, type){
 
 /**
  * 	Sets the value of a field (jQuery object).
- * 
+ *
  * @param {jQuery Object} this_field Field to set its value.
  * @param value The value we want to set.
  * @param {String} type Type of the field.
@@ -87,10 +87,10 @@ function set_value_of(this_field, value, type){
 /**
  * Converts a criteria object (as the one in parameters) to strings. Is the opposite operation of
  * 'parse_criteria' .
- * 
+ *
  * @param {Object} value An object of objects containing all the criteria.
- * 
- * @returns {Array} List containing the string representation of each criteria. 
+ *
+ * @returns {Array} List containing the string representation of each criteria.
  */
 function criteria_object_to_string (value){
 	var criteria;
@@ -113,23 +113,23 @@ function criteria_object_to_string (value){
 	return result_strings;
 }
 /**
- *   Parses the contents of a text control holding a list of numbers description. This list can 
+ *   Parses the contents of a text control holding a list of numbers description. This list can
  *   have two forms:
  *  - Comma separated list of numbers Ex. "1, 2, 3, 4"
  *  - Range with this form : start, end : step  Ex. "4, 14 :2"  = "4, 6, 8, 10, 12"
- *   
+ *
  *   @param {String} in_this_control The control holding the list.
  *
- *   @param {Function} using_this_conversor Function that, given a string, returns its numeric 
+ *   @param {Function} using_this_conversor Function that, given a string, returns its numeric
  *   representation (Ex. parseInt)
  *
- *   @returns {Array} The expected list of numbers.    
+ *   @returns {Array} The expected list of numbers.
  **/
 function parse_list( in_this_control, using_this_conversor){
-    
+
     var conversor;
     var list_string = "";
-    
+
     // Default value for conversor
     if (using_this_conversor == undefined){
         conversor = parseInt;
@@ -137,17 +137,17 @@ function parse_list( in_this_control, using_this_conversor){
     else{
         conversor = using_this_conversor;
     }
-    
+
     try{
         // Getting value
         list_string = $(in_this_control).val();
-        
-        // Remove non dot, colon digit or character 
+
+        // Remove non dot, colon digit or character
         list_string = list_string.replace(/[^\d,.:]+/g, '');
-        
+
         var sequence = [];
-        
-        // Analyze the string    
+
+        // Analyze the string
         var parts = list_string.split(":");
         if (parts.length == 2){
             // Is the description of a range i,j :step, those can only be integers
@@ -161,7 +161,7 @@ function parse_list( in_this_control, using_this_conversor){
                 return undefined;
             }
             var step = parseInt(parts[1]);
-            
+
             for(var k = i; k<j; k+=step){
                 sequence.push(k);
             }
@@ -176,7 +176,7 @@ function parse_list( in_this_control, using_this_conversor){
                 }
             }
         }
-    } 
+    }
     catch(error_message){
         throw "There was an error while parsing this list:["+list_string+"]. Error was: "+error_mesage;
     }
@@ -185,9 +185,9 @@ function parse_list( in_this_control, using_this_conversor){
 
 /**
  * Checks if a list in string format is ok or not.
- * 
+ *
  * @param {String} string_list String representation of a list.
- * 
+ *
  * @returns {Boolean}  Whether if the string list has list format or not.
  */
 function has_list_format( string_list ){
@@ -223,7 +223,7 @@ function parse_one_criteria(criteria){
     var criterium_strings = criteria.split("and");
     var criteria = {};
     var criterium;
-    
+
     for (var i = 0; i < criterium_strings.length; i++){
     	criterium = parse_criterium(criterium_strings[i]);
     	criteria[criterium["query"]] = {
@@ -249,21 +249,21 @@ function parse_criterium(criterium_string){
     		"action":"undefined",
     		"weight": 1.0
     };
-    
+
     criterium["action"] = "undefined";
-    
+
     if(parts[1] == "Maximize"){
         criterium["action"] = ">";
     }
-    
+
     if(parts[1] == "Minimize"){
         criterium["action"] = "<";
     }
     criterium["query"] = parts[2];
-    
+
     criterium["weight"] = parseFloat(parts[3]);
-    
-    return criterium;    
+
+    return criterium;
 }
 
 
@@ -300,11 +300,11 @@ function parse_criterium(criterium_string){
  *
  * @param {Int} key_index Index for recursive handling.
  */
-function set_dictionary_entry( 	this_dictionary, 
-								key_list, 
+function set_dictionary_entry( 	this_dictionary,
+								key_list,
 								value,
 								key_index){
-	
+
 	var index;
 	if (typeof key_index == "undefined"){
 		index = 0;
@@ -312,18 +312,18 @@ function set_dictionary_entry( 	this_dictionary,
 	else{
 		index = key_index;
 	}
-	
+
     if (index == key_list.length-1){
 		this_dictionary[key_list[index]] = value;
     }
     else{
-    	
+
 		if(this_dictionary[key_list[index]] == undefined){
 		    this_dictionary[key_list[index]] = {};
 		}
-		
+
 		set_dictionary_entry(this_dictionary[key_list[index]],
-							key_list, 
+							key_list,
 							value,
 							index+1);
     }
@@ -331,32 +331,33 @@ function set_dictionary_entry( 	this_dictionary,
 
 /**
  * Searches for a document object with the provided id or name.
- * 
+ *
  * @param {String} id_or_name Name or Id of the field we want to retrieve.
- * 
+ *
  * @returns {jQuery Object | String} The field or "undefined".
  */
 function find_target_field(id_or_name){
 	var field_by_id = $("[id='"+id_or_name+"']");
 	var field_by_name = $("[name='"+id_or_name+"']");
-	
+
 	if(field_by_id.length != 0) return field_by_id;
 	if(field_by_name.length != 0) return field_by_name;
-	
+
 	return "undefined";
 }
 
 
 function is_defined(dict, in_depth_keys, index){
 	var f_index = 0;
-	
+
 	if(typeof index !== "undefined"){
 		f_index = index;
 	}
+
 	if (index == in_depth_keys.length){
 		return true;
 	}
-	
+
 	if (typeof dict[in_depth_keys] == "undefined"){
 		return false;
 	}
