@@ -121,9 +121,9 @@ var PARAMETER_DESCRIPTORS = (function (){
 						}
 					},
 
-			//
-			//		ALGORITHMS
-			//
+//
+//		ALGORITHMS
+//
  					'gromos_algorithm_default_use':{
  						maps_to:'clustering:algorithms:gromos',
  						defaults_to: {"value":{"max":  25}},

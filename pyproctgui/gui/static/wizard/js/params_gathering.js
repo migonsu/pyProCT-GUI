@@ -126,19 +126,21 @@ function create_parameters(selected_algorithms){
 		// We did not find the field, if needed (dependencies are ok) we have to add the
 		// default value. We check that it was not alreay defined!
 			console.log("\tField not found.");
-			var default_value = get_default_value(description.defaults_to);
-			if (typeof default_value !== "undefined"
-				&& !is_defined(parameters,description.maps_to.split(":"))
+			if (!is_defined(parameters,description.maps_to.split(":"))
 				&& dependencies_fulfilled){
-				set_dictionary_entry(
-						parameters,
-						description.maps_to.split(":"),
-						default_value);
-				console.log("\tDefault value found.");
-			}
-			else{
-				value = "not defined";
-				console.log("\tDefault value not found.");
+				var default_value = get_default_value(description.defaults_to);
+
+				if (typeof default_value !== "undefined"){
+					set_dictionary_entry(
+							parameters,
+							description.maps_to.split(":"),
+							default_value);
+					console.log("\tDefault value found.");
+				}
+				else{
+					value = "not defined";
+					console.log("\tDefault value not found.");
+				}
 			}
 		}
 	}
