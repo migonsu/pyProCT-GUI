@@ -35,14 +35,14 @@ var STEPS = (function(){
 						{id:"run-1",next:""}
 			],
 
-			"compress":[
+			"compress":[{id:"workspace-1",next:"clustering-loading-method-1"},
 						{id:"clustering-loading-method-1",next:{
 								id:"clustering_loading_method",
 								branches:{
-									"load":[{id:"workspace-1",next:"browse-results-1"}, {id:"browse-results-1",next:"compression-options-1"}],
-									"generate":[{id:"workspace-1", next:"trajectory-1"},
-									              {id:"trajectory-1", next:"matrix_creation-2"},
-									              {id:"matrix_creation-2",next:{
+									"load":[{id:"browse-results-1",next:"compression-options-1"}],
+
+									"generate":[{id:"trajectory-1", next:"matrix_creation-2"},
+									            {id:"matrix_creation-2",next:{
 														id:"matrix_creation_options",
 														branches:{
 															"rmsd":[{id:"rmsd-1",next:"criteria-1"}],
@@ -75,6 +75,10 @@ var STEPS = (function(){
 		"workspace-1":{
 			"title": "Select the project's workspace folder",
 			"html": "workspace-1.html"
+		},
+		"workspace-2":{
+			"title": "Select the project's workspace folder",
+			"html": "workspace-2.html"
 		},
 		"trajectory-1":{
 			"title": "Add trajectories to work with",

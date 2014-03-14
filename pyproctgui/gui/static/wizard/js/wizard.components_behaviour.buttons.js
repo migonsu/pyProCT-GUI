@@ -72,7 +72,7 @@ WIZARD.components_behaviour = (function(module){
 	};
 
 	module.setup_browse_matrix_button = function(){
-	    $("#browse_matrix_button").click(function(){
+	    $(".workspace_b_class").click(function(){
 	    	browsing_common("file::npy","matrix_creation_path");
 	     });
 	};

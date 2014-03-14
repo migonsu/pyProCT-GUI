@@ -8,7 +8,7 @@ Created on 21/01/2013
 import os.path
 import webbrowser
 import SocketServer
-import pyproctgui.gui
+import pyproctgui
 from pyproctgui.gui.serverHandler import ServerHandler, IP, PORT
 from pyproct.tools.scriptTools import create_directory
 import shutil

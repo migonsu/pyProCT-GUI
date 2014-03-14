@@ -1,4 +1,4 @@
-## Describing your hipotesis (II)
+## Defining your hipotesis (II)
 Use the list to add as many criteria you need to define your clustering hypothesis. Each criteria comprises a set of queries (more commonly measures and Internal Validity Indices) that will be used
 to calculate a score. The best clustering (the one which will be selected as result of this job) will be the one that gets a better scoring for **all** criteria.
 Use the list widget to add or remove new criteria (using the "*Add*" and "*Remove*" buttons).
