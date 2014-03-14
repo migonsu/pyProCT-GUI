@@ -5,29 +5,57 @@ var PARAMETER_DESCRIPTORS = (function (){
 						type: 'text',
 						maps_to:'global:workspace:base'
 					},
-
-					// In case we are working with compress, this is the one which will be used
-					'trajectory_list_compress':{
-						maps_to:'data:files',
-						defaults_to: {"function":function(){return GLOBAL.loaded_files;}},
-						depends_on: {
-							"function_global_action_is_compress":function(){
-									return GLOBAL.selected_action === "compress";
-							}
-						}
-					},
-
-					// If we are not compressing, this one will be used.
-					'trajectory_list':{
+//
+// 					// In case we are working with compress, this is the one which will be used
+// 					'trajectory_list_compress':{
+// 						maps_to:'data:files',
+// 						defaults_to: {"function":function(){return GLOBAL.loaded_files;}},
+// 						depends_on: {
+// 							"function_global_action_is_compress":function(){
+// 									return GLOBAL.selected_action === "compress";
+// 							}
+// 						}
+// 					},
+//
+// 					// If we are not compressing, this one will be used.
+// 					'trajectory_list':{
+// 						type:'list',
+// 						maps_to:'data:files',
+// 						depends_on: {
+// 							"function_global_action_is_compress":function(){
+// 									return GLOBAL.selected_action !== "compress";
+// 							}
+// 						}
+// 					},
+//
+					'trajectory_list_':{
 						type:'list',
 						maps_to:'data:files',
-						depends_on: {
-							"function_global_action_is_compress":function(){
-									return GLOBAL.selected_action !== "compress";
+						defaults_to: {
+							"function":function (){
+								var value = get_value_of("#clustering_creation_generate","radio");
+								// compress can use an already generated clustering
+								if (GLOBAL.selected_action === "compress"){
+									// but only if 'load' generation method is selected
+									if (value === "load"){
+										console.log("We have to load")
+										// then, it return loaded files
+										console.log("GLOBAL FILES", GLOBAL.loaded_files)
+										return GLOBAL.loaded_files;
+									}
+									else{
+										console.log("We do not have to load")
+										// if not, it returns the current contents of the trajectory list
+										return get_value_of("#trajectory_list","list");
+									}
+								}
+								else{
+									console.log("We are not compressing")
+									return get_value_of("#trajectory_list","list");
+								}
 							}
 						}
 					},
-
 
 					'matrix_creation_options':{
 						type:'radio',

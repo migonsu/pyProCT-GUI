@@ -70,6 +70,6 @@ setup(
     long_description = read('README.rst'),
     #entrypoints for script
     install_requires=[
-        "pyProCT>=1.1.0"
+        "pyProCT>=1.0.0"
     ]
 )

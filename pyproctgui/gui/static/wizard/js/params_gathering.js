@@ -33,7 +33,6 @@ function fulfills_dependencies(parameter_description){
 					}
 				}
 			}
-
 		}
 	}
 	else{
@@ -116,6 +115,7 @@ function create_parameters(selected_algorithms){
 			console.log("\tField found.");
 			value = get_value_of(field, description.type);
 			if(dependencies_fulfilled){
+				console.log("\tDependencies ok. Value", value);
 				set_dictionary_entry(
 						parameters,
 						description.maps_to.split(":"),
@@ -163,7 +163,6 @@ function create_parameters(selected_algorithms){
  			}
  		}
  	}
-
 	return parameters;
 }
 
@@ -188,6 +187,5 @@ function set_defaults_to_fields(){
 							description.type);
 			}
 		}
-
 	}
 }

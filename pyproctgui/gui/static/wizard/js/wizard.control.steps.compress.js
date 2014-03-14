@@ -18,12 +18,13 @@ WIZARD.control = (function(module){
 							// Load result clustering
 							var results =  $.parseJSON(COMM.synchronous.load_external_text_resource(file_path+"/results.json"));
 							GLOBAL.loaded_clustering = results["selected"][results["best_clustering"]];
-
+							console.log("LOADING TRAJS")
 							var trajs = [];
 							for(var i = 0; i< results["trajectories"].length; i++){
 								trajs.push(results["trajectories"][i]["source"]);
 							}
 							GLOBAL.loaded_files = trajs;
+							console.log("THIS ONES", trajs)
 							return true;
 						}
 						else{
