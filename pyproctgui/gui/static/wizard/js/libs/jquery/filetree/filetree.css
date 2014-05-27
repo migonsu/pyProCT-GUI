@@ -45,6 +45,7 @@ ul.jqueryFileTree a:hover {
 .jqueryFileTree LI.ext_com { background: url(images/application.png) left top no-repeat; }
 .jqueryFileTree LI.ext_cpp { background: url(images/code.png) left top no-repeat; }
 .jqueryFileTree LI.ext_css { background: url(images/css.png) left top no-repeat; }
+.jqueryFileTree LI.ext_dcd { background: url(images/dcd.png) left top no-repeat; }
 .jqueryFileTree LI.ext_doc { background: url(images/doc.png) left top no-repeat; }
 .jqueryFileTree LI.ext_exe { background: url(images/application.png) left top no-repeat; }
 .jqueryFileTree LI.ext_gif { background: url(images/picture.png) left top no-repeat; }

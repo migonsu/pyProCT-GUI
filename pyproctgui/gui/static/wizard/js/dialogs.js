@@ -100,31 +100,52 @@ var DIALOG = (function(){
 		 var last_root = "/";
 		 var last_file = "";
 
-		 var browse = function (target, ok_callback){
-			    var what_we_search = target;
-				var expected_extension = "";
-			    if(target.substring(0,4) == "file"){
-			    	var parts = target.split("::");
-			    	if(parts.length>1){
-			    		target = parts[0];
-			    		expected_extension = parts[1];
-			    		what_we_search = target +" (" +expected_extension+")";
+		function parse_target_extension_string (target_string){
+			if(target_string.substring(0,4) == "file"){
+			    	var parts = target_string.split("::");
+			    	what_we_search = ""
+			    	if(parts.length > 1){
+			    		var target = parts[0];
+			    		expected_extensions = parts[1];
+			    		what_we_search = target +" (" +expected_extensions+")";
+			    		extensions = expected_extensions.split(",");
+			    		return [target, what_we_search, extensions]
 			    	}
-			    }
-			    // If we have done a last search, then this will be our starting point.
+			    	else{
+			    		return [target_string,[]]
+			    	}
+		    }
+		    else{
+		    	return [target_string,[]]
+		    }
+		}
+
+		 var browse = function (target, ok_callback){
+
+				parsed_string = parse_target_extension_string(target);
+				console.log("parsed",parsed_string)
+				var expected_file_type = parsed_string[0];
+				var what_we_search = parsed_string[1];
+				var expected_extensions = parsed_string[2];
+
+				// If we have done a last search, then this will be our starting point.
 			    var root = "";
 			    if (DIALOG.browsing.last_root!="/"){
-			    	root = DIALOG.browsing.last_root;
+			    	root = DIALOG.browsing.last_root ;
 			    }
 			    else{
 			    	root = GLOBAL.workspace_path;
 			    }
+
 			    console.log("ROOT",root)
+			    //TODO: templates!
 				$("<div title='Select a "+what_we_search+"' id = 'browse_dialog'>\
 		        <div class = 'fileBrowserHeader'>\
 	            <span> Current selection:</span></br>\
-	            <div id='selected_file_or_folder' class='fileBrowserSelection'> </div>\
-		        </div> <div id = 'browsing_area' class='fileBrowserWrapper'>\
+	            <div id='selected_file_or_folder' class='fileBrowserSelection'> \
+	            </div>\
+		        </div> \
+		        <div id = 'browsing_area' class='fileBrowserWrapper'>\
 		        </div>\
 		        <div style='margin-top:10px;'> Current root:</div></br>\
 				<div id='root' class='fileBrowserSelection'>"+ root +"</div>\
@@ -159,23 +180,44 @@ var DIALOG = (function(){
 	                    root: root,
 	                    script: "/browse_folder"
 	                },
-	                function(url,file_type) {
+	                function(url, file_type) {
+	                	console.log("file_type", file_type, "what_we_search",what_we_search);
+
 						$("#selected_file_or_folder").text(url);
-						// Check extension
-						var extension = url.split('.').pop();
-						if(target == file_type){
-							if(expected_extension=="" || expected_extension == extension){
+
+						var enable_button = false;
+
+						if(expected_file_type == file_type){
+							if (file_type == "folder"){
+								enable_button = true;
+							}
+							else{
+								 if (file_type == "file"){
+								 	var extension = url.split('.').pop();
+									if($.inArray(extension, expected_extensions) != -1){
+										enable_button = true;
+									}
+								}
+								else{
+									console.log("[Error] unexpected file_type: ", file_type);
+								}
+							}
+
+
+							if(enable_button){
 								$('.ui-dialog button:nth-child(1)').button('enable');
 								// Change last root
 								DIALOG.browsing.last_root = url.substr(0,url.lastIndexOf("/"));
 								// Change last file
 								DIALOG.browsing.last_file = url.substr(url.lastIndexOf("/"), url.length-1);
 							}
+							else{
+								$('.ui-dialog button:nth-child(1)').button('disable');
+							}
 						}
 						else{
 						    $('.ui-dialog button:nth-child(1)').button('disable');
 						}
-
 	                }
 			    );
 		 };

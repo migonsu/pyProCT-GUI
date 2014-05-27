@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name='pyProCT-GUI',
-    version='0.3.0',
+    version='0.4.0',
     description='A Graphical User Interface for pyProCT clustering toolkit.',
     author='Victor Alejandro Gil Sepulveda',
     author_email='victor.gil.sepulveda@gmail.com',

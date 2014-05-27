@@ -15,7 +15,7 @@ WIZARD.components_behaviour = (function(module){
 	        	abs_path = COMM.synchronous.absolute_path(value);
         		dl.addElement(abs_path);
             };
-            DIALOG.browsing.browse("file::pdb", callback);
+            DIALOG.browsing.browse("file::pdb,dcd", callback);
         });
         dl.buttons["Remove"].click(function(){
             dl.deleteSelectedElements();
