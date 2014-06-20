@@ -35,3 +35,10 @@ The GUI will start a web server and pop a browser window up.
 ##Tutorial
 Work In Progress!
 This documentation is not complete yet. If you have any question, please use Github features or send a mail to : victor.gil.sepulveda@gmail.com
+
+
+#TODO
+
+- Offload all calculations to pyProCT
+- Explore ANY generated clustering (even those which were not selected). This implies generate "on the fly" rmsfs, centers etc.
+ 
